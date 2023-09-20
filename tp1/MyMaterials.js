@@ -6,6 +6,7 @@ export const wall = {
         specular: "#000000",
         emissive: "#000000",
         shininess: 90,
+        side: THREE.DoubleSide,
     }),
 };
 

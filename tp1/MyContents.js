@@ -15,25 +15,14 @@ class MyContents {
 
         // axis related attributes
         this.axis = null;
-        this.displayAxis = true;
+        this.displayAxis = false;
 
         // box related attributes
         this.boxMesh = null;
         this.boxMeshSize = 1.0;
-        this.boxEnabled = true;
+        this.boxEnabled = false;
         this.lastBoxEnabled = null;
         this.boxDisplacement = new THREE.Vector3(0, 2, 0);
-
-        // plane related attributes
-        this.diffusePlaneColor = "#00ffff";
-        this.specularPlaneColor = "#777777";
-        this.planeShininess = 30;
-        this.planeMaterial = new THREE.MeshPhongMaterial({
-            color: this.diffusePlaneColor,
-            specular: this.diffusePlaneColor,
-            emissive: "#000000",
-            shininess: this.planeShininess,
-        });
     }
 
     /**
@@ -192,12 +181,6 @@ class MyContents {
 
         // Create a Plane Mesh with basic material
 
-        let plane = new THREE.PlaneGeometry(10, 10);
-        this.planeMesh = new THREE.Mesh(plane, this.planeMaterial);
-        this.planeMesh.rotation.x = -Math.PI / 2;
-        this.planeMesh.position.y = -0;
-        this.app.scene.add(this.planeMesh);
-
         // TODO: **Hard** check this stairs, because changing values breaks stuff
         let stepWidth = 7;
         let verticalStepHeight = 3;
@@ -216,52 +199,21 @@ class MyContents {
         let cylinderScale = new THREE.Vector3(0.1, 0.5, 0.1);
 
         // this.buildCylinder(0x555555, cylinderPos, cylinderScale);
+        let roomWidth = 30;
+        let roomDepth = 30;
+        let roomHeight = 20;
+
+        let roomFactory = new MyRoomFactory('white');
+        let room = roomFactory.buildRoom(roomWidth, roomHeight, roomDepth);
+        this.app.scene.add(room);
+
 
         let tableFactory = new MyTableFactory();
         let table = tableFactory.buildTable(5, 0.3, 3, 3, 0.3);
+        table.translateY(0.3 - (roomHeight / 2)  ) // 0.3 is the height of the table plane
         this.app.scene.add(table);
 
-        let roomFactory = new MyRoomFactory('white');
-        let room = roomFactory.buildRoom(10, 10, 10);
-        this.app.scene.add(room);
-    }
 
-    /**
-     * updates the diffuse plane color and the material
-     * @param {THREE.Color} value
-     */
-    updateDiffusePlaneColor(value) {
-        this.diffusePlaneColor = value;
-        this.planeMaterial.color.set(this.diffusePlaneColor);
-    }
-    /**
-     * updates the specular plane color and the material
-     * @param {THREE.Color} value
-     */
-    updateSpecularPlaneColor(value) {
-        this.specularPlaneColor = value;
-        this.planeMaterial.specular.set(this.specularPlaneColor);
-    }
-    /**
-     * updates the plane shininess and the material
-     * @param {number} value
-     */
-    updatePlaneShininess(value) {
-        this.planeShininess = value;
-        this.planeMaterial.shininess = this.planeShininess;
-    }
-
-    /**
-     * rebuilds the box mesh if required
-     * this method is called from the gui interface
-     */
-    rebuildBox() {
-        // remove boxMesh if exists
-        if (this.boxMesh !== undefined && this.boxMesh !== null) {
-            this.app.scene.remove(this.boxMesh);
-        }
-        this.buildBox();
-        this.lastBoxEnabled = null;
     }
 
     /**
@@ -298,14 +250,6 @@ class MyContents {
      */
     update() {
         this.updateAxisIfRequired();
-
-        // check if box mesh needs to be updated
-        this.updateBoxIfRequired();
-
-        // sets the box mesh position based on the displacement vector
-        this.boxMesh.position.x = this.boxDisplacement.x;
-        this.boxMesh.position.y = this.boxDisplacement.y;
-        this.boxMesh.position.z = this.boxDisplacement.z;
     }
 }
 

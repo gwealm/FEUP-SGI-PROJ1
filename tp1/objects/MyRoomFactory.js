@@ -34,6 +34,11 @@ export class MyRoomFactory {
         ceiling.rotation.x = Math.PI / 2;
         roomGroup.add(ceiling);
 
+        let floor = wallFactory.buildWall(width, depth, width);
+        floor.position.set(0, -height / 2, 0);
+        floor.rotation.x = Math.PI / 2;
+        roomGroup.add(floor);
+
         return roomGroup;
     }
 }
