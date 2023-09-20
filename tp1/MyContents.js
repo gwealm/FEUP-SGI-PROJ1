@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
-
+import { MyTableFactory } from './objects/MyTableFactory.js';
 /**
  *  This class contains the contents of out application
  */
@@ -88,6 +88,11 @@ class MyContents {
         cylinderMesh.scale.set(scale.x, scale.y, scale.z);
 
         this.app.scene.add(cylinderMesh);
+
+        let tableFactory = new MyTableFactory();
+
+        let table = tableFactory.buildTable(5, 0.3, 3, 3, 0.3);
+        this.app.scene.add(table);
     }
 
     /**
@@ -198,18 +203,22 @@ class MyContents {
         let stepThickness = 1;
         let horizontalStepDepth = 3;
 
-        this.buildStairCase(
-            stepWidth,
-            verticalStepHeight,
-            stepThickness,
-            3,
-            horizontalStepDepth
-        );
+        // this.buildStairCase(
+        //     stepWidth,
+        //     verticalStepHeight,
+        //     stepThickness,
+        //     3,
+        //     horizontalStepDepth
+        // );
 
         let cylinderPos = new THREE.Vector3(3, 0, 3);
         let cylinderScale = new THREE.Vector3(0.1, 0.5, 0.1);
 
-        this.buildCylinder(0x555555, cylinderPos, cylinderScale);
+        // this.buildCylinder(0x555555, cylinderPos, cylinderScale);
+
+        let tableFactory = new MyTableFactory();
+        let table = tableFactory.buildTable(5, 0.3, 3, 3, 0.3);
+        this.app.scene.add(table);
     }
 
     /**

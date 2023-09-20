@@ -1,4 +1,5 @@
-import { table } from "../MyMaterials";
+import { table } from "../MyMaterials.js";
+import * as THREE from 'three';
 
 export class MyTableFactory {
     #buildTop(width, height, depth) {
@@ -19,12 +20,27 @@ export class MyTableFactory {
 
     buildTable(width, height, depth, legHeight, legRadius) {
         let top = this.#buildTop(width, height, depth);
-        let leg = this.#buildLeg(legHeight, legRadius);
+        let tableGroup = new THREE.Group();
+        top.position.set(0, -height / 2 + legHeight, 0);
+        tableGroup.add(top);
 
-        let table = new THREE.Group();
-        table.add(top);
+        // Create and position four table legs
+        const leg1 = this.#buildLeg(legHeight, legRadius);
+        leg1.position.set(-width / 2 + legRadius, -height / 2 + legHeight / 2, -depth / 2 + legRadius);
+        tableGroup.add(leg1);
 
-        
-        table.add(leg);
+        const leg2 = this.#buildLeg(legHeight, legRadius);
+        leg2.position.set(width / 2 - legRadius, -height / 2 + legHeight / 2, -depth / 2 + legRadius);
+        tableGroup.add(leg2);
+
+        const leg3 = this.#buildLeg(legHeight, legRadius);
+        leg3.position.set(-width / 2 + legRadius, -height / 2 + legHeight / 2, depth / 2 - legRadius);
+        tableGroup.add(leg3);
+
+        const leg4 = this.#buildLeg(legHeight, legRadius);
+        leg4.position.set(width / 2 - legRadius, -height / 2 + legHeight / 2, depth / 2 - legRadius);
+        tableGroup.add(leg4);
+
+        return tableGroup;
     }
 }

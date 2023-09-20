@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 export const wall = {
     white: new THREE.MeshPhongMaterial({
         color: "#ffff77",
