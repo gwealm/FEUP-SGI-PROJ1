@@ -60,6 +60,35 @@ class MyContents {
     }
 
     /**
+     * builds the cylinder mesh with material assigned
+     */
+    buildCylinder(color, initialDisplacement, scale) {
+        let cylinderMaterial = new THREE.MeshPhongMaterial({
+            color: "#ffff77",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+            clippingPlanes: this.planeMesh
+        });
+
+        // Create a Cube Mesh with basic material
+        let cylinder = new THREE.CylinderGeometry(5, 5, 20, 32);
+        let cylinderMesh = new THREE.Mesh(cylinder, cylinderMaterial);
+
+        // Sets cylinder initial position
+        cylinderMesh.position.set(
+            initialDisplacement.x,
+            initialDisplacement.y,
+            initialDisplacement.z
+        );
+
+        // Sets cylinder scale
+        cylinderMesh.scale.set(scale.x, scale.y, scale.z);
+
+        this.app.scene.add(cylinderMesh);
+    }
+
+    /**
      * initializes the contents
      */
     init() {
@@ -96,6 +125,11 @@ class MyContents {
         this.planeMesh.rotation.x = -Math.PI / 2;
         this.planeMesh.position.y = -0;
         this.app.scene.add(this.planeMesh);
+
+        let cylinderPos = new THREE.Vector3(3, 0, 3);
+        let cylinderScale = new THREE.Vector3(0.1, 0.5, 0.1);
+
+        this.buildCylinder(0x555555, cylinderPos, cylinderScale)
     }
 
     /**
