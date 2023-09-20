@@ -1,20 +1,28 @@
 # SGI 2023/2024 - TP1
 
-## Group: T0xG0y
+## Group: T04G01
 
-| Name             | Number    | E-Mail             |
-| ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Name              | Number    | E-Mail            |
+| ----------------- | --------- | ----------------- |
+| André Costa Lima  | 202008169 | up202008169@up.pt |
+| Guilherme Almeida | 202006137 | up202006137@up.pt |
 
-----
+---
+
 ## Project information
 
-- (items describing main strong points)
-- Scene
-  - (Brief description of the created scene)
-  - (relative link to the scene)
-----
-## Issues/Problems
+-   (items describing main strong points)
+-   Scene
+    -   (Brief description of the created scene)
+    -   (relative link to the scene)
 
-- (items describing unimplemented features, bugs, problems, etc.)
+## Implemented Features
+
+-   [x] Floor
+-   [x] Four Walls
+-   [x] Table
+-   [x] Plate on the table
+-   [ ] Cake without a slice
+-   [ ] Flame on the candle
+
+## Issues/Problems
