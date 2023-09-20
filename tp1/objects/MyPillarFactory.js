@@ -5,11 +5,11 @@ export class MyPillarFactory {
     this.material = materials.pillar[variant];
   }
 
-  buildPillar(width, height, depth) {
-    const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+  buildPillar(radius, height) {
+    let radialSegments = 32;
 
     // Create a Cylinder Mesh with basic material
-    let cylinder = new THREE.CylinderGeometry(5, 5, 20, 32);
+    let cylinder = new THREE.CylinderGeometry(radius, radius, height, radialSegments);
 
     return new THREE.Mesh(cylinder, this.material);
   }

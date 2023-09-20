@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 export const wall = {
+    // TODO: Fix naming and colors
     white: new THREE.MeshPhongMaterial({
         color: "#ffff77",
         specular: "#000000",
@@ -11,7 +12,13 @@ export const wall = {
 };
 
 export const pillar = {
-
+    // TODO: Fix naming and colors
+    vanilla: new THREE.MeshPhongMaterial({
+        color: "#ffff77",
+        specular: "#000000",
+        emissive: "#000000",
+        shininess: 90,
+    })
 };
 
 export const table = {

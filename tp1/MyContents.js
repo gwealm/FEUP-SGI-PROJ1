@@ -26,31 +26,6 @@ class MyContents {
     }
 
     /**
-     * builds the box mesh with material assigned
-     */
-    buildBox() {
-        let boxMaterial = new THREE.MeshPhongMaterial({
-            color: "#ffff77",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        });
-
-        // Create a Cube Mesh with basic material
-        let box = new THREE.BoxGeometry(
-            this.boxMeshSize,
-            this.boxMeshSize,
-            this.boxMeshSize
-        );
-        this.boxMesh = new THREE.Mesh(box, boxMaterial);
-
-        // this.boxMesh.position.z = this.boxDisplacement.z;
-        // this.boxMesh.position.y = this.boxDisplacement.y;
-        this.boxMesh.position.set(this.boxDisplacement);
-        this.boxMesh.scale.set(1, 1, 2);
-    }
-
-    /**
      * displays the cylinder
      * TODO: probably should only build the mesh to sepparate concerns
      */
@@ -115,14 +90,6 @@ class MyContents {
         const ambientLight = new THREE.AmbientLight(0x555555);
         this.app.scene.add(ambientLight);
 
-        this.buildBox();
-
-        // Create a Plane Mesh with basic material
-
-        let cylinderPos = new THREE.Vector3(3, 0, 3);
-        let cylinderScale = new THREE.Vector3(0.1, 0.5, 0.1);
-
-        // this.buildCylinder(0x555555, cylinderPos, cylinderScale);
         let roomWidth = 30;
         let roomDepth = 30;
         let roomHeight = 20;
