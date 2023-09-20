@@ -53,6 +53,7 @@ class MyContents {
             this.boxMeshSize
         );
         this.boxMesh = new THREE.Mesh(box, boxMaterial);
+
         // this.boxMesh.position.z = this.boxDisplacement.z;
         // this.boxMesh.position.y = this.boxDisplacement.y;
         this.boxMesh.position.set(this.boxDisplacement);
