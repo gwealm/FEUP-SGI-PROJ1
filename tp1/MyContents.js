@@ -85,69 +85,7 @@ class MyContents {
         this.app.scene.add(table);
     }
 
-    /**
-     * displays the stairs
-     * TODO: probably should only build the meshes (vertical and horizontal
-     * planes) to sepparate concerns
-     */
-    buildStair(width, height, thickness, depth, stepOffset) {
-        //create the steps geometry
-        let stepVertical = new THREE.BoxGeometry(
-            width,
-            height,
-            thickness,
-            depth
-        );
-        let stepHorizontal = new THREE.BoxGeometry(width, thickness, depth);
 
-        let stepVerticalMaterial = new THREE.MeshPhongMaterial({
-            color: 0x306b7e,
-            side: THREE.DoubleSide,
-        });
-        let stepHorizontalMaterial = new THREE.MeshPhongMaterial({
-            color: 0xfcc544,
-            side: THREE.DoubleSide,
-        });
-
-        //create the mesh. The actual step. Created by putting together the shape and the material
-        let stepVerticalMesh = new THREE.Mesh(
-            stepVertical,
-            stepVerticalMaterial
-        );
-
-        // Step Position
-        stepVerticalMesh.position.x = 0;
-        stepVerticalMesh.position.y = stepOffset * height - thickness;
-        stepVerticalMesh.position.z = -depth * stepOffset + thickness;
-
-        //add the step mesh to the scene
-        this.app.scene.add(stepVerticalMesh);
-
-        //it can be added to the previous mesh
-        let stepHorizontalMesh = new THREE.Mesh(
-            stepHorizontal,
-            stepHorizontalMaterial
-        );
-
-        let stepHalfTickness = thickness / 2;
-
-        stepHorizontalMesh.position.x = 0;
-        stepHorizontalMesh.position.y = height * stepOffset + thickness;
-        stepHorizontalMesh.position.z = -depth * stepOffset;
-
-        this.app.scene.add(stepHorizontalMesh);
-    }
-
-    /**
-     * loop for building a staircase
-     */
-    buildStairCase(width, height, thickness, stepNum, depth) {
-        //change the number of step ups to change the steps
-        for (var step = 0; step < stepNum; step++) {
-            let stepOffset = step;
-            this.buildStair(width, height, thickness, depth, stepOffset);
-        }
-    }
 
     /**
      * initializes the contents
@@ -180,20 +118,6 @@ class MyContents {
         this.buildBox();
 
         // Create a Plane Mesh with basic material
-
-        // TODO: **Hard** check this stairs, because changing values breaks stuff
-        let stepWidth = 7;
-        let verticalStepHeight = 3;
-        let stepThickness = 1;
-        let horizontalStepDepth = 3;
-
-        // this.buildStairCase(
-        //     stepWidth,
-        //     verticalStepHeight,
-        //     stepThickness,
-        //     3,
-        //     horizontalStepDepth
-        // );
 
         let cylinderPos = new THREE.Vector3(3, 0, 3);
         let cylinderScale = new THREE.Vector3(0.1, 0.5, 0.1);
