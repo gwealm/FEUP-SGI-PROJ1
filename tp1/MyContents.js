@@ -11,7 +11,10 @@ class MyContents {
     */
     constructor(app) {
         this.app = app;
+
+        // axis related attributes
         this.axis = null;
+        this.displayAxis = true;
 
         // box related attributes
         this.boxMesh = null;
@@ -150,11 +153,24 @@ class MyContents {
     }
 
     /**
+     * updates the axis if required
+     * this method is called from the render method of the app
+     * updates are trigered by displayAxis property changes
+     */
+    updateAxisIfRequired() {
+        if (!this.displayAxis && this.axis != null)
+            this.app.scene.remove(this.axis);
+        else if (this.displayAxis) this.app.scene.add(this.axis);
+    }
+
+    /**
      * updates the contents
      * this method is called from the render method of the app
      *
      */
     update() {
+        this.updateAxisIfRequired();
+
         // check if box mesh needs to be updated
         this.updateBoxIfRequired();
 

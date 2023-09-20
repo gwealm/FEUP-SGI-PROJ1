@@ -29,6 +29,11 @@ class MyGuiInterface  {
      * Initialize the gui interface
      */
     init() {
+        
+        // add a folder to the gui interface for the axis
+        const axisFolder = this.datgui.addFolder( 'Axis' );
+        axisFolder.add(this.contents, 'displayAxis', true).name("enabled");
+
         // add a folder to the gui interface for the box
         const boxFolder = this.datgui.addFolder( 'Box' );
         // note that we are using a property from the contents object 
