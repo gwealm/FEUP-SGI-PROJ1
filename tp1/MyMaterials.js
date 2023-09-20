@@ -11,6 +11,16 @@ export const wall = {
     }),
 };
 
+export const dish = {
+    // TODO: Fix naming and colors
+    vanilla: new THREE.MeshPhongMaterial({
+        color: "#ff0000",
+        specular: "#000000",
+        emissive: "#000000",
+        shininess: 90,
+    })
+}
+
 export const pillar = {
     // TODO: Fix naming and colors
     vanilla: new THREE.MeshPhongMaterial({

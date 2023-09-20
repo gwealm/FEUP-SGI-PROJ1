@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
 import { MyTableFactory } from './objects/MyTableFactory.js';
 import { MyRoomFactory } from "./objects/MyRoomFactory.js";
+import { MyDishFactory } from "./objects/MyDish.js";
 /**
  *  This class contains the contents of out application
  */
@@ -104,7 +105,10 @@ class MyContents {
         table.translateY(0.3 - (roomHeight / 2)  ) // 0.3 is the height of the table plane
         this.app.scene.add(table);
 
-
+        let dishFactory = new MyDishFactory('vanilla');
+        let dish = dishFactory.buildDish();
+        dish.translateY(0.5 + 3 - (roomHeight / 2) )
+        this.app.scene.add(dish);
     }
 
     /**
