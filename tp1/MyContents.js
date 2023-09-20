@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
 import { MyTableFactory } from './objects/MyTableFactory.js';
+import { MyRoomFactory } from "./objects/MyRoomFactory.js";
 /**
  *  This class contains the contents of out application
  */
@@ -219,6 +220,10 @@ class MyContents {
         let tableFactory = new MyTableFactory();
         let table = tableFactory.buildTable(5, 0.3, 3, 3, 0.3);
         this.app.scene.add(table);
+
+        let roomFactory = new MyRoomFactory('white');
+        let room = roomFactory.buildRoom(10, 10, 10);
+        this.app.scene.add(room);
     }
 
     /**
