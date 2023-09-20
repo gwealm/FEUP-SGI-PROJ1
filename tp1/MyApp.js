@@ -44,7 +44,7 @@ class MyApp  {
         document.body.appendChild(this.stats.dom)
 
         this.initCameras();
-        this.setActiveCamera('Perspective')
+        this.setActiveCamera('Perspective1')
 
         // Create a renderer with Antialiasing
         this.renderer = new THREE.WebGLRenderer({antialias:true});
@@ -70,7 +70,11 @@ class MyApp  {
         // Create a basic perspective camera
         const perspective1 = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 )
         perspective1.position.set(10,10,3)
-        this.cameras['Perspective'] = perspective1
+        this.cameras['Perspective1'] = perspective1
+
+        const perspective2 = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000)
+        perspective2.position.set (-20, 5, 10)
+        this.cameras['Perspective2'] = perspective2
 
         // defines the frustum size for the orthographic cameras
         const left = -this.frustumSize / 2 * aspect
@@ -87,6 +91,11 @@ class MyApp  {
         orthoLeft.lookAt( new THREE.Vector3(0,0,0) );
         this.cameras['Left'] = orthoLeft
 
+        // create a right view orthographic camera
+        const orthoRight = orthoLeft.clone();
+        orthoRight.position.set(this.frustumSize / 4, 0, 0);
+        this.cameras['Right'] = orthoRight;
+
         // create a top view orthographic camera
         const orthoTop = new THREE.OrthographicCamera( left, right, top, bottom, near, far);
         orthoTop.up = new THREE.Vector3(0,0,1);
@@ -100,6 +109,11 @@ class MyApp  {
         orthoFront.position.set(0,0, this.frustumSize /4) 
         orthoFront.lookAt( new THREE.Vector3(0,0,0) );
         this.cameras['Front'] = orthoFront
+
+        // create a back view orthographic camera
+        const orthoBack = orthoFront.clone();
+        orthoFront.position.set(0,0, -this.frustumSize /4) 
+        this.cameras['Back'] = orthoBack;
     }
 
     /**
