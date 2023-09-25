@@ -45,3 +45,26 @@ export const table = {
         shininess: 90,
     }),
 };
+
+export const cake = {
+    candle: {
+        wick: new THREE.MeshPhongMaterial({
+            color: "#ffff77",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+        }),
+        flame: new THREE.MeshPhongMaterial({
+            color: "#ffff77",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+        }),
+    },
+    base: new THREE.MeshPhongMaterial({
+        color: "#ffff77",
+        specular: "#000000",
+        emissive: "#000000",
+        shininess: 90,
+    }),
+};

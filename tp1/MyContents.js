@@ -3,6 +3,7 @@ import { MyAxis } from "./MyAxis.js";
 import { MyTableFactory } from './objects/MyTableFactory.js';
 import { MyRoomFactory } from "./objects/MyRoomFactory.js";
 import { MyDishFactory } from "./objects/MyDish.js";
+import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
 /**
  *  This class contains the contents of out application
  */
@@ -109,6 +110,11 @@ class MyContents {
         let dish = dishFactory.buildDish();
         dish.translateY(0.5 + 3 - (roomHeight / 2) )
         this.app.scene.add(dish);
+
+        let cakeFactory = new MyCakeFactory();
+        let cake = cakeFactory.buildCake();
+        cake.translateY(0.5 + 3 + 0.4 - (roomHeight / 2))
+        this.app.scene.add(cake);
     }
 
     /**
