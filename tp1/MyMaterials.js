@@ -3,7 +3,7 @@ import * as THREE from 'three';
 export const wall = {
     // TODO: Fix naming and colors
     white: new THREE.MeshPhongMaterial({
-        color: "#ffff77",
+        color: "#ffffff",
         specular: "#000000",
         emissive: "#000000",
         shininess: 90,
@@ -33,13 +33,13 @@ export const pillar = {
 
 export const table = {
     top: new THREE.MeshPhongMaterial({
-        color: "#ffff77",
+        color: "#7f3300",
         specular: "#000000",
         emissive: "#000000",
         shininess: 90,
     }),
     leg: new THREE.MeshPhongMaterial({
-        color: "#ffff77",
+        color: "#808080",
         specular: "#000000",
         emissive: "#000000",
         shininess: 90,
@@ -49,20 +49,20 @@ export const table = {
 export const cake = {
     candle: {
         wick: new THREE.MeshPhongMaterial({
-            color: "#ffff77",
+            color: "#ffffff",
             specular: "#000000",
             emissive: "#000000",
             shininess: 90,
         }),
         flame: new THREE.MeshPhongMaterial({
-            color: "#ffff77",
+            color: "#ff9900",
             specular: "#000000",
             emissive: "#000000",
             shininess: 90,
         }),
     },
     base: new THREE.MeshPhongMaterial({
-        color: "#ffff77",
+        color: "#ff99ff",
         specular: "#000000",
         emissive: "#000000",
         shininess: 90,
