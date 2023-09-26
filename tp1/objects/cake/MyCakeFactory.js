@@ -11,13 +11,23 @@ export class MyCakeFactory {
         const radius = 0.5 * scale;
         const height = 0.25 * scale;
         const radialSegments = 32; // Default radial segments
-        const heightSegments = 1; // Default height segments
-        const openEnded = false; // Default open ended
         const thetaStart = 0; // Default theta start
         const thetaLength = 7 * Math.PI / 4;
 
-        const cylinder = new THREE.CylinderGeometry(radius, radius, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength);
-        return new THREE.Mesh(cylinder, cake.base);
+        const circleShape = new THREE.Shape();
+        circleShape.absellipse(0, 0, radius, radius, thetaStart, thetaLength, false, 0);
+        circleShape.lineTo(0, 0)
+
+        const cakeGeometry = new THREE.ExtrudeGeometry(circleShape, {
+            depth: height,
+            curveSegments: radialSegments,
+            bevelEnabled: false,
+        });
+
+        cakeGeometry.rotateX(Math.PI / 2)
+        cakeGeometry.translate(0, height / 2, 0)
+
+        return new THREE.Mesh(cakeGeometry, cake.base);
     }
 
     buildCake(scale = 1) {
