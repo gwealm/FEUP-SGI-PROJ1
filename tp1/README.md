@@ -22,7 +22,7 @@
 -   [x] Four Walls
 -   [x] Table
 -   [x] Plate on the table
--   [ ] Cake without a slice
--   [ ] Flame on the candle
+-   [x] Cake without a slice
+-   [x] Flame on the candle
 
 ## Issues/Problems

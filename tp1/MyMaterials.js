@@ -53,6 +53,7 @@ export const cake = {
             specular: "#000000",
             emissive: "#000000",
             shininess: 90,
+            side: THREE.DoubleSide,
         }),
         flame: new THREE.MeshPhongMaterial({
             color: "#ff9900",
