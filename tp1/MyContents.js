@@ -77,7 +77,7 @@ class MyContents {
 
         // add a point light on top of the model
         const pointLight = new THREE.PointLight(0xffffff, 500, 0);
-        pointLight.position.set(0, 20, 0);
+        pointLight.position.set(0, 10, 0);
         this.app.scene.add(pointLight);
 
         // add a point light helper for the previous point light
