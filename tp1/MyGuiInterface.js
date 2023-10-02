@@ -56,7 +56,24 @@ class MyGuiInterface  {
         cameraFolder.add(this.app, 'activeCameraName', [ 'Perspective', 'Left', 'Top', 'Front' ] ).name("active camera");
         // note that we are using a property from the app 
         cameraFolder.add(this.app.activeCamera.position, 'x', 0, 10).name("x coord")
-        cameraFolder.open()
+        cameraFolder.open();
+
+        const spotlightFolder = this.datgui.addFolder('Spotlight')
+        spotlightFolder.addColor(this.contents, 'spotlightColor');
+        spotlightFolder.add(this.contents, 'spotlightIntensity', 0, 100);
+        spotlightFolder.add(this.contents, 'spotlightDistance', 0, 50);
+        spotlightFolder.add(this.contents, 'spotlightAngle', 0, 90);
+        spotlightFolder.add(this.contents, 'spotlightPenumbra', 0, 1);
+        spotlightFolder.add(this.contents, 'spotlightDecay', 0, 50);
+        spotlightFolder.add(this.contents.spotlightPosition, 'x', -5, 5);
+        spotlightFolder.add(this.contents.spotlightPosition, 'y', -5, 5);
+        spotlightFolder.add(this.contents.spotlightPosition, 'z', -5, 5);
+        spotlightFolder.add(this.contents.spotlightTarget, 'x', -5, 5);
+        spotlightFolder.add(this.contents.spotlightTarget, 'y', -5, 5);
+        spotlightFolder.add(this.contents.spotlightTarget, 'z', -5, 5);
+        spotlightFolder.open();
+
+        spotlightFolder.onChange(this.contents.updateSpotlight.bind(this.contents));
     }
 }
 
