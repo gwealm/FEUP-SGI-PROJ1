@@ -32,6 +32,13 @@ export const floor = {
     }),
 };
 
+export const watch = {
+    velvet: await loadTexture('resources/textures/watch/velvet.png', (texture) => {
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+    }),
+}
+
 export const wall = {
     velvet: await loadTexture('resources/textures/wall/velvet.jpg', (texture) => {
         texture.wrapS = THREE.RepeatWrapping;

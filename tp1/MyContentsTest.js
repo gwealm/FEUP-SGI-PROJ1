@@ -3,6 +3,7 @@ import { MyAxis } from "./MyAxis.js";
 import { MyFloorFactory } from "./objects/MyFloorFactory.js";
 import { MyWallFactory } from "./objects/MyWallFactory.js";
 import { MyCircularTableFactory } from "./objects/MyCircularTableFactory.js";
+import { MyWatchFactory } from "./objects/MyWatchFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -65,6 +66,10 @@ class MyContentsTest {
         let circularTableFactory = new MyCircularTableFactory("velvetFabric");
         const circularTable = circularTableFactory.buildCircularTable(1, new THREE.Vector3(0, 0.5, 0));
         this.app.scene.add(circularTable);
+
+        let watchFactory = new MyWatchFactory("velvet");
+        const watch = watchFactory.buildWatch(1, new THREE.Vector3(0, 1, 0));
+        this.app.scene.add(watch);
 
     }
 

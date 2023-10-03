@@ -32,6 +32,17 @@ export const pillar = {
     })
 };
 
+export const watch = {
+    velvet: new THREE.MeshPhongMaterial({
+        color: "#ffffff",
+        specular: "#000000",
+        emissive: "#000000",
+        shininess: 90,
+        map: textures.watch.velvet,
+        side: THREE.FrontSide,
+    })
+}
+
 export const table = {
     top: new THREE.MeshPhongMaterial({
         color: "#7f3300",
