@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
 import { MyFloorFactory } from "./objects/MyFloorFactory.js";
 import { MyWallFactory } from "./objects/MyWallFactory.js";
+import { MyCircularTableFactory } from "./objects/MyCircularTableFactory.js";
+
 /**
  *  This class contains the contents of out application
  */
@@ -59,6 +61,10 @@ class MyContentsTest {
         wall.position.set(-floor.__width / 2, wall.__height / 2, 0);
         wall.rotateY(Math.PI / 2);
         this.app.scene.add(wall);
+
+        let circularTableFactory = new MyCircularTableFactory("velvetFabric");
+        const circularTable = circularTableFactory.buildCircularTable(1, new THREE.Vector3(0, 0.5, 0));
+        this.app.scene.add(circularTable);
 
     }
 

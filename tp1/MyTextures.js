@@ -5,39 +5,74 @@ const loader = new THREE.TextureLoader();
 /**
  * @param {string} path 
  * @param {(texture: THREE.Texture) => void} apply 
- * @returns {THREE.Texture}
+ * @returns {Promise<THREE.Texture>}
  */
-function loadTexture(path, apply) {
-    const texture = loader.load(path);
-
-    if (apply) {
-        apply(texture);
-    }
-
-    return texture;
+async function loadTexture(path, apply) {
+    return new Promise((resolve, reject) => {
+        loader.load(
+            path,
+            (texture) => {
+                if (apply) apply(texture);
+                resolve(texture);
+            },
+            undefined, //onLoad
+            (error) => {
+                console.error(`Error loading texture from ${path}:`, error);
+                reject(error);
+            }
+        );
+    });
 }
 
 export const floor = {
-    carpet: loadTexture('textures/floor/carpet.jpg',
-        (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(2, 2)
-        }
-    ),
+    carpet: await loadTexture('resources/textures/floor/carpet.jpg', (texture) => {
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(2, 2);
+    }),
 };
 
 export const wall = {
-    velvet: loadTexture('textures/wall/velvet.jpg', (texture) => {
+    velvet: await loadTexture('resources/textures/wall/velvet.jpg', (texture) => {
         texture.wrapS = THREE.RepeatWrapping;
         texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(2, 2)
+        texture.repeat.set(2, 2);
     }),
     bump: {
-        velvet: loadTexture('textures/wall/velvet.bump.jpg', (texture) => {
+        velvet: await loadTexture('resources/textures/wall/velvet.bump.jpg', (texture) => {
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(2, 2)
+            texture.repeat.set(2, 2);
         }),
     }
-}
+};
+
+export const table = {
+    fabric: {
+        baseColor: await loadTexture('resources/textures/table/fabric/baseColor.jpg', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(2, 2);
+        }),
+        roughness: await loadTexture('resources/textures/table/fabric/roughness.jpg', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(2, 2);
+        }),
+        ambientOcclusion: await loadTexture('resources/textures/table/fabric/ambientOcclusion.jpg', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(2, 2);
+        }),        
+        height: await loadTexture('resources/textures/table/fabric/height.png', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(2, 2);
+        }),        
+        normal: await loadTexture('resources/textures/table/fabric/normal.jpg', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(2, 2);
+        }),        
+    }
+};

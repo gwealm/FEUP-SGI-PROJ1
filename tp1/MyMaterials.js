@@ -45,6 +45,18 @@ export const table = {
         emissive: "#000000",
         shininess: 90,
     }),
+    velvetFabric: new THREE.MeshStandardMaterial({
+        map: textures.table.fabric.baseColor,
+        aoMap: textures.table.fabric.ambientOcclusion,
+        displacementMap: textures.table.fabric.height,
+        displacementScale: 0.1,
+        normalMap: textures.table.fabric.normal,
+        roughnessMap: textures.table.fabric.roughness,
+        color: "#ffffff",
+        specular: "#000000",
+        emissive: "#000000",
+        shininess: 30
+    })
 };
 
 export const floor = {
