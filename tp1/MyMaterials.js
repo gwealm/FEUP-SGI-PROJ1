@@ -1,13 +1,14 @@
 import * as THREE from 'three';
+import * as textures from './MyTextures.js';
 
 export const wall = {
-    // TODO: Fix naming and colors
-    white: new THREE.MeshPhongMaterial({
-        color: "#ffffff",
+    velvet: new THREE.MeshPhongMaterial({
+        color: "#494a99",
         specular: "#000000",
         emissive: "#000000",
-        shininess: 90,
         side: THREE.DoubleSide,
+        map: textures.wall.velvet,
+        bumpMap: textures.wall.bump.velvet,
     }),
 };
 
@@ -45,6 +46,16 @@ export const table = {
         shininess: 90,
     }),
 };
+
+export const floor = {
+    carpet: new THREE.MeshPhongMaterial({
+        color: "#5d7dc2",
+        specular: "#000000",
+        emissive: "#000000",
+        side: THREE.DoubleSide,
+        map: textures.floor.carpet,
+    }),
+}
 
 export const cake = {
     candle: {
