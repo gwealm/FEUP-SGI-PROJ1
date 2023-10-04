@@ -66,7 +66,7 @@ class MyContentsTest {
         this.app.scene.add(wall);
 
         let circularTableFactory = new MyCircularTableFactory("velvetFabric");
-        const circularTable = circularTableFactory.buildCircularTable(1, new THREE.Vector3(0, 0.5, 0));
+        const circularTable = circularTableFactory.buildCircularTable(1, new THREE.Vector3(0, 3, 0));
         this.app.scene.add(circularTable);
 
         let watchFactory = new MyWatchFactory("velvet");
@@ -79,7 +79,6 @@ class MyContentsTest {
         let boxFactory = new MyBoxFactory("wood");
         const box = boxFactory.buildBox(1, 1, 1, new THREE.Vector3(4, 0.5, 0));
         this.app.scene.add(box);
-
     }
 
     /**
