@@ -5,6 +5,7 @@ import { MyWallFactory } from "./objects/MyWallFactory.js";
 import { MyCircularTableFactory } from "./objects/MyCircularTableFactory.js";
 import { MyWatchFactory } from "./objects/MyWatchFactory.js";
 import { watch } from "./MyTextures.js";
+import { MyBoxFactory } from "./objects/MyBoxFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -74,6 +75,10 @@ class MyContentsTest {
         watch.rotateY(Math.PI);
         watch.rotateZ(Math.PI / 2);
         this.app.scene.add(watch);
+
+        let boxFactory = new MyBoxFactory("wood");
+        const box = boxFactory.buildBox(1, 1, 1, new THREE.Vector3(4, 0.5, 0));
+        this.app.scene.add(box);
 
     }
 

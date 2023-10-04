@@ -78,6 +78,19 @@ export const table = {
     }),
 };
 
+export const box = {
+    wood: new THREE.MeshStandardMaterial({
+        map: textures.box.wood.baseColor,
+        aoMap: textures.box.wood.ambientOcclusion,
+        normalMap: textures.box.wood.normal,
+        roughnessMap: textures.box.wood.roughness,
+        color: "#ffffff",
+        specular: "#000000",
+        emissive: "#000000",
+        shininess: 20,
+    })
+};
+
 export const floor = {
     carpet: new THREE.MeshPhongMaterial({
         color: "#5d7dc2",

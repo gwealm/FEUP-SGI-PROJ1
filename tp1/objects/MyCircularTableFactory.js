@@ -17,9 +17,8 @@ export class MyCircularTableFactory {
 
         const tableGeometry = new THREE.CylinderGeometry(radius, radius, height, radialSegments);
 
-        tableGeometry.translate(initialPosition.x, initialPosition.y, initialPosition.z);
 
-        const circularTable = new THREE.Mesh(tableGeometry, ["", this.material, this.material]);
+        const circularTable = new THREE.Mesh(tableGeometry, this.material);
 
         return circularTable;
     }
