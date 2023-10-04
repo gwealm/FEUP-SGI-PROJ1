@@ -1,157 +1,205 @@
 import * as THREE from "three";
+
 import { MyAxis } from "./MyAxis.js";
-import { MyTableFactory } from './objects/MyTableFactory.js';
-import { MyRoomFactory } from "./objects/MyRoomFactory.js";
-import { MyDishFactory } from "./objects/MyDish.js";
-import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
-/**
- *  This class contains the contents of out application
- */
+
 class MyContents {
-    /**
-       constructs the object
-       @param {MyApp} app The application object
-    */
     constructor(app) {
         this.app = app;
 
-        // axis related attributes
         this.axis = null;
-        this.displayAxis = false;
-
-        // box related attributes
-        this.boxMesh = null;
-        this.boxMeshSize = 1.0;
-        this.boxEnabled = false;
-        this.lastBoxEnabled = null;
-        this.boxDisplacement = new THREE.Vector3(0, 2, 0);
     }
 
-    /**
-     * displays the cylinder
-     * TODO: probably should only build the mesh to sepparate concerns
-     */
-    buildCylinder(color, initialDisplacement, scale) {
-        let cylinderMaterial = new THREE.MeshPhongMaterial({
-            color: "#ffff77",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-            clippingPlanes: this.planeMesh,
-        });
-
-        // Create a Cube Mesh with basic material
-        let cylinder = new THREE.CylinderGeometry(5, 5, 20, 32);
-        let cylinderMesh = new THREE.Mesh(cylinder, cylinderMaterial);
-
-        // Sets cylinder initial position
-        cylinderMesh.position.set(
-            initialDisplacement.x,
-            initialDisplacement.y,
-            initialDisplacement.z
-        );
-
-        // Sets cylinder scale
-        cylinderMesh.scale.set(scale.x, scale.y, scale.z);
-
-        this.app.scene.add(cylinderMesh);
-
-        let tableFactory = new MyTableFactory();
-
-        let table = tableFactory.buildTable(5, 0.3, 3, 3, 0.3);
-        this.app.scene.add(table);
-    }
-
-
-
-    /**
-     * initializes the contents
-     */
     init() {
         // create once
+
         if (this.axis === null) {
             // create and attach the axis to the scene
+
             this.axis = new MyAxis(this);
+
             this.app.scene.add(this.axis);
         }
 
-        // add a point light on top of the model
-        const pointLight = new THREE.PointLight(0xffffff, 500, 0);
-        pointLight.position.set(0, 10, 0);
-        this.app.scene.add(pointLight);
+        // variables to hold the curves
 
-        // add a point light helper for the previous point light
-        const sphereSize = 0.5;
-        const pointLightHelper = new THREE.PointLightHelper(
-            pointLight,
-            sphereSize
+        this.polyline = null;
+        this.quadraticBezierCurve = null;
+        this.cubicBezierCurve = null;
+
+        // number of samples to use for the curves (not for polyline)
+
+        this.numberOfSamples = 20;
+
+        // hull material and geometry
+
+        this.hullMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+
+            opacity: 0.5,
+            transparent: true,
+        });
+
+        // curve recomputation
+
+        this.recompute();
+    }
+
+    // Deletes the contents of the line if it exists and recreates them
+
+    recompute() {
+        if (this.polyline !== null) this.app.scene.remove(this.polyline);
+        if (this.quadraticBezierCurve !== null) this.app.scene.remove(this.quadraticBezierCurve);
+        if (this.cubicBezierCurve !== null) this.app.scene.remove(this.cubicBezierCurve);
+        if (this.catmullRomCurve !== null) this.app.scene.remove(this.catmullRomCurve);
+
+        this.initPolyline();
+        this.initQuadraticBezierCurve();
+        this.initCubicBezierCurve();
+        this.initCatmullRomCurve();
+    }
+
+
+    drawHull(position, points) {
+
+        const geometry = new THREE.BufferGeometry().setFromPoints( points );
+
+        let line = new THREE.Line( geometry, this.hullMaterial );
+
+        // set initial position
+
+        line.position.set(position.x,position.y,position.z)
+
+        this.app.scene.add( line );
+
+    }
+
+
+    initPolyline() {
+        // define vertex points
+
+        let points = [
+            new THREE.Vector3(-0.6, -0.6, 0.0),
+
+            new THREE.Vector3(0.6, -0.6, 0.0),
+
+            new THREE.Vector3(0.6, 0.6, 0.0),
+
+            new THREE.Vector3(-0.6, 0.6, 0.0),
+
+            new THREE.Vector3(-0.6, 1.8, 0.0),
+        ];
+
+        let position = new THREE.Vector3(-4, 4, 0);
+
+        this.drawHull(position, points);
+
+        // define geometry
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+        // create the line from material and geometry
+
+        this.polyline = new THREE.Line(
+            geometry,
+
+            new THREE.LineBasicMaterial({ color: 0xff0000 })
         );
-        this.app.scene.add(pointLightHelper);
 
-        // add an ambient light
-        const ambientLight = new THREE.AmbientLight(0x555555);
-        this.app.scene.add(ambientLight);
+        // set initial position
 
-        let roomWidth = 30;
-        let roomDepth = 30;
-        let roomHeight = 20;
+        this.polyline.position.set(position.x, position.y, position.z);
 
-        let roomFactory = new MyRoomFactory('white');
-        let room = roomFactory.buildRoom(roomWidth, roomHeight, roomDepth);
-        this.app.scene.add(room);
+        // add the line to the scene
 
+        this.app.scene.add(this.polyline);
+    }
 
-        let tableFactory = new MyTableFactory();
-        let table = tableFactory.buildTable(5, 0.3, 3, 3, 0.3);
-        table.translateY(0.3 - (roomHeight / 2)  ) // 0.3 is the height of the table plane
-        this.app.scene.add(table);
+    initCatmullRomCurve() {
+        let points = [
+            new THREE.Vector3(-0.6, 0.0, 0.0),
+            new THREE.Vector3(-0.3,  0.6, 0.3),
+            new THREE.Vector3(0.0, 0.0, 0.0),
+            new THREE.Vector3(0.3, -0.6, 0.3),
+            new THREE.Vector3(0.6, 0.0, 0.0),
+            new THREE.Vector3(0.9, 0.6, 0.3),
+            new THREE.Vector3(1.2, 0.0, 0.0)
+        ];
 
-        let dishFactory = new MyDishFactory('vanilla');
-        let dish = dishFactory.buildDish();
-        dish.translateY(0.5 + 3 - (roomHeight / 2) )
-        this.app.scene.add(dish);
+        let position = new THREE.Vector3(-2,0,0)
+        this.drawHull(position, points);
 
-        let cakeFactory = new MyCakeFactory();
-        let cake = cakeFactory.buildCake();
-        cake.translateY(0.5 + 3 + 0.4 - (roomHeight / 2))
-        this.app.scene.add(cake);
+        let curve = new THREE.CatmullRomCurve3(points);
+
+        // sample a number of points on the curve
+        let sampledPoints = curve.getPoints(this.numberOfSamples);
+
+        this.curveGeometry = new THREE.BufferGeometry().setFromPoints(sampledPoints);
+        this.linedMaterial = new THREE.LineBasicMaterial({ color: 0xffff00 });
+
+        this.lineObj = new THREE.Line(this.curveGeometry, this.linedMaterial);
+        this.lineObj.position.set(position.x,position.y,position.z)
+        this.app.scene.add( this.lineObj );
+    }
+
+    initCubicBezierCurve() {
+        let points = [
+            new THREE.Vector3( -0.6, -0.6, 0.0 ), // starting point
+            new THREE.Vector3(    -0.6,  0.6, 0.0 ), // control point
+            new THREE.Vector3(  0.6, -0.6, 0.0 ),  // ending point
+            new THREE.Vector3(  0.6, 0.6, 0.0 )  // ending point
+        ];
+
+        let position = new THREE.Vector3(-4,0,0)
+        this.drawHull(position, points);
+
+        let curve = new THREE.CubicBezierCurve3(points[0], points[1], points[2], points[3]);
+
+        // sample a number of points on the curve
+        let sampledPoints = curve.getPoints(this.numberOfSamples);
+
+        this.curveGeometry = new THREE.BufferGeometry().setFromPoints(sampledPoints);
+        this.linedMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
+
+        this.lineObj = new THREE.Line(this.curveGeometry, this.linedMaterial);
+        this.lineObj.position.set(position.x,position.y,position.z)
+        this.app.scene.add( this.lineObj );
+    }
+
+    initQuadraticBezierCurve() {
+        let points = [
+            new THREE.Vector3( -0.6, -0.6, 0.0 ), // starting point
+            new THREE.Vector3(    0,  0.6, 0.0 ), // control point
+            new THREE.Vector3(  0.6, -0.6, 0.0 )  // ending point
+        ];
+        let position = new THREE.Vector3(-2,4,0)
+
+        this.drawHull(position, points);
+
+        let curve = new THREE.QuadraticBezierCurve3(points[0], points[1], points[2]);
+        
+        // sample a number of points on the curve
+        let sampledPoints = curve.getPoints(this.numberOfSamples);
+
+        this.curveGeometry = new THREE.BufferGeometry().setFromPoints(sampledPoints);
+        this.linedMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+
+        this.lineObj = new THREE.Line(this.curveGeometry, this.linedMaterial);
+
+        this.lineObj.position.set(position.x,position.y,position.z)
+        this.app.scene.add( this.lineObj );
     }
 
     /**
-     * updates the box mesh if required
-     * this method is called from the render method of the app
-     * updates are trigered by boxEnabled property changes
-     */
-    updateBoxIfRequired() {
-        if (this.boxEnabled !== this.lastBoxEnabled) {
-            this.lastBoxEnabled = this.boxEnabled;
-            if (this.boxEnabled) {
-                this.app.scene.add(this.boxMesh);
-            } else {
-                this.app.scene.remove(this.boxMesh);
-            }
-        }
-    }
 
-    /**
-     * updates the axis if required
-     * this method is called from the render method of the app
-     * updates are trigered by displayAxis property changes
-     */
-    updateAxisIfRequired() {
-        if (!this.displayAxis && this.axis != null)
-            this.app.scene.remove(this.axis);
-        else if (this.displayAxis) this.app.scene.add(this.axis);
-    }
-
-    /**
      * updates the contents
+
      * this method is called from the render method of the app
+
      *
+
      */
-    update() {
-        this.updateAxisIfRequired();
-    }
+
+    update() {}
 }
 
 export { MyContents };
