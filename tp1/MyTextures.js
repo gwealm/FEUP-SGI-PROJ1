@@ -57,28 +57,36 @@ export const wall = {
 export const table = {
     fabric: {
         baseColor: await loadTexture('resources/textures/table/fabric/baseColor.jpg', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
+            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.offset.set(0.5, 0.5);
             texture.repeat.set(2, 2);
         }),
         roughness: await loadTexture('resources/textures/table/fabric/roughness.jpg', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
+            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.offset.set(0.5, 0.5);
+            // texture.wrapS = THREE.RepeatWrapping;
+            // texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(2, 2);
         }),
         ambientOcclusion: await loadTexture('resources/textures/table/fabric/ambientOcclusion.jpg', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
+            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.offset.set(0.5, 0.5);
+            // texture.wrapS = THREE.RepeatWrapping;
+            // texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(2, 2);
         }),        
         height: await loadTexture('resources/textures/table/fabric/height.png', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
+            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.offset.set(0.5, 0.5);
+            // texture.wrapS = THREE.RepeatWrapping;
+            // texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(2, 2);
         }),        
         normal: await loadTexture('resources/textures/table/fabric/normal.jpg', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
+            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.offset.set(0.5, 0.5);
+            // texture.wrapS = THREE.RepeatWrapping;
+            // texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(2, 2);
         }),        
     }

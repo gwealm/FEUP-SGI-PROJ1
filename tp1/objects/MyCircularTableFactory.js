@@ -19,7 +19,7 @@ export class MyCircularTableFactory {
 
         tableGeometry.translate(initialPosition.x, initialPosition.y, initialPosition.z);
 
-        const circularTable = new THREE.Mesh(tableGeometry, this.material);
+        const circularTable = new THREE.Mesh(tableGeometry, ["", this.material, this.material]);
 
         return circularTable;
     }

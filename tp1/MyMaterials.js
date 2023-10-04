@@ -1,5 +1,5 @@
-import * as THREE from 'three';
-import * as textures from './MyTextures.js';
+import * as THREE from "three";
+import * as textures from "./MyTextures.js";
 
 export const wall = {
     velvet: new THREE.MeshPhongMaterial({
@@ -19,8 +19,8 @@ export const dish = {
         specular: "#000000",
         emissive: "#000000",
         shininess: 90,
-    })
-}
+    }),
+};
 
 export const pillar = {
     // TODO: Fix naming and colors
@@ -29,19 +29,27 @@ export const pillar = {
         specular: "#000000",
         emissive: "#000000",
         shininess: 90,
-    })
+    }),
 };
 
 export const watch = {
-    velvet: new THREE.MeshPhongMaterial({
-        color: "#ffffff",
-        specular: "#000000",
-        emissive: "#000000",
-        shininess: 90,
-        map: textures.watch.velvet,
-        side: THREE.FrontSide,
-    })
-}
+    velvet: [
+        new THREE.MeshPhongMaterial({
+            color: "#000000",
+        }),
+        new THREE.MeshPhongMaterial({
+            color: "#ffffff",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+            map: textures.watch.velvet,
+            side: THREE.DoubleSide,
+        }),
+        new THREE.MeshPhongMaterial({
+            color: "#000000",
+        }),
+    ],
+};
 
 export const table = {
     top: new THREE.MeshPhongMaterial({
@@ -59,15 +67,15 @@ export const table = {
     velvetFabric: new THREE.MeshStandardMaterial({
         map: textures.table.fabric.baseColor,
         aoMap: textures.table.fabric.ambientOcclusion,
-        displacementMap: textures.table.fabric.height,
-        displacementScale: 0.1,
+        // displacementMap: textures.table.fabric.height,
+        // displacementScale: 0.1,
         normalMap: textures.table.fabric.normal,
         roughnessMap: textures.table.fabric.roughness,
         color: "#ffffff",
         specular: "#000000",
         emissive: "#000000",
-        shininess: 30
-    })
+        shininess: 30,
+    }),
 };
 
 export const floor = {
@@ -78,7 +86,7 @@ export const floor = {
         side: THREE.DoubleSide,
         map: textures.floor.carpet,
     }),
-}
+};
 
 export const cake = {
     candle: {
