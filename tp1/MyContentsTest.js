@@ -5,6 +5,10 @@ import { MyFloorFactory } from "./objects/MyFloorFactory.js";
 import { MyWallFactory } from "./objects/MyWallFactory.js";
 import { MySpotlightFactory } from "./lights/MySpotlightFactory.js";
 import { MyCageFactory } from "./objects/MyCageFactory.js";
+import { MyCircularTableFactory } from "./objects/MyCircularTableFactory.js";
+import { MyWatchFactory } from "./objects/MyWatchFactory.js";
+import { watch } from "./MyTextures.js";
+import { MyBoxFactory } from "./objects/MyBoxFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -94,6 +98,20 @@ class MyContentsTest {
         // windowLight.rotateY(Math.PI)
         // windowLight.position.set(0, downWall.__height + windowLight.__height / 2, -floor.__height / 2);
         // this.app.scene.add(windowLight);
+        let circularTableFactory = new MyCircularTableFactory("velvetFabric");
+        const circularTable = circularTableFactory.buildCircularTable(1, new THREE.Vector3(0, 3, 0));
+        this.app.scene.add(circularTable);
+
+        let watchFactory = new MyWatchFactory("velvet");
+        const watch = watchFactory.buildWatch(2, new THREE.Vector3(5, -floor.__width / 2 , 0));
+        // watch.position.set(-floor.__width / 2, watch.__height / 2, 0);
+        watch.rotateY(Math.PI);
+        watch.rotateZ(Math.PI / 2);
+        this.app.scene.add(watch);
+
+        let boxFactory = new MyBoxFactory("wood");
+        const box = boxFactory.buildBox(1, 1, 1, new THREE.Vector3(4, 0.5, 0));
+        this.app.scene.add(box);
     }
 
     /**
