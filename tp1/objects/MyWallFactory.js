@@ -17,6 +17,8 @@ export class MyWallFactory {
         let box = new THREE.PlaneGeometry(
             width,
             height,
+            512,
+            512
         );
 
         return Object.assign(

@@ -6,9 +6,10 @@ export const wall = {
         color: "#494a99",
         specular: "#000000",
         emissive: "#000000",
-        side: THREE.DoubleSide,
         map: textures.wall.velvet,
         bumpMap: textures.wall.bump.velvet,
+        displacementMap: textures.wall.bump.velvet,
+        displacementScale: 0.1,
     }),
 };
 
@@ -92,7 +93,7 @@ export const box = {
 };
 
 export const floor = {
-    carpet: new THREE.MeshPhongMaterial({
+    carpet: new THREE.MeshStandardMaterial({
         color: "#5d7dc2",
         specular: "#000000",
         emissive: "#000000",
@@ -104,7 +105,7 @@ export const floor = {
 export const cake = {
     candle: {
         wick: new THREE.MeshPhongMaterial({
-            color: "#ffffff",
+            color: "#ffff88",
             specular: "#000000",
             emissive: "#000000",
             shininess: 90,
@@ -118,7 +119,7 @@ export const cake = {
         }),
     },
     base: new THREE.MeshPhongMaterial({
-        color: "#ff99ff",
+        color: "#ffff",
         specular: "#000000",
         emissive: "#000000",
         shininess: 90,
