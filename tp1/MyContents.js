@@ -1,205 +1,298 @@
 import * as THREE from "three";
-
 import { MyAxis } from "./MyAxis.js";
+import { MyNurbsBuilder } from "./MyNurbsBuilder.js";
 
 class MyContents {
     constructor(app) {
         this.app = app;
-
         this.axis = null;
+
+        const map = new THREE.TextureLoader().load(
+            "textures/uv_grid_opengl.jpg"
+        );
+        map.wrapS = map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 16;
+        map.colorSpace = THREE.SRGBColorSpace;
+
+        this.material = new THREE.MeshLambertMaterial({
+            map: map,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.9,
+        });
+
+        this.builder = new MyNurbsBuilder();
+        this.meshes = [];
+        this.samplesU = 16;
+        this.samplesV = 16;
+
+        this.init();
+        this.createNurbsSurfaces();
     }
 
     init() {
-        // create once
-
         if (this.axis === null) {
-            // create and attach the axis to the scene
-
             this.axis = new MyAxis(this);
-
             this.app.scene.add(this.axis);
         }
 
-        // variables to hold the curves
+        const pointLight = new THREE.PointLight(0xffffff, 1000, 0);
+        pointLight.position.set(0, 20, 20);
+        this.app.scene.add(pointLight);
 
-        this.polyline = null;
-        this.quadraticBezierCurve = null;
-        this.cubicBezierCurve = null;
-
-        // number of samples to use for the curves (not for polyline)
-
-        this.numberOfSamples = 20;
-
-        // hull material and geometry
-
-        this.hullMaterial = new THREE.MeshBasicMaterial({
-            color: 0xffffff,
-
-            opacity: 0.5,
-            transparent: true,
-        });
-
-        // curve recomputation
-
-        this.recompute();
-    }
-
-    // Deletes the contents of the line if it exists and recreates them
-
-    recompute() {
-        if (this.polyline !== null) this.app.scene.remove(this.polyline);
-        if (this.quadraticBezierCurve !== null) this.app.scene.remove(this.quadraticBezierCurve);
-        if (this.cubicBezierCurve !== null) this.app.scene.remove(this.cubicBezierCurve);
-        if (this.catmullRomCurve !== null) this.app.scene.remove(this.catmullRomCurve);
-
-        this.initPolyline();
-        this.initQuadraticBezierCurve();
-        this.initCubicBezierCurve();
-        this.initCatmullRomCurve();
-    }
-
-
-    drawHull(position, points) {
-
-        const geometry = new THREE.BufferGeometry().setFromPoints( points );
-
-        let line = new THREE.Line( geometry, this.hullMaterial );
-
-        // set initial position
-
-        line.position.set(position.x,position.y,position.z)
-
-        this.app.scene.add( line );
-
-    }
-
-
-    initPolyline() {
-        // define vertex points
-
-        let points = [
-            new THREE.Vector3(-0.6, -0.6, 0.0),
-
-            new THREE.Vector3(0.6, -0.6, 0.0),
-
-            new THREE.Vector3(0.6, 0.6, 0.0),
-
-            new THREE.Vector3(-0.6, 0.6, 0.0),
-
-            new THREE.Vector3(-0.6, 1.8, 0.0),
-        ];
-
-        let position = new THREE.Vector3(-4, 4, 0);
-
-        this.drawHull(position, points);
-
-        // define geometry
-
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-        // create the line from material and geometry
-
-        this.polyline = new THREE.Line(
-            geometry,
-
-            new THREE.LineBasicMaterial({ color: 0xff0000 })
+        const sphereSize = 0.5;
+        const pointLightHelper = new THREE.PointLightHelper(
+            pointLight,
+            sphereSize
         );
+        this.app.scene.add(pointLightHelper);
 
-        // set initial position
-
-        this.polyline.position.set(position.x, position.y, position.z);
-
-        // add the line to the scene
-
-        this.app.scene.add(this.polyline);
+        const ambientLight = new THREE.AmbientLight(0x555555);
+        this.app.scene.add(ambientLight);
     }
 
-    initCatmullRomCurve() {
-        let points = [
-            new THREE.Vector3(-0.6, 0.0, 0.0),
-            new THREE.Vector3(-0.3,  0.6, 0.3),
-            new THREE.Vector3(0.0, 0.0, 0.0),
-            new THREE.Vector3(0.3, -0.6, 0.3),
-            new THREE.Vector3(0.6, 0.0, 0.0),
-            new THREE.Vector3(0.9, 0.6, 0.3),
-            new THREE.Vector3(1.2, 0.0, 0.0)
+    createNurbsSurfaces() {
+        if (this.meshes !== null) {
+            for (let i = 0; i < this.meshes.length; i++) {
+                this.app.scene.remove(this.meshes[i]);
+            }
+            this.meshes = [];
+        }
+
+        let controlPoints;
+        let surfaceData;
+        let mesh;
+        let orderU = 1;
+        let orderV = 1;
+
+        controlPoints = [
+            [
+                // U = 0
+                [-2.0, -2.0, 0.0, 5],
+                [-2.0, 2.0, 0.0, 1],
+            ],
+            [
+                // U = 1
+                [2.0, -2.0, 0.0, 1],
+                [2.0, 2.0, 0.0, 1],
+            ],
         ];
 
-        let position = new THREE.Vector3(-2,0,0)
-        this.drawHull(position, points);
+        surfaceData = this.builder.build(
+            controlPoints,
+            orderU,
+            orderV,
+            this.samplesU,
+            this.samplesV,
+            this.material
+        );
+        mesh = new THREE.Mesh(surfaceData, this.material);
 
-        let curve = new THREE.CatmullRomCurve3(points);
+        mesh.rotation.x = 0;
+        mesh.rotation.y = 0;
+        mesh.rotation.z = 0;
+        mesh.scale.set(1, 1, 1);
+        mesh.position.set(-4, 3, 0);
 
-        // sample a number of points on the curve
-        let sampledPoints = curve.getPoints(this.numberOfSamples);
+        this.app.scene.add(mesh);
+        this.meshes.push(mesh);
 
-        this.curveGeometry = new THREE.BufferGeometry().setFromPoints(sampledPoints);
-        this.linedMaterial = new THREE.LineBasicMaterial({ color: 0xffff00 });
+        controlPoints = [
+            // U = 0
 
-        this.lineObj = new THREE.Line(this.curveGeometry, this.linedMaterial);
-        this.lineObj.position.set(position.x,position.y,position.z)
-        this.app.scene.add( this.lineObj );
-    }
+            [
+                // V = 0..1;
 
-    initCubicBezierCurve() {
-        let points = [
-            new THREE.Vector3( -0.6, -0.6, 0.0 ), // starting point
-            new THREE.Vector3(    -0.6,  0.6, 0.0 ), // control point
-            new THREE.Vector3(  0.6, -0.6, 0.0 ),  // ending point
-            new THREE.Vector3(  0.6, 0.6, 0.0 )  // ending point
+                [-1.5, -1.5, 0.0, 1],
+
+                [-1.5, 1.5, 0.0, 1],
+            ],
+
+            // U = 1
+
+            [
+                // V = 0..1
+
+                [0, -1.5, 3.0, 1],
+
+                [0, 1.5, 3.0, 1],
+            ],
+
+            // U = 2
+
+            [
+                // V = 0..1
+
+                [1.5, -1.5, 0.0, 1],
+
+                [1.5, 1.5, 0.0, 1],
+            ],
         ];
 
-        let position = new THREE.Vector3(-4,0,0)
-        this.drawHull(position, points);
+        orderU = 2;
+        orderV = 1;
 
-        let curve = new THREE.CubicBezierCurve3(points[0], points[1], points[2], points[3]);
+        surfaceData = this.builder.build(
+            controlPoints,
+            orderU,
+            orderV,
+            this.samplesU,
+            this.samplesV,
+            this.material
+        );
+        mesh = new THREE.Mesh(surfaceData, this.material);
 
-        // sample a number of points on the curve
-        let sampledPoints = curve.getPoints(this.numberOfSamples);
+        mesh.rotation.x = 0;
+        mesh.rotation.y = 0;
+        mesh.rotation.z = 0;
+        mesh.scale.set(1, 1, 1);
+        mesh.position.set(4, 3, 0);
 
-        this.curveGeometry = new THREE.BufferGeometry().setFromPoints(sampledPoints);
-        this.linedMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
+        this.app.scene.add(mesh);
+        this.meshes.push(mesh);
 
-        this.lineObj = new THREE.Line(this.curveGeometry, this.linedMaterial);
-        this.lineObj.position.set(position.x,position.y,position.z)
-        this.app.scene.add( this.lineObj );
-    }
+        surfaceData = this.builder.build(
+            controlPoints,
+            orderU,
+            orderV,
+            this.samplesU,
+            this.samplesV,
+            this.material
+        );
+        mesh = new THREE.Mesh(surfaceData, this.material);
 
-    initQuadraticBezierCurve() {
-        let points = [
-            new THREE.Vector3( -0.6, -0.6, 0.0 ), // starting point
-            new THREE.Vector3(    0,  0.6, 0.0 ), // control point
-            new THREE.Vector3(  0.6, -0.6, 0.0 )  // ending point
+        mesh.rotation.x = 0;
+        mesh.rotation.y = 0;
+        mesh.rotation.z = 0;
+        mesh.scale.set(1, 1, 1);
+        mesh.position.set(-4, 3, 0);
+
+        orderU = 2;
+        orderV = 3;
+
+        controlPoints = [
+            // U = 0
+            [
+                // V = 0..3;
+                [-1.5, -1.5, 0.0, 1],
+                [-2.0, -2.0, 2.0, 1],
+                [-2.0, 2.0, 2.0, 1],
+                [-1.5, 1.5, 0.0, 1],
+            ],
+
+            // U = 1
+            [
+                // V = 0..3
+                [0.0, 0.0, 3.0, 1],
+                [0.0, -2.0, 3.0, 1],
+                [0.0, 2.0, 3.0, 1],
+                [0.0, 0.0, 3.0, 1],
+            ],
+
+            // U = 2
+            [
+                // V = 0..3
+                [1.5, -1.5, 0.0, 1],
+                [2.0, -2.0, 2.0, 1],
+                [2.0, 2.0, 2.0, 1],
+                [1.5, 1.5, 0.0, 1],
+            ],
         ];
-        let position = new THREE.Vector3(-2,4,0)
 
-        this.drawHull(position, points);
+        surfaceData = this.builder.build(
+            controlPoints,
+            orderU,
+            orderV,
+            this.samplesU,
+            this.samplesV,
+            this.material
+        );
+        mesh = new THREE.Mesh(surfaceData, this.material);
 
-        let curve = new THREE.QuadraticBezierCurve3(points[0], points[1], points[2]);
-        
-        // sample a number of points on the curve
-        let sampledPoints = curve.getPoints(this.numberOfSamples);
+        mesh.rotation.x = 0;
+        mesh.rotation.y = 0;
+        mesh.rotation.z = 0;
+        mesh.scale.set(1, 1, 1);
+        mesh.position.set(-4, -3, 0);
 
-        this.curveGeometry = new THREE.BufferGeometry().setFromPoints(sampledPoints);
-        this.linedMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 });
+        this.app.scene.add(mesh);
+        this.meshes.push(mesh);
 
-        this.lineObj = new THREE.Line(this.curveGeometry, this.linedMaterial);
+        surfaceData = this.builder.build(
+            controlPoints,
+            orderU,
+            orderV,
+            this.samplesU,
+            this.samplesV,
+            this.material
+        );
+        mesh = new THREE.Mesh(surfaceData, this.material);
 
-        this.lineObj.position.set(position.x,position.y,position.z)
-        this.app.scene.add( this.lineObj );
+        mesh.rotation.x = 0;
+        mesh.rotation.y = 0;
+        mesh.rotation.z = 0;
+        mesh.scale.set(1, 1, 1);
+
+        orderU = 3;
+        orderV = 2;
+
+        controlPoints = [
+            // U = 0
+            [
+                // V = 0..2;
+                [-2.0, -2.0, 1.0, 1],
+                [0, -2.0, 0, 1],
+                [2.0, -2.0, -1.0, 1],
+            ],
+
+            // U = 1
+            [
+                // V = 0..2
+                [-2.0, -1.0, -2.0, 1],
+                [0, -1.0, -1.0, 1],
+                [2.0, -1.0, 2.0, 1],
+            ],
+
+            // U = 2
+            [
+                // V = 0..2
+                [-2.0, 1.0, 5.0, 1],
+                [0, 1.0, 1.5, 1],
+                [2.0, 1.0, -5.0, 1],
+            ],
+
+            // U = 3
+            [
+                // V = 0..2
+                [-2.0, 2.0, -1.0, 1],
+                [0, 2.0, 0, 1],
+                [2.0, 2.0, 1.0, 1],
+            ],
+        ];
+
+        surfaceData = this.builder.build(
+            controlPoints,
+            orderU,
+            orderV,
+            this.samplesU,
+            this.samplesV,
+            this.material
+        );
+        mesh = new THREE.Mesh(surfaceData, this.material);
+
+        mesh.rotation.x = 0;
+        mesh.rotation.y = 0;
+        mesh.rotation.z = 0;
+        mesh.scale.set(1, 1, 1);
+        mesh.position.set(4, -3, 0);
+
+        this.app.scene.add(mesh);
+        this.meshes.push(mesh);
     }
 
-    /**
-
-     * updates the contents
-
-     * this method is called from the render method of the app
-
-     *
-
-     */
-
-    update() {}
+    update() {
+        // Your update logic goes here
+    }
 }
 
 export { MyContents };
