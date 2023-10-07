@@ -8,20 +8,15 @@ const loader = new THREE.TextureLoader();
  * @returns {Promise<THREE.Texture>}
  */
 async function loadTexture(path, apply) {
-    return new Promise((resolve, reject) => {
-        loader.load(
-            path,
-            (texture) => {
-                if (apply) apply(texture);
-                resolve(texture);
-            },
-            undefined, //onLoad
-            (error) => {
-                console.error(`Error loading texture from ${path}:`, error);
-                reject(error);
-            }
-        );
-    });
+    try {
+        const texture = await loader.loadAsync(path);
+
+        if (apply) apply(texture);
+        return texture;
+
+    } catch (error) {
+        console.error(`Error loading texture from ${path}:`, error);
+    }
 }
 
 export const floor = {
