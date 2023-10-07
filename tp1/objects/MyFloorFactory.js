@@ -1,15 +1,19 @@
-import { wall } from "../MyMaterials.js";
+import { floor } from "../MyMaterials.js";
 import * as THREE from 'three';
 
-export class MyWallFactory {
+export class MyFloorFactory {
+
     /**
-     * @param {keyof wall} variant 
+     * @param {keyof floor} variant 
      */
     constructor(variant) {
-        this.material = wall[variant];
+        /**
+         * @type {THREE.MeshPhongMaterial}
+         */
+        this.material = floor[variant];
     }
 
-    buildWall(scaleX = 1, scaleY = 1) {
+    buildFloor(scaleX = 1, scaleY = 1) {
         const width = scaleX;
         const height = scaleY;
 
@@ -18,6 +22,8 @@ export class MyWallFactory {
             width,
             height,
         );
+
+        box.rotateX(Math.PI / 2);
 
         return Object.assign(
             new THREE.Mesh(box, this.material), {

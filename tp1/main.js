@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { MyApp } from './MyApp.js';
 import { MyGuiInterface } from './MyGuiInterface.js';
-import { MyContents } from './MyContents.js';
+import { MyContentsTest } from './MyContentsTest.js';
 
 // create the application object
 let app = new MyApp()
@@ -9,7 +9,7 @@ let app = new MyApp()
 app.init()
 
 // create the contents object
-let contents = new MyContents(app)
+let contents = new MyContentsTest(app)
 // initializes the contents
 contents.init()
 // hooks the contents object in the application object
