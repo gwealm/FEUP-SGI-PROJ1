@@ -52,6 +52,48 @@ export const watch = {
     ],
 };
 
+export const frame = {
+    inner: {
+        gui: new THREE.MeshPhongMaterial({
+            color: "#ffffff",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+            map: textures.frame.inner.guima,
+        }),
+        lima: new THREE.MeshPhongMaterial({
+            color: "#ffffff",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+            map: textures.frame.guima,
+        }),
+        canvas: new THREE.MeshPhongMaterial({
+            color: "#ffffff",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+        }),
+    },
+    outter: {
+        black: new THREE.MeshPhongMaterial({
+            color: "#000000",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+        }),
+        blue: new THREE.MeshStandardMaterial({
+            color: "#494a90",
+            map: textures.frame.border.blue_wood.diffuse,
+            bumpMap: textures.frame.border.blue_wood.bump,
+            metalnessMap: textures.frame.border.blue_wood.metalness,
+            roughnessMap: textures.frame.border.blue_wood.roughness,
+            aoMap: textures.frame.border.blue_wood.ambientOcclusion,
+            normalMap: textures.frame.border.blue_wood.normal,
+        }),
+    },
+};
+
 export const table = {
     top: new THREE.MeshPhongMaterial({
         color: "#7f3300",
@@ -73,9 +115,6 @@ export const table = {
         normalMap: textures.table.fabric.normal,
         roughnessMap: textures.table.fabric.roughness,
         color: "#ffffff",
-        specular: "#000000",
-        emissive: "#000000",
-        shininess: 30,
     }),
 };
 
@@ -86,17 +125,12 @@ export const box = {
         normalMap: textures.box.wood.normal,
         roughnessMap: textures.box.wood.roughness,
         color: "#ffffff",
-        specular: "#000000",
-        emissive: "#000000",
-        shininess: 20,
-    })
+    }),
 };
 
 export const floor = {
     carpet: new THREE.MeshStandardMaterial({
         color: "#5d7dc2",
-        specular: "#000000",
-        emissive: "#000000",
         side: THREE.DoubleSide,
         map: textures.floor.carpet,
     }),
@@ -119,7 +153,7 @@ export const cake = {
         }),
     },
     base: new THREE.MeshPhongMaterial({
-        color: "#ffff",
+        color: "#ffffff",
         specular: "#000000",
         emissive: "#000000",
         shininess: 90,

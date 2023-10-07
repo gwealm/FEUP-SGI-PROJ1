@@ -7,8 +7,9 @@ import { MySpotlightFactory } from "./lights/MySpotlightFactory.js";
 import { MyCageFactory } from "./objects/MyCageFactory.js";
 import { MyCircularTableFactory } from "./objects/MyCircularTableFactory.js";
 import { MyWatchFactory } from "./objects/MyWatchFactory.js";
-import { watch } from "./MyTextures.js";
+import { wall, watch } from "./MyTextures.js";
 import { MyBoxFactory } from "./objects/MyBoxFactory.js";
+import { MyFrameFactory } from "./objects/MyFrame.js";
 
 /**
  *  This class contains the contents of out application
@@ -109,6 +110,12 @@ class MyContentsTest {
         // watch.rotateZ(Math.PI / 2);
         watch.rotateX(Math.PI / 2);
         this.app.scene.add(watch);
+
+        let frameFactory = new MyFrameFactory("gui", "blue");
+        const frame = frameFactory.buildFrame(2, 2, 0.1, new THREE.Vector3(0, 0, 0));
+        frame.rotateY(- Math.PI / 2);
+        frame.position.set(floor.__width / 2 - 0.1, rightWall.__height / 2,);
+        this.app.scene.add(frame);
 
         let boxFactory = new MyBoxFactory("wood");
         const box = boxFactory.buildBox(1, 1, 1, new THREE.Vector3(4, 0.5, 0));

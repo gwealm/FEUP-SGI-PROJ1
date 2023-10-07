@@ -49,6 +49,42 @@ export const wall = {
     }
 };
 
+export const frame = {
+    inner: {
+        guima : await loadTexture('resources/textures/frame/guima.png', (texture) => {
+            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+        }),  
+    },
+    border: {
+        blue_wood: {
+            roughness: await loadTexture('resources/textures/frame/blue_wood/roughness.png', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
+            metalness: await loadTexture('resources/textures/frame/blue_wood/metalness.png', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
+            ambientOcclusion: await loadTexture('resources/textures/frame/blue_wood/ambientOcclusion.png', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),        
+            bump: await loadTexture('resources/textures/frame/blue_wood/bump.png', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
+            diffuse: await loadTexture('resources/textures/frame/blue_wood/diffuse.png', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
+            displacement: await loadTexture('resources/textures/frame/blue_wood/displacement.png', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
+            normal: await loadTexture('resources/textures/frame/blue_wood/normal.png', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),
+            specular: await loadTexture('resources/textures/frame/blue_wood/specular.png', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            }),        
+        },
+    }
+};
+
 export const table = {
     fabric: {
         baseColor: await loadTexture('resources/textures/table/fabric/baseColor.jpg', (texture) => {
@@ -59,29 +95,21 @@ export const table = {
         roughness: await loadTexture('resources/textures/table/fabric/roughness.jpg', (texture) => {
             texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
             texture.offset.set(0.5, 0.5);
-            // texture.wrapS = THREE.RepeatWrapping;
-            // texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(2, 2);
         }),
         ambientOcclusion: await loadTexture('resources/textures/table/fabric/ambientOcclusion.jpg', (texture) => {
             texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
             texture.offset.set(0.5, 0.5);
-            // texture.wrapS = THREE.RepeatWrapping;
-            // texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(2, 2);
         }),        
         height: await loadTexture('resources/textures/table/fabric/height.png', (texture) => {
             texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
             texture.offset.set(0.5, 0.5);
-            // texture.wrapS = THREE.RepeatWrapping;
-            // texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(2, 2);
         }),        
         normal: await loadTexture('resources/textures/table/fabric/normal.jpg', (texture) => {
             texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
             texture.offset.set(0.5, 0.5);
-            // texture.wrapS = THREE.RepeatWrapping;
-            // texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(2, 2);
         }),        
     }
