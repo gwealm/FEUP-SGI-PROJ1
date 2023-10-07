@@ -103,10 +103,11 @@ class MyContentsTest {
         this.app.scene.add(circularTable);
 
         let watchFactory = new MyWatchFactory("velvet");
-        const watch = watchFactory.buildWatch(2, new THREE.Vector3(5, -floor.__width / 2 , 0));
+        const watch = watchFactory.buildWatch(2, new THREE.Vector3(0, -floor.__height / 2 + 0.130, -2 * downWall.__height / 3))
         // watch.position.set(-floor.__width / 2, watch.__height / 2, 0);
-        watch.rotateY(Math.PI);
-        watch.rotateZ(Math.PI / 2);
+        // watch.rotateY(Math.PI);
+        // watch.rotateZ(Math.PI / 2);
+        watch.rotateX(Math.PI / 2);
         this.app.scene.add(watch);
 
         let boxFactory = new MyBoxFactory("wood");
