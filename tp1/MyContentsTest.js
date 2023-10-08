@@ -10,6 +10,7 @@ import { MyWatchFactory } from "./objects/MyWatchFactory.js";
 import { wall, watch } from "./MyTextures.js";
 import { MyBoxFactory } from "./objects/MyBoxFactory.js";
 import { MyFrameFactory } from "./objects/MyFrame.js";
+import { MyBeetleFactory } from "./curves/MyBeetleFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -112,14 +113,32 @@ class MyContentsTest {
         this.app.scene.add(watch);
 
         let frameFactory = new MyFrameFactory("gui", "blue");
-        const frame = frameFactory.buildFrame(2, 2, 0.1, new THREE.Vector3(0, 0, 0));
+        const frame = frameFactory.buildFrame(2, 2, 0.1);
         frame.rotateY(- Math.PI / 2);
-        frame.position.set(floor.__width / 2 - 0.1, rightWall.__height / 2,);
+        frame.position.set(floor.__width / 2 - 0.1, rightWall.__height / 2, - floor.__height / 5)
         this.app.scene.add(frame);
 
         let boxFactory = new MyBoxFactory("wood");
         const box = boxFactory.buildBox(1, 1, 1, new THREE.Vector3(4, 0.5, 0));
         this.app.scene.add(box);
+
+        let canvasFrameFactory = new MyFrameFactory("canvas", "blue");
+        const canvasFrame = canvasFrameFactory.buildFrame(4, 2, 0.1);
+        canvasFrame.rotateY(- Math.PI / 2);
+        canvasFrame.position.set(floor.__width / 2 - 0.1, rightWall.__height / 2, frame.__width, 0);
+        this.app.scene.add(canvasFrame);
+
+
+        let beetleFactory = new MyBeetleFactory();
+        let beetle = beetleFactory.buildBeetle(1.5);
+        beetle.position.set(floor.__width / 2 - 0.1 - frame.__depth, rightWall.__height / 2 - frame.__width / 3, frame.__width, 0);
+        beetle.rotateY(Math.PI / 2);
+        canvasFrame.add(beetle);
+        
+        console.log(beetle.position);
+
+        console.log("BEELTE", beetle);
+        this.app.scene.add(beetle);
     }
 
     /**

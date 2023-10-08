@@ -10,6 +10,7 @@ export const wall = {
         bumpMap: textures.wall.bump.velvet,
         displacementMap: textures.wall.bump.velvet,
         displacementScale: 0.1,
+        side: THREE.DoubleSide,
     }),
 };
 
@@ -157,5 +158,16 @@ export const cake = {
         specular: "#000000",
         emissive: "#000000",
         shininess: 90,
+    }),
+};
+
+export const line = {
+    basic: new THREE.LineBasicMaterial({ 
+        color: 0x00ff00 
+    }),
+    dashed: new THREE.LineDashedMaterial({ 
+        color: 0x00ff00, 
+        dashSize: 0.1, 
+        gapSize: 0.05 
     }),
 };

@@ -119,19 +119,23 @@ export const table = {
 export const box = {
     wood: {
         baseColor: await loadTexture('resources/textures/box/wood/color_map.jpg', (texture) => {
-            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
         }),
         roughness: await loadTexture('resources/textures/box/wood/roughness_map.jpg', (texture) => {
-            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
         }),
         ambientOcclusion: await loadTexture('resources/textures/box/wood/ambient_occlusion.jpg', (texture) => {
-            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
         }),        
         height: await loadTexture('resources/textures/box/wood/height_map.jpg', (texture) => {
-            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
         }),        
         normal: await loadTexture('resources/textures/box/wood/normal_map.jpg', (texture) => {
-            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
         }),        
     },
 };

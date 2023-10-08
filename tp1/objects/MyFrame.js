@@ -33,7 +33,6 @@ export class MyFrameFactory {
             depth
         );
 
-        console.log(this.innerMaterial);
         return new THREE.Mesh(box, this.innerMaterial);
     }
 
@@ -83,21 +82,22 @@ export class MyFrameFactory {
      * @param {number} scaleY - Scale factor for the height.
      * @returns {THREE.Group} - The complete frame group.
      */
-    buildFrame(scaleX = 1, scaleY = 1) {
+    buildFrame(scaleX = 1, scaleY = 1, depth = 0.3) {
         const width = scaleX;
         const height = scaleY;
+        const borderDepth = depth / 3;
 
         let frameGroup = new THREE.Group();
 
-        let innerFrame = this.#buildInnerFrame(width, height, 0.1);
+        let innerFrame = this.#buildInnerFrame(width, height, borderDepth);
         frameGroup.add(innerFrame);
 
         let innerFrameBorder = innerFrame.clone();
         innerFrameBorder.material = this.outterMaterial;
-        innerFrameBorder.position.set(0, 0, -0.1);
+        innerFrameBorder.position.set(0, 0, -borderDepth);
         frameGroup.add(innerFrameBorder);
 
-        let frameBorder = this.#buildFrameBorder(width, height, 0.3);
+        let frameBorder = this.#buildFrameBorder(width, height, depth);
         frameBorder.forEach(border => frameGroup.add(border));
 
 
@@ -105,6 +105,7 @@ export class MyFrameFactory {
             frameGroup, {
                 __width: width,
                 __height: height,
+                __depth: depth
             }
         );
     }
