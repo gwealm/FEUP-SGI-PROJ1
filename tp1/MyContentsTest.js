@@ -11,6 +11,7 @@ import { wall, watch } from "./MyTextures.js";
 import { MyBoxFactory } from "./objects/MyBoxFactory.js";
 import { MyFrameFactory } from "./objects/MyFrame.js";
 import { MyBeetleFactory } from "./curves/MyBeetleFactory.js";
+import { MySpringFactory } from "./curves/MySpringFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -139,6 +140,11 @@ class MyContentsTest {
 
         console.log("BEELTE", beetle);
         this.app.scene.add(beetle);
+
+        let springFactory = new MySpringFactory();
+        const spring = springFactory.buildSpring(4, 0.2);
+
+        this.app.scene.add(spring)
     }
 
     /**
