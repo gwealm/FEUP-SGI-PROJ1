@@ -1,47 +1,11 @@
 import * as THREE from 'three';
-import { line } from '../MyMaterials.js';
+import { MyBezierCurveFactory } from './MyBezierCurveFactory.js'
 
 export class MySpringFactory {
-
-
-    #initBezierCurve(points, numberOfSamples = 50, position = new THREE.Vector3(0, 0, 0)) {
-
-        let curve = null;
-
-        this.#drawHull(position, points);
-
-        if (points.length == 3) {
-            curve = new THREE.QuadraticBezierCurve3(points[0], points[1], points[2]);
-        } else if (points.length == 4) {
-            curve = new THREE.CubicBezierCurve3(points[0], points[1], points[2], points[3]);
-        } else {
-            throw "Invalid number of points";
-        }
-
-        // sample a number of points on the curve
-        let sampledPoints = curve.getPoints(numberOfSamples);
-
-        let curveGeometry = new THREE.BufferGeometry().setFromPoints(sampledPoints);
-
-        let lineObj = new THREE.Line(curveGeometry, line.basic)
-
-        lineObj.position.set(position.x,position.y,position.z)
-
-        return lineObj;
+    
+    constructor() {
+        this.bezierCurveFactory = new MyBezierCurveFactory("basic");
     }
-
-    #drawHull(position, points) {
-        const geometry = new THREE.BufferGeometry().setFromPoints( points );
-
-        let lineObj = new THREE.Line( geometry, line.basic );
-
-        console.log(points);
-        // set initial position
-        lineObj.position.set(position.x,position.y,position.z)
-
-        return lineObj;
-    }
-
 
     buildSpring(scale = 1, scaleY = 1, numLoops = 4, position = new THREE.Vector3(0, 0, 0)) {
         let spring = new THREE.Group();
@@ -58,7 +22,9 @@ export class MySpringFactory {
 
             currentGrowth += growthRate * 3;
 
-            spring.add(this.#initBezierCurve(firstHalfPoint, 50, position));
+            const firstHalfCurve = this.bezierCurveFactory.build(firstHalfPoint, 50, false);
+            firstHalfCurve.position.set(position.x, position.y, position.z);
+            spring.add(firstHalfCurve);
 
             const secondHalfPoints = [
                 new THREE.Vector3(0, currentGrowth + (3*growthRate), -scale / 2),
@@ -69,7 +35,8 @@ export class MySpringFactory {
 
             currentGrowth += growthRate * 3;
 
-            let secondHalfCurve = this.#initBezierCurve(secondHalfPoints, 50, position);
+            let secondHalfCurve = this.bezierCurveFactory.build(secondHalfPoints, 50, false);
+            secondHalfCurve.position.set(position.x, position.y, position.z);
 
             spring.add(secondHalfCurve);
         }
