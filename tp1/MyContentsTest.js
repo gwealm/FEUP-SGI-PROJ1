@@ -13,6 +13,7 @@ import { MyFrameFactory } from "./objects/MyFrame.js";
 import { MyBeetleFactory } from "./curves/MyBeetleFactory.js";
 import { MySpringFactory } from "./curves/MySpringFactory.js";
 import { MyTableFactory } from "./objects/MyTableFactory.js";
+import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -99,9 +100,17 @@ class MyContentsTest {
     
 
         let tableFactory = new MyTableFactory("wood");
-        const table = tableFactory.buildTable(4, 0.1, 2, 1.5, 0.1);
-        table.position.set(0, table.__height / 2, -4);
+        const table = tableFactory.buildTable(4, 0.1, 3, 1.5, 0.1);
+        table.position.set(0, table.__height / 2, - 1 * floor.__height / 4 );
         this.app.scene.add(table);
+
+        let cakeFactory = new MyCakeFactory();
+        const cake = cakeFactory.buildCake(0.7);
+        // cake.position.set(0, table.__leg_height + table.__height + cake.__height / 2, -4);
+        cake.position.set(0, table.__height / 2 + table.__leg_height, -4)
+        // cake.position.set(0, table.__leg_height + table.__height + cake.__, -4);
+        // cake.position.set(0,0, 0);
+        this.app.scene.add(cake);
 
 
         let watchFactory = new MyWatchFactory("velvet");

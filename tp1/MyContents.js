@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { MyAxis } from "./MyAxis.js";
 import { MyTableFactory } from './objects/MyTableFactory.js';
 import { MyRoomFactory } from "./objects/MyRoomFactory.js";
-import { MyDishFactory } from "./objects/MyDish.js";
+import { MyDishFactory } from "./objects/cake/MyDishFactory.js";
 import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
 /**
  *  This class contains the contents of out application

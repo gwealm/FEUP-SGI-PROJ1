@@ -1,10 +1,12 @@
 import { cake } from "../../MyMaterials.js";
 import * as THREE from 'three';
 import { MyCandleFactory } from "./MyCandleFactory.js";
+import { MyDishFactory } from "./MyDishFactory.js";
 
 export class MyCakeFactory {
     constructor() {
         this.candleFactory = new MyCandleFactory();
+        this.dishFactory = new MyDishFactory();
     }
 
     #buildBase(scale) {
@@ -27,17 +29,27 @@ export class MyCakeFactory {
         cakeGeometry.rotateX(Math.PI / 2)
         cakeGeometry.translate(0, height / 2, 0)
 
-        return new THREE.Mesh(cakeGeometry, cake.base);
+        // return new THREE.Mesh(cakeGeometry, cake.base);
+        return Object.assign(new THREE.Mesh(cakeGeometry, cake.base), {
+            __radius: radius,
+            __height: height,
+        });
     }
 
     buildCake(scale = 1) {
         const cakeGroup = new THREE.Group();
 
-        const base = this.#buildBase(scale);
+        const dish = this.dishFactory.buildDish(scale );
+        dish.position.set(0, dish.__height / 2, 0)
+        cakeGroup.add(dish)
+
+        const base = this.#buildBase(scale + 0.1);
+        base.position.set(0, dish.__height +  (base.__height / 2), 0)
         cakeGroup.add(base);
 
         const candle = this.candleFactory.buildCandle(scale);
-        candle.position.set(0, 0.25 * scale, 0);
+        candle.position.set(0, dish.__height +  base.__height + candle.__height / 2, 0);
+        // candle.position.set(0, candle.__height / 2, 3)
         cakeGroup.add(candle);
 
         return cakeGroup;

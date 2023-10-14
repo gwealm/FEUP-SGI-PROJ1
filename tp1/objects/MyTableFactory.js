@@ -54,6 +54,7 @@ export class MyTableFactory {
                 __width: width,
                 __height: height,
                 __depth: depth,
+                __leg_height: legHeight,
             }
         );
 

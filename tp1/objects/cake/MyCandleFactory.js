@@ -32,6 +32,10 @@ export class MyCandleFactory {
         // flame.rotateX(Math.PI);
         candleGroup.add(flame);
 
+        Object.assign(candleGroup, {
+            __height: 0.3 * scale ,
+        })
+
         return candleGroup;
     }
 }
