@@ -8,12 +8,13 @@ import { MyCageFactory } from "./objects/MyCageFactory.js";
 import { MyWatchFactory } from "./objects/MyWatchFactory.js";
 import { wall, watch } from "./MyTextures.js";
 import { MyBoxFactory } from "./objects/MyBoxFactory.js";
-import { MyFrameFactory } from "./objects/MyFrame.js";
+import { MyFrameFactory } from "./objects/MyFrameFactory.js";
 import { MyBeetleFactory } from "./curves/MyBeetleFactory.js";
 import { MySpringFactory } from "./curves/MySpringFactory.js";
 import { MyTableFactory } from "./objects/MyTableFactory.js";
 import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
 import { MyNewspaperFactory } from "./nurbs/MyNewspaperFactory.js"
+import { MyFlowerFactory } from "./objects/MyFlowerFactory.js";
 // import { MyNurbsBuilder } from "./nurbs/MyNurbsBuilder.js"
 
 /**
@@ -97,7 +98,7 @@ class MyContentsTest {
 
         const cageFactory = new MyCageFactory();
         const cage = cageFactory.buildCage();
-        this.app.scene.add(cage)
+        //this.app.scene.add(cage)
     
 
         let tableFactory = new MyTableFactory("wood");
@@ -165,6 +166,13 @@ class MyContentsTest {
         newspaper.position.x -= table.__depth / 2 ;
 
         this.app.scene.add(newspaper);
+
+
+        let flowerFactory = new MyFlowerFactory();
+        let flower = flowerFactory.createFlower(1, 12);
+        flower.rotateX(Math.PI / 2);
+        flower.position.set(0, 4, 5)
+        this.app.scene.add(flower);
 
     }
 

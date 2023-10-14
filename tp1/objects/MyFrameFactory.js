@@ -59,8 +59,6 @@ export class MyFrameFactory {
             depth
         );
 
-
-
         let upBorder = new THREE.Mesh(hBox, this.outterMaterial);
         upBorder.position.set(0, height / 2 + frameHeight / 2, 0);
 
