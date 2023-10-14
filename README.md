@@ -1,10 +1,9 @@
-# SGI 2023/2024
+## Group: T04G01
 
-## Group T0xG0y
-| Name             | Number    | E-Mail             |
-| ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Name              | Number    | E-Mail            |
+| ----------------- | --------- | ----------------- |
+| André Costa Lima  | 202008169 | up202008169@up.pt |
+| Guilherme Almeida | 202006137 | up202006137@up.pt |
 
 ----
 
