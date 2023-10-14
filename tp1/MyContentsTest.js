@@ -12,6 +12,7 @@ import { MyBoxFactory } from "./objects/MyBoxFactory.js";
 import { MyFrameFactory } from "./objects/MyFrame.js";
 import { MyBeetleFactory } from "./curves/MyBeetleFactory.js";
 import { MySpringFactory } from "./curves/MySpringFactory.js";
+import { MyTableFactory } from "./objects/MyTableFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -95,18 +96,16 @@ class MyContentsTest {
         const cageFactory = new MyCageFactory();
         const cage = cageFactory.buildCage();
         this.app.scene.add(cage)
-        
-        // const windowLightFactory = new MyRectLightFactory();
-        // const windowLight = windowLightFactory.buildWindowLight(10, 5);
-        // windowLight.rotateY(Math.PI)
-        // windowLight.position.set(0, downWall.__height + windowLight.__height / 2, -floor.__height / 2);
-        // this.app.scene.add(windowLight);
-        let circularTableFactory = new MyCircularTableFactory("velvetFabric");
-        const circularTable = circularTableFactory.buildCircularTable(1, new THREE.Vector3(0, 3, 0));
-        this.app.scene.add(circularTable);
+    
+
+        let tableFactory = new MyTableFactory("wood");
+        const table = tableFactory.buildTable(4, 0.1, 2, 1.5, 0.1);
+        table.position.set(0, table.__height / 2, -4);
+        this.app.scene.add(table);
+
 
         let watchFactory = new MyWatchFactory("velvet");
-        const watch = watchFactory.buildWatch(2, new THREE.Vector3(0, -floor.__height / 2 + 0.130, -2 * downWall.__height / 3))
+        const watch = watchFactory.buildWatch(2, new THREE.Vector3(0, -floor.__height / 2 + 0.130, - downWall.__height / 2))
         // watch.position.set(-floor.__width / 2, watch.__height / 2, 0);
         // watch.rotateY(Math.PI);
         // watch.rotateZ(Math.PI / 2);
@@ -136,9 +135,6 @@ class MyContentsTest {
         beetle.rotateY(Math.PI / 2);
         canvasFrame.add(beetle);
         
-        console.log(beetle.position);
-
-        console.log("BEELTE", beetle);
         this.app.scene.add(beetle);
 
         let springFactory = new MySpringFactory();

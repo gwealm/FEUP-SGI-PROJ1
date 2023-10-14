@@ -96,27 +96,37 @@ export const frame = {
 };
 
 export const table = {
-    top: new THREE.MeshPhongMaterial({
-        color: "#7f3300",
-        specular: "#000000",
-        emissive: "#000000",
-        shininess: 90,
-    }),
-    leg: new THREE.MeshPhongMaterial({
-        color: "#808080",
-        specular: "#000000",
-        emissive: "#000000",
-        shininess: 90,
-    }),
-    velvetFabric: new THREE.MeshStandardMaterial({
-        map: textures.table.fabric.baseColor,
-        aoMap: textures.table.fabric.ambientOcclusion,
-        // displacementMap: textures.table.fabric.height,
-        // displacementScale: 0.1,
-        normalMap: textures.table.fabric.normal,
-        roughnessMap: textures.table.fabric.roughness,
-        color: "#ffffff",
-    }),
+    wood: {
+        top: new THREE.MeshStandardMaterial({
+            map: textures.box.wood.baseColor,
+            aoMap: textures.box.wood.ambientOcclusion,
+            normalMap: textures.box.wood.normal,
+            roughnessMap: textures.box.wood.roughness,
+            color: "#ffffff",
+        }),
+        leg: new THREE.MeshPhongMaterial({
+            color: "#808080",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+            metalness: 0.5,
+            
+        }),
+    },
+    regular: {
+        top: new THREE.MeshPhongMaterial({
+            color: "#7f3300",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+        }),
+        leg: new THREE.MeshPhongMaterial({
+            color: "#808080",
+            specular: "#000000",
+            emissive: "#000000",
+            shininess: 90,
+        }),
+    },
 };
 
 export const box = {
