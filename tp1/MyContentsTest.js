@@ -147,7 +147,12 @@ class MyContentsTest {
         this.app.scene.add(beetle);
 
         let springFactory = new MySpringFactory();
-        const spring = springFactory.buildSpring(4, 0.2);
+        const spring = springFactory.buildSpring(0.2, 0.1);
+        spring.rotateZ(Math.PI / 2);
+        spring.position.copy(table.position);
+        spring.position.x += table.__depth / 2 ;
+        spring.position.y += (spring.__width / 2) + table.__leg_height + table.__height / 2;
+        spring.position.z += table.__depth / 3;
 
         this.app.scene.add(spring)
     }

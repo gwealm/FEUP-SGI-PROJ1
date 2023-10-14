@@ -7,7 +7,7 @@ export class MySpringFactory {
         this.bezierCurveFactory = new MyBezierCurveFactory("basic");
     }
 
-    buildSpring(scale = 1, scaleY = 1, numLoops = 4, position = new THREE.Vector3(0, 0, 0)) {
+    buildSpring(scale = 1, scaleY = 1, numLoops = 4) {
         let spring = new THREE.Group();
         let currentGrowth = 0;
         const growthRate = scaleY / 6;
@@ -23,7 +23,6 @@ export class MySpringFactory {
             currentGrowth += growthRate * 3;
 
             const firstHalfCurve = this.bezierCurveFactory.build(firstHalfPoint, 50, false);
-            firstHalfCurve.position.set(position.x, position.y, position.z);
             spring.add(firstHalfCurve);
 
             const secondHalfPoints = [
@@ -36,12 +35,15 @@ export class MySpringFactory {
             currentGrowth += growthRate * 3;
 
             let secondHalfCurve = this.bezierCurveFactory.build(secondHalfPoints, 50, false);
-            secondHalfCurve.position.set(position.x, position.y, position.z);
 
             spring.add(secondHalfCurve);
         }
 
-        spring.position.set(position.x, position.y, position.z);
+        
+        Object.assign(spring, {
+            __height: currentGrowth,
+            __width: scale,
+        });
         
         return spring;
     }

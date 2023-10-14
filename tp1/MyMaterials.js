@@ -173,7 +173,7 @@ export const cake = {
 
 export const line = {
     basic: new THREE.LineBasicMaterial({ 
-        color: 0x00ff00 
+        color: "#5d7dc2" 
     }),
     dashed: new THREE.LineDashedMaterial({ 
         color: 0x00ff00, 
