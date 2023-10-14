@@ -5,7 +5,6 @@ import { MyFloorFactory } from "./objects/MyFloorFactory.js";
 import { MyWallFactory } from "./objects/MyWallFactory.js";
 import { MySpotlightFactory } from "./lights/MySpotlightFactory.js";
 import { MyCageFactory } from "./objects/MyCageFactory.js";
-import { MyCircularTableFactory } from "./objects/MyCircularTableFactory.js";
 import { MyWatchFactory } from "./objects/MyWatchFactory.js";
 import { wall, watch } from "./MyTextures.js";
 import { MyBoxFactory } from "./objects/MyBoxFactory.js";
@@ -14,6 +13,8 @@ import { MyBeetleFactory } from "./curves/MyBeetleFactory.js";
 import { MySpringFactory } from "./curves/MySpringFactory.js";
 import { MyTableFactory } from "./objects/MyTableFactory.js";
 import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
+import { MyNewspaperFactory } from "./nurbs/MyNewspaperFactory.js"
+// import { MyNurbsBuilder } from "./nurbs/MyNurbsBuilder.js"
 
 /**
  *  This class contains the contents of out application
@@ -155,6 +156,16 @@ class MyContentsTest {
         spring.position.z += table.__depth / 3;
 
         this.app.scene.add(spring)
+
+        let newspaperFactory = new MyNewspaperFactory('newspaper');
+        let newspaper = newspaperFactory.buildNewspaper(0.25);
+        newspaper.position.copy(table.position);
+        newspaper.position.y += newspaper.__scale * 2 + table.__leg_height ;
+        newspaper.position.z += table.__depth / 3;
+        newspaper.position.x -= table.__depth / 2 ;
+
+        this.app.scene.add(newspaper);
+
     }
 
     /**

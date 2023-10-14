@@ -1,6 +1,7 @@
 import { dish } from "../../MyMaterials.js";
 import * as THREE from "three";
 
+
 export class MyDishFactory {
     constructor(variant) {
         this.material = dish[variant];

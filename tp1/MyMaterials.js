@@ -181,3 +181,18 @@ export const line = {
         gapSize: 0.05 
     }),
 };
+
+export const nurb = {
+    periodicTable: new THREE.MeshLambertMaterial({
+        map: textures.nurb.periodicTable,
+        side: THREE.DoubleSide,
+        transparent: true, 
+        opacity: 0.90 
+    }),
+    newspaper: new THREE.MeshLambertMaterial({
+        map: textures.nurb.newspaper,
+        side: THREE.DoubleSide,
+        // transparent: true, 
+        opacity: 0.90 
+    })
+}

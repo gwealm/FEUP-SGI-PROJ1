@@ -140,3 +140,19 @@ export const box = {
     },
 };
 
+
+export const nurb = {
+    periodicTable: await loadTexture('resources/textures/nurbs/uv_grid_opengl.jpg', (texture) => {
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.anisotropy = 16;
+        texture.colorSpace = THREE.SRGBColorSpace;
+    }),
+    newspaper: await loadTexture('resources/textures/nurbs/newspaper/newspaper2.png', (texture) => {
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.anisotropy = 16;
+        texture.colorSpace = THREE.SRGBColorSpace;
+    }),
+}
+
