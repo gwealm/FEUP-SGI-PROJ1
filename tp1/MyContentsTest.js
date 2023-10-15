@@ -13,13 +13,10 @@ import { MyBeetleFactory } from "./curves/MyBeetleFactory.js";
 import { MySpringFactory } from "./curves/MySpringFactory.js";
 import { MyTableFactory } from "./objects/MyTableFactory.js";
 import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
-<<<<<<< HEAD
 import { MyNewspaperFactory } from "./nurbs/MyNewspaperFactory.js"
 import { MyFlowerFactory } from "./objects/MyFlowerFactory.js";
 // import { MyNurbsBuilder } from "./nurbs/MyNurbsBuilder.js"
-=======
 import { MyCircularWindowFactory } from "./objects/window/MyCircularWindowFactory.js";
->>>>>>> 07ed2f2 (feat: add window frame)
 
 /**
  *  This class contains the contents of out application

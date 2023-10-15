@@ -186,7 +186,7 @@ const textures = await withConcurrentTextureLoader((load) => ({
             texture.anisotropy = 16;
             texture.colorSpace = THREE.SRGBColorSpace;
         }),
-        inner: load('resources/textures/cake/inner.jpg', (texture) => {
+        inner: load('resources/textures/cake/inner_cake.jpg', (texture) => {
             texture.wrapS = THREE.MirroredRepeatWrapping;
             texture.wrapT = THREE.ClampToEdgeWrapping;
             texture.anisotropy = 16;
