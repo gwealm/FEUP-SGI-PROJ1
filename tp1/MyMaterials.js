@@ -66,7 +66,7 @@ export const frame = {
             specular: "#000000",
             emissive: "#000000",
             shininess: 90,
-            map: textures.frame.guima,
+            map: textures.frame.inner.guima,
         }),
         canvas: new THREE.MeshPhongMaterial({
             color: "#ffffff",
@@ -108,8 +108,6 @@ export const table = {
             specular: "#000000",
             emissive: "#000000",
             shininess: 90,
-            metalness: 0.5,
-            
         }),
     },
     regular: {
@@ -206,4 +204,14 @@ export const nurb = {
         // transparent: true, 
         opacity: 0.90 
     })
+};
+
+export const window = {
+    metal: {
+        frame: new THREE.MeshLambertMaterial({
+            color: "#7f7f7f",
+            // specular: "#afafaf",
+            reflectivity: 90,
+        })
+    }
 }

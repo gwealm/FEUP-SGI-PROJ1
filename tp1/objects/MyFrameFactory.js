@@ -10,12 +10,12 @@ export class MyFrameFactory {
      * @param {keyof frame} outerVariant - The variant of the outter frame material.
      * @param {keyof frame} innerVariant - The variant of the inner frame material.
      */
-    constructor(innerVariant, outterVariant) {
+    constructor(innerVariant, outerVariant) {
 
         /**
          * @type {THREE.MeshPhongMaterial}
          */
-        this.outterMaterial = frame.outter[outterVariant];
+        this.outterMaterial = frame.outter[outerVariant];
         this.innerMaterial = frame.inner[innerVariant];
     }
 
@@ -78,7 +78,6 @@ export class MyFrameFactory {
      * Build the complete frame.
      * @param {number} scaleX - Scale factor for the width.
      * @param {number} scaleY - Scale factor for the height.
-     * @returns {THREE.Group} - The complete frame group.
      */
     buildFrame(scaleX = 1, scaleY = 1, depth = 0.3) {
         const width = scaleX;

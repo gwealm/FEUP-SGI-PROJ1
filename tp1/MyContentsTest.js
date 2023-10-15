@@ -13,9 +13,13 @@ import { MyBeetleFactory } from "./curves/MyBeetleFactory.js";
 import { MySpringFactory } from "./curves/MySpringFactory.js";
 import { MyTableFactory } from "./objects/MyTableFactory.js";
 import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
+<<<<<<< HEAD
 import { MyNewspaperFactory } from "./nurbs/MyNewspaperFactory.js"
 import { MyFlowerFactory } from "./objects/MyFlowerFactory.js";
 // import { MyNurbsBuilder } from "./nurbs/MyNurbsBuilder.js"
+=======
+import { MyCircularWindowFactory } from "./objects/window/MyCircularWindowFactory.js";
+>>>>>>> 07ed2f2 (feat: add window frame)
 
 /**
  *  This class contains the contents of out application
@@ -23,7 +27,7 @@ import { MyFlowerFactory } from "./objects/MyFlowerFactory.js";
 class MyContentsTest {
     /**
        constructs the object
-       @param {MyApp} app The application object
+       @param {import("./MyApp.js").MyApp} app The application object
     */
     constructor(app) {
         this.app = app;
@@ -58,7 +62,7 @@ class MyContentsTest {
         // create once
         if (this.axis === null) {
             // create and attach the axis to the scene
-            this.axis = new MyAxis(this);
+            this.axis = new MyAxis();
             this.app.scene.add(this.axis);
         }
 
@@ -133,7 +137,7 @@ class MyContentsTest {
         const box = boxFactory.buildBox(1, 1, 1, new THREE.Vector3(4, 0.5, 0));
         this.app.scene.add(box);
 
-        let canvasFrameFactory = new MyFrameFactory("canvas", "blue");
+        let canvasFrameFactory = new MyFrameFactory("inner", "blue");
         const canvasFrame = canvasFrameFactory.buildFrame(4, 2, 0.1);
         canvasFrame.rotateY(- Math.PI / 2);
         canvasFrame.position.set(floor.__width / 2 - 0.1, rightWall.__height / 2, frame.__width, 0);
@@ -174,6 +178,8 @@ class MyContentsTest {
         flower.position.set(0, 4, 5)
         this.app.scene.add(flower);
 
+        let circularWindowFactory = new MyCircularWindowFactory("metal");
+        this.app.scene?.add(circularWindowFactory.build());
     }
 
     /**

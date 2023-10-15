@@ -7,17 +7,14 @@ import { MyApp } from './MyApp.js';
 class MyAxis extends THREE.Object3D {
 
     /**
-     * 
-     * @param {MyApp} app the application object
-     * @param {number} size the size of each axis 
-     * @param {number} baseRadius the base radius of each axis
-     * @param {number} xxColor the hexadecimal representation of the xx axis color
-     * @param {number} yyColor the hexadecimal representation of the xx axis color
-     * @param {number} zzColor the hexadecimal representation of the zz axis color
+     * @param {number=} size the size of each axis 
+     * @param {number=} baseRadius the base radius of each axis
+     * @param {number=} xxColor the hexadecimal representation of the xx axis color
+     * @param {number=} yyColor the hexadecimal representation of the xx axis color
+     * @param {number=} zzColor the hexadecimal representation of the zz axis color
      */
-    constructor(app, size, baseRadius, xxColor, yyColor, zzColor) {
+    constructor(size, baseRadius, xxColor, yyColor, zzColor) {
         super();
-        this.app = app;
         this.type = 'Group';
         this.size = size || 2;
         this.baseRadius = baseRadius || 0.05;

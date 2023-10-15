@@ -10,7 +10,7 @@ import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
 class MyContents {
     /**
        constructs the object
-       @param {MyApp} app The application object
+       @param {import('./MyApp.js').MyApp} app The application object
     */
     constructor(app) {
         this.app = app;

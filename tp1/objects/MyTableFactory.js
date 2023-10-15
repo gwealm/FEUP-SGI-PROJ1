@@ -57,7 +57,7 @@ export class MyTableFactory {
         tableGroup.add(leg4);
 
         
-        Object.assign(
+        return Object.assign(
             tableGroup, {
                 __width: width,
                 __height: height,
@@ -65,7 +65,5 @@ export class MyTableFactory {
                 __leg_height: legHeight,
             }
         );
-
-        return tableGroup;
     }
 }
