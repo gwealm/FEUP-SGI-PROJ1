@@ -15,12 +15,11 @@ export const wall = {
 };
 
 export const dish = {
-    // TODO: Fix naming and colors
-    vanilla: new THREE.MeshPhongMaterial({
-        color: "#ff0000",
-        specular: "#000000",
-        emissive: "#000000",
-        shininess: 90,
+    porcelain: new THREE.MeshPhongMaterial({
+        color: "#f2f2f2", // Light porcelain color
+        specular: "#ffffff", // White specular highlights
+        emissive: "#dddddd", // Light gray emissive glow
+        shininess: 30, // Adjust shininess for a porcelain look
     }),
 };
 
@@ -150,26 +149,38 @@ export const floor = {
 export const cake = {
     candle: {
         wick: new THREE.MeshPhongMaterial({
-            color: "#ffff88",
+            color: "#2a2a2a", // Dark wick color
             specular: "#000000",
             emissive: "#000000",
-            shininess: 90,
+            shininess: 0, // Reduce shininess for the wick
             side: THREE.DoubleSide,
         }),
         flame: new THREE.MeshPhongMaterial({
-            color: "#ff9900",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
+            color: "#ff6600", // Warm flame color
+            specular: "#ff6600", // Match the flame color for specular highlights
+            emissive: "#ff6600", // Match the flame color for emissive glow
+            shininess: 10, // Some shininess for the flame
+            transparent: true,
+            opacity: 0.8, // Make the flame slightly transparent
         }),
     },
     base: new THREE.MeshPhongMaterial({
-        color: "#ffffff",
+        color: "#ffffff", // Light brown base color
         specular: "#000000",
         emissive: "#000000",
-        shininess: 90,
+        shininess: 20, // Adjust shininess for the base
+        map: textures.cake.outter,
+    }),
+    inner: new THREE.MeshPhongMaterial({
+        color: "#ffffff", // Light brown base color
+        specular: "#000000",
+        emissive: "#000000",
+        shininess: 20, // Adjust shininess for the base
+        map: textures.cake.inner,
     }),
 };
+
+
 
 export const line = {
     basic: new THREE.LineBasicMaterial({ 

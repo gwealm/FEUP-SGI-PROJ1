@@ -140,6 +140,27 @@ export const box = {
     },
 };
 
+export const cake = {
+    outter: await loadTexture('resources/textures/cake/outer_cake.jpg', (texture) => {
+        texture.wrapS = THREE.MirroredRepeatWrapping;
+        texture.wrapT = THREE.ClampToEdgeWrapping;
+        texture.anisotropy = 16;
+        texture.colorSpace = THREE.SRGBColorSpace;
+    }),
+    inner: await loadTexture('resources/textures/cake/inner.jpg', (texture) => {
+        texture.wrapS = THREE.MirroredRepeatWrapping;
+        texture.wrapT = THREE.ClampToEdgeWrapping;
+        texture.anisotropy = 16;
+        texture.colorSpace = THREE.SRGBColorSpace;
+    }),
+    newspaper: await loadTexture('resources/textures/nurbs/newspaper/newspaper2.png', (texture) => {
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.anisotropy = 16;
+        texture.colorSpace = THREE.SRGBColorSpace;
+    }),
+}
+
 
 export const nurb = {
     periodicTable: await loadTexture('resources/textures/nurbs/uv_grid_opengl.jpg', (texture) => {
