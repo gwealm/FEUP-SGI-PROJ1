@@ -25,11 +25,15 @@ export class MyFloorFactory {
 
         box.rotateX(Math.PI / 2);
 
-        return Object.assign(
+        let mesh = Object.assign(
             new THREE.Mesh(box, this.material), {
                 __width: width,
                 __height: height,
             }
         );
+
+        mesh.receiveShadow = true;
+
+        return mesh;
     }
 }

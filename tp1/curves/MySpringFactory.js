@@ -39,7 +39,6 @@ export class MySpringFactory {
             spring.add(secondHalfCurve);
         }
 
-        
         Object.assign(spring, {
             __height: currentGrowth,
             __width: scale,

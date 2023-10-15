@@ -16,13 +16,21 @@ export class MyTableFactory {
             depth,
         );
 
-        return new THREE.Mesh(box, this.material.top);
+        let topMesh = new THREE.Mesh(box, this.material.top);
+        topMesh.castShadow = true;
+        topMesh.receiveShadow = true;
+
+        return topMesh
     }
 
     #buildLeg(height, radius) {
         let leg = new THREE.CylinderGeometry(radius, radius, height);
 
-        return new THREE.Mesh(leg, this.material.leg);
+        let legMesh = new THREE.Mesh(leg, this.material.leg);
+        legMesh.castShadow = true;
+        legMesh.receiveShadow = true;
+
+        return legMesh;
     }
 
     buildTable(width, height, depth, legHeight, legRadius) {

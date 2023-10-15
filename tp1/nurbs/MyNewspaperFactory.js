@@ -69,6 +69,7 @@ export class MyNewspaperFactory {
         mesh.rotateZ(Math.PI);
         mesh.rotateX(Math.PI / 2);
 
+        mesh.castShadow = true;
         Object.assign(mesh, {
             __scale: scale,
         })

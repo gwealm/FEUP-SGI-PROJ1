@@ -30,10 +30,15 @@ export class MyCakeFactory {
         cakeGeometry.translate(0, height / 2, 0)
 
         // return new THREE.Mesh(cakeGeometry, cake.base);
-        return Object.assign(new THREE.Mesh(cakeGeometry, cake.base), {
+        let cakeMesh = Object.assign(new THREE.Mesh(cakeGeometry, cake.base), {
             __radius: radius,
             __height: height,
         });
+
+        cakeMesh.castShadow = true;
+        cakeMesh.receiveShadow = true;
+
+        return cakeMesh;
     }
 
     buildCake(scale = 1) {
@@ -48,7 +53,7 @@ export class MyCakeFactory {
         cakeGroup.add(base);
 
         const candle = this.candleFactory.buildCandle(scale);
-        candle.position.set(0, dish.__height +  base.__height + candle.__height / 2, 0);
+        candle.position.set(-candle.__radius , dish.__height +  base.__height + candle.__height / 2, 0);
         // candle.position.set(0, candle.__height / 2, 3)
         cakeGroup.add(candle);
 

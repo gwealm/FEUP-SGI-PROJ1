@@ -16,6 +16,8 @@ export class MyBoxFactory {
         boxGeometry.translate(initialPosition.x, initialPosition.y, initialPosition.z);
 
         const box = new THREE.Mesh(boxGeometry, this.material);
+        box.castShadow = true;
+        box.receiveShadow = true;
 
         return box;
     }

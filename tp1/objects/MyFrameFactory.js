@@ -88,6 +88,7 @@ export class MyFrameFactory {
         let frameGroup = new THREE.Group();
 
         let innerFrame = this.#buildInnerFrame(width, height, borderDepth);
+        innerFrame.castShadow = true;
         frameGroup.add(innerFrame);
 
         let innerFrameBorder = innerFrame.clone();
@@ -96,8 +97,10 @@ export class MyFrameFactory {
         frameGroup.add(innerFrameBorder);
 
         let frameBorder = this.#buildFrameBorder(width, height, depth);
-        frameBorder.forEach(border => frameGroup.add(border));
-
+        frameBorder.forEach(border =>  {
+            border.castShadow = true;
+            frameGroup.add(border);
+        });
 
         return Object.assign(
             frameGroup, {

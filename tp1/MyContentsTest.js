@@ -37,6 +37,8 @@ class MyContentsTest {
         // add a point light on top of the model
         const pointLight = new THREE.PointLight(0xffffff, 500, 0);
         pointLight.position.set(x, y, z);
+        pointLight.castShadow = true;
+
         this.app.scene.add(pointLight);
 
         const sphereSize = 0.5;
@@ -103,15 +105,13 @@ class MyContentsTest {
 
         let tableFactory = new MyTableFactory("wood");
         const table = tableFactory.buildTable(4, 0.1, 3, 1.5, 0.1);
-        table.position.set(0, table.__height / 2, - 1 * floor.__height / 4 );
+        table.position.set(0, table.__height / 2, - 1 * floor.__height / 5 );
         this.app.scene.add(table);
 
         let cakeFactory = new MyCakeFactory();
         const cake = cakeFactory.buildCake(0.7);
-        // cake.position.set(0, table.__leg_height + table.__height + cake.__height / 2, -4);
-        cake.position.set(0, table.__height / 2 + table.__leg_height, -4)
-        // cake.position.set(0, table.__leg_height + table.__height + cake.__, -4);
-        // cake.position.set(0,0, 0);
+        cake.position.copy(table.position);
+        cake.position.y = table.__leg_height + table.__height / 2;
         this.app.scene.add(cake);
 
 

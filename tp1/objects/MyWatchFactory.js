@@ -20,7 +20,8 @@ export class MyWatchFactory {
         watchGeometry.translate(initialPosition.x, initialPosition.y, initialPosition.z);
 
         const watch = new THREE.Mesh(watchGeometry, this.material);
-
+        watch.castShadow = true;
+        
         return watch;
     }
 }

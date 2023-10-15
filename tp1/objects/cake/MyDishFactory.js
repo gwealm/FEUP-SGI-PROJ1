@@ -28,11 +28,15 @@ export class MyDishFactory {
             heightSegments
         );
 
-        return Object.assign(new THREE.Mesh(cylinder, this.material), {
+        let dishMesh = Object.assign(new THREE.Mesh(cylinder, this.material), {
             __radius_top: radiusTop,
             __radius_bottom: radiusBottom,
             __height: height,
         });
 
+        dishMesh.castShadow = true;
+        dishMesh.receiveShadow = true;
+
+        return dishMesh;
     }
 }

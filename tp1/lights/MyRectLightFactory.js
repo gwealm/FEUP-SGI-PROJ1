@@ -13,6 +13,8 @@ export class MyRectLightFactory {
             height
         )
 
+        light.castShadow = true;
+
         const helper = new RectAreaLightHelper(light);
         light.add(helper);
 

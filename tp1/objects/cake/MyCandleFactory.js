@@ -10,7 +10,10 @@ export class MyCandleFactory {
         const height = 0.3 * scale;
 
         const cylinder = new THREE.CylinderGeometry(radius, radius, height);
-        return new THREE.Mesh(cylinder, cake.candle.wick);
+        let wickMesh = new THREE.Mesh(cylinder, cake.candle.wick);
+
+
+        return wickMesh;
     }
 
     #buildFlame(scale) {
@@ -18,7 +21,11 @@ export class MyCandleFactory {
         const height = 0.2 * scale;
 
         const cone = new THREE.ConeGeometry(radius, height);
-        return new THREE.Mesh(cone, cake.candle.flame);
+        let flameMesh = new THREE.Mesh(cone, cake.candle.flame);
+
+        flameMesh.castShadow = true;
+
+        return flameMesh
     }
 
     buildCandle(scale = 1) {
@@ -34,7 +41,9 @@ export class MyCandleFactory {
 
         Object.assign(candleGroup, {
             __height: 0.3 * scale ,
+            __radius: 0.025 * scale
         })
+
 
         return candleGroup;
     }
