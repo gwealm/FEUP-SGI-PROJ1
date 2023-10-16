@@ -32,6 +32,14 @@ This curated scene invites viewers to immerse themselves in its atmosphere, wher
 
 - Some of the code is not documented yet
 
+## Screenshots
+
+### Front/Side View
+![Side View](./resources/scene1.png)
+
+### Back View
+![Front View](./resources/scene2.png)
+
 
 ## Attributions
 
