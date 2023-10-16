@@ -10,51 +10,46 @@ export class MyNewspaperFactory {
         this.samplesV = 24;
     }
 
-    /**
-
-     * removes (if existing) and recreates the nurbs surfaces
-
-     */
-
-    buildNewspaper(scale = 1) {
+    #buildPage(scaleX, scaleY, scaleZ) {
         // declare local variables
 
-        let controlPoints;
         let surfaceData;
         let mesh;
         let orderU = 3;
         let orderV = 1;
-        let radius = scale;
 
-        // Build NURBS surface for a rolled newspaper
-        controlPoints = [
-            // U = 0
-            [
-                // V = ​​0..1;
-                [-scale,  (4/3) * scale, -2*scale, 1.0],
-                [-scale,  -(4/3) * scale, -2*scale, 1.0]
-            ],
+        const newspaperWidth = scaleX
+        const newspaperHeight = scaleY * Math.sqrt(2);
+        const newspaperDepth = 0.2 * scaleZ;
 
-            // U = 1
+        const controlPoints = [
             [
-                // V = ​​0..1
-                [-scale, (4/3) * scale, 0.0, 1.0],
-                [-scale, -(4/3) * scale, 0.0, 1.0]
+                [-0.5 * newspaperWidth, - 0.5 * newspaperHeight, 0],
+                [-0.5 * newspaperWidth, 0.5 * newspaperHeight, 0],
             ],
-
-            // U = 2
             [
-                // V = ​​0..1
-                [scale, (4/3) * scale, 0.0, 1.0],
-                [scale, -(4/3) * scale, 0.0, 1.0]
+                [-0.1 * newspaperWidth, - 0.5 * newspaperHeight, newspaperDepth],
+                [-0.1 * newspaperWidth, 0.5 * newspaperHeight, newspaperDepth],
             ],
-            // U = 3
             [
-                // V = 0..1
-                [scale, (4/3) * scale, -2*scale, 1.0],
-                [scale, -(4/3) * scale, -2*scale, 1.0]
+                [0.1 * newspaperWidth, - 0.5 * newspaperHeight, 0],
+                [0.1 * newspaperWidth, 0.5 * newspaperHeight, 0],
+            ],
+            [
+                [0.5 * newspaperWidth, -0.5 * newspaperHeight, 0],
+                [0.5 * newspaperWidth, 0.5 * newspaperHeight, 0],
             ]
-        ];
+        ]
+
+        if (scaleX < 0) {
+            controlPoints.reverse();
+        }
+
+        if (scaleY < 0) {
+            controlPoints.forEach(row => {
+                row.reverse();
+            })
+        }
 
         surfaceData = this.builder.build(
             controlPoints,
@@ -66,14 +61,42 @@ export class MyNewspaperFactory {
         );
 
         mesh = new THREE.Mesh(surfaceData, this.material);
-        mesh.rotateZ(Math.PI);
-        mesh.rotateX(Math.PI / 2);
+        
+        // mesh.rotateZ(Math.PI);
+        // mesh.rotateX(Math.PI / 2);
 
         mesh.castShadow = true;
-        Object.assign(mesh, {
-            __scale: scale,
+        return Object.assign(mesh, {
+            __width: newspaperWidth,
+            __height: newspaperHeight,
+            __depth: newspaperDepth,
         })
+    }
 
-        return mesh;
+    /**
+
+     * removes (if existing) and recreates the nurbs surfaces
+
+     */
+
+    buildNewspaper(scaleX = 1, scaleY = 1, scaleZ = 1) {
+        const group = new THREE.Group();
+
+        const leftPage = this.#buildPage(-scaleX, scaleY, scaleZ)
+        leftPage.position.x += leftPage.__width / 2;
+        group.add(leftPage);
+
+        const rightPage = this.#buildPage(scaleX, scaleY, scaleZ)
+        rightPage.position.x += rightPage.__width / 2;
+        group.add(rightPage);
+
+        return Object.assign(
+            group, {
+                __width: leftPage.__width + rightPage.__width,
+                __height: leftPage.__height + rightPage.__height,
+                __depth: leftPage.__depth + rightPage.__depth,
+            }
+        );
+        
     }
 }

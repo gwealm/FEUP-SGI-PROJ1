@@ -65,7 +65,7 @@ class MyContentsTest {
 
         const degreesToRadians = Math.PI / 180;
         
-        // this.addPointLight(0, 10, 0);
+        this.addPointLight(0, 10, 0);
         // this.addPointLight(0, -10, 0);
 
         // add an ambient light
@@ -89,6 +89,7 @@ class MyContentsTest {
         this.app.scene.add(rightWall);
 
         const backWall = wallFactory.buildWall(floor.__width, 10);
+        backWall.receiveShadow = true;
         backWall.position.set(0, backWall.__height / 2, -floor.__height / 2);
         this.app.scene.add(backWall);
 
@@ -104,9 +105,9 @@ class MyContentsTest {
 
         // this.app.scene.add(directionalLight);
 
-        const cageFactory = new MyCageFactory();
-        const cage = cageFactory.buildCage(floor.__width, frontWall.__height);
-        this.app.scene.add(cage)
+        // const cageFactory = new MyCageFactory();
+        // const cage = cageFactory.buildCage(floor.__width, frontWall.__height);
+        // this.app.scene.add(cage)
     
 
         let tableFactory = new MyTableFactory("wood");
@@ -165,11 +166,11 @@ class MyContentsTest {
         this.app.scene.add(spring)
 
         let newspaperFactory = new MyNewspaperFactory('newspaper');
-        let newspaper = newspaperFactory.buildNewspaper(0.25);
-        newspaper.position.copy(table.position);
-        newspaper.position.y += newspaper.__scale * 2 + table.__leg_height ;
-        newspaper.position.z += table.__depth / 3;
-        newspaper.position.x -= table.__depth / 2 ;
+        let newspaper = newspaperFactory.buildNewspaper();
+        // newspaper.position.copy(table.position);
+        newspaper.position.y += newspaper.__depth * 2 + table.__leg_height ;
+        // newspaper.position.z += table.__depth / 3;
+        // newspaper.position.x -= table.__depth / 2 ;
 
         this.app.scene.add(newspaper);
 
@@ -186,6 +187,7 @@ class MyContentsTest {
         circularWindow.position.set(0, circularWindow.__radius + 2.5, floor.__height / 2);
         circularWindow.rotateY(Math.PI);
         this.app.scene?.add(circularWindow);
+
     }
 
     /**
