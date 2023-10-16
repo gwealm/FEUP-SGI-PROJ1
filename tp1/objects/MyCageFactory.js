@@ -64,10 +64,39 @@ export class MyCageFactory {
         return shape;
     }
 
-    // #buildCageChain()
+    #buildCageSquare(scaleX, scaleY) {
+        const geometry = new THREE.ExtrudeGeometry(
+            this.cageShape, {
+                depth: 0.05,
+               bevelEnabled: false,
+            }
+        );
+
+        const mesh = new THREE.Mesh(geometry, cake.candle.wick);
+        return mesh;
+    }
+
+    #buildCageChain(width, height) {
+        const cageChain = new THREE.Group();
+
+        const cage = this.buildCage();
+
+        for (let i = 0; i < numX; i++) {
+            for (let j = 0; j < numY; j++) {
+                const cageClone = cage.clone();
+                cageClone.position.set(
+                    i * cage.__width,
+                    0,
+                    j * cage.__width
+                );
+                cageChain.add(cageClone);
+            }
+        }
+
+        return cageChain;
+    }
 
     buildCage(scaleX = 1, scaleY = 1) {
-
         const shape = this.cageShape;
         
         const geometry = new THREE.ExtrudeGeometry(shape, {
@@ -76,8 +105,25 @@ export class MyCageFactory {
             bevelThickness: 0,
         });
 
-        geometry.castShadow = true;
-        
-        return new THREE.Mesh(geometry, cake.candle.wick);
+        const mesh = new THREE.Mesh(geometry, cake.candle.wick);
+        const group = new THREE.Group();
+
+        for (let x = 0; x < scaleX; x++) {
+            for (let y = 0; y < scaleY; y++) {
+                const meshClone = mesh.clone();
+                meshClone.position.set(
+                    x,
+                    y,
+                    0,
+                );
+                group.add(meshClone);
+            }
+        }
+
+        group.castShadow = true;
+
+        return Object.assign(
+            group,
+        );
     }
 }

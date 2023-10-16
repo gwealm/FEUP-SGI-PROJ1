@@ -65,11 +65,11 @@ class MyContentsTest {
 
         const degreesToRadians = Math.PI / 180;
         
-        this.addPointLight(0, 10, 0);
+        // this.addPointLight(0, 10, 0);
         // this.addPointLight(0, -10, 0);
 
         // add an ambient light
-        const ambientLight = new THREE.AmbientLight(0x555555);
+        const ambientLight = new THREE.AmbientLight(0x111111);
         this.app.scene.add(ambientLight);
 
         let floorFactory = new MyFloorFactory("carpet");
@@ -88,20 +88,25 @@ class MyContentsTest {
         rightWall.rotateY(-90 * degreesToRadians);
         this.app.scene.add(rightWall);
 
-        const downWall = wallFactory.buildWall(10, 10);
-        downWall.position.set(0, downWall.__height / 2, -floor.__height / 2);
-        this.app.scene.add(downWall);
+        const backWall = wallFactory.buildWall(floor.__width, 10);
+        backWall.position.set(0, backWall.__height / 2, -floor.__height / 2);
+        this.app.scene.add(backWall);
 
-        const directionalLightFactory = new MySpotlightFactory();
-        const directionalLight = directionalLightFactory.buildSpotlight({ intensity: 5, angle: 15 * degreesToRadians });
-        directionalLight.position.set(0, downWall.__height, -floor.__height / 2);
-        directionalLight.target = floor;
+        const frontWall = wallFactory.buildWall(floor.__width, 10);
+        frontWall.rotateY(180 * degreesToRadians);
+        frontWall.position.set(0, backWall.__height / 2, floor.__height / 2);
+        this.app.scene.add(frontWall);
 
-        this.app.scene.add(directionalLight);
+        // const directionalLightFactory = new MySpotlightFactory();
+        // const directionalLight = directionalLightFactory.buildSpotlight({ intensity: 5, angle: 15 * degreesToRadians });
+        // directionalLight.position.set(0, downWall.__height, -floor.__height / 2);
+        // directionalLight.target = floor;
+
+        // this.app.scene.add(directionalLight);
 
         const cageFactory = new MyCageFactory();
-        const cage = cageFactory.buildCage();
-        //this.app.scene.add(cage)
+        const cage = cageFactory.buildCage(floor.__width, frontWall.__height);
+        this.app.scene.add(cage)
     
 
         let tableFactory = new MyTableFactory("wood");
@@ -117,7 +122,7 @@ class MyContentsTest {
 
 
         let watchFactory = new MyWatchFactory("velvet");
-        const watch = watchFactory.buildWatch(2, new THREE.Vector3(0, -floor.__height / 2 + 0.130, - downWall.__height / 2))
+        const watch = watchFactory.buildWatch(2, new THREE.Vector3(0, -floor.__height / 2 + 0.130, - backWall.__height / 2))
         // watch.position.set(-floor.__width / 2, watch.__height / 2, 0);
         // watch.rotateY(Math.PI);
         // watch.rotateZ(Math.PI / 2);
@@ -176,7 +181,11 @@ class MyContentsTest {
         this.app.scene.add(flower);
 
         let circularWindowFactory = new MyCircularWindowFactory("metal");
-        this.app.scene?.add(circularWindowFactory.build());
+        // const moonAngle = cake.position.sub(c)
+        const circularWindow = circularWindowFactory.build(2, 2, 1, Math.PI / 12, 0.01);
+        circularWindow.position.set(0, circularWindow.__radius + 2.5, floor.__height / 2);
+        circularWindow.rotateY(Math.PI);
+        this.app.scene?.add(circularWindow);
     }
 
     /**

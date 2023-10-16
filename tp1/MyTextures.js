@@ -212,6 +212,13 @@ const textures = await withConcurrentTextureLoader((load) => ({
             texture.anisotropy = 16;
             texture.colorSpace = THREE.SRGBColorSpace;
         }),
+    },
+    window: {
+        landscape: load('resources/textures/window/landscape.jpg', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(1, 1);
+        }),
     }
 }));
 
@@ -224,4 +231,5 @@ export const {
     watch,
     cake,
     nurb,
+    window,
 } = textures;

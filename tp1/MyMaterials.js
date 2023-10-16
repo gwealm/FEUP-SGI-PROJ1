@@ -3,14 +3,14 @@ import * as textures from "./MyTextures.js";
 
 export const wall = {
     velvet: new THREE.MeshPhongMaterial({
-        color: "#494a99",
+        // color: "#494a99"
+        color: "#ffffff",
         specular: "#000000",
         emissive: "#000000",
         map: textures.wall.velvet,
         bumpMap: textures.wall.bump.velvet,
-        displacementMap: textures.wall.bump.velvet,
-        displacementScale: 0.1,
-        side: THREE.DoubleSide,
+        // displacementMap: textures.wall.bump.velvet,
+        // displacementScale: 0.1,
     }),
 };
 
@@ -208,10 +208,15 @@ export const nurb = {
 
 export const window = {
     metal: {
-        frame: new THREE.MeshLambertMaterial({
+        frame: new THREE.MeshPhongMaterial({
             color: "#7f7f7f",
             // specular: "#afafaf",
             reflectivity: 90,
-        })
+        }),
+        glass: new THREE.MeshPhongMaterial({
+            color: "#ffffff",
+            specular: "#000000",
+            map: textures.window.landscape,
+        }),
     }
 }

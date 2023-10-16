@@ -2,8 +2,8 @@ import * as THREE from 'three';
 
 
 export class MySpotlightFactory {
-    buildSpotlight({ intensity, angle, distance = 0, penumbra = 1, decay = 0 }) {
-        const light = new THREE.SpotLight(0xffffff, intensity, distance, angle, penumbra, decay);
+    buildSpotlight({ color = 0xffffff, intensity, angle, distance = 0, penumbra = 1, decay = 0 }) {
+        const light = new THREE.SpotLight(color, intensity, distance, angle, penumbra, decay);
         light.castShadow = true;
         light.shadow.mapSize.width = 4096;
         light.shadow.mapSize.height = 4096;
@@ -15,10 +15,20 @@ export class MySpotlightFactory {
         light.shadow.camera.top = 15;
 
         const helper = new THREE.SpotLightHelper(light);
-        light.addEventListener('added', () => {
-            light.parent.add(helper);
-            helper.update()
-        });
+
+        const onAdd = (/** @type {THREE.Event<"added", THREE.Object3D>} */ ev) => {
+            if (ev.target.parent) {
+                helper.removeFromParent();
+                ev.target.parent.add(helper);
+                ev.target.parent.addEventListener("added", onAdd);
+            }
+
+            helper.update();
+
+            ev.target.removeEventListener("added", onAdd);
+        }
+
+        light.addEventListener('added', onAdd);
 
         return Object.assign(
             light, {
