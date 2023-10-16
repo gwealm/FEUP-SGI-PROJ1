@@ -17,7 +17,6 @@ export const dish = {
     porcelain: new THREE.MeshPhongMaterial({
         color: "#f2f2f2", // Light porcelain color
         specular: "#ffffff", // White specular highlights
-        emissive: "#dddddd", // Light gray emissive glow
         shininess: 30, // Adjust shininess for a porcelain look
     }),
 };
