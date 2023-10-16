@@ -32,3 +32,5 @@
 - Quilted Velvet Texture: <a href="https://www.freepik.com/free-vector/springy-white-background_838161.htm#query=quilted%20velvet%20texture&position=0&from_view=search&track=ais">Image by Layerace</a> on Freepik
 
 - Landscape Texture: https://www.wallpaperflare.com/rocky-mountain-at-night-wallpaper-landscape-mountains-nature-wallpaper-254065 https://wallhere.com/en/wallpaper/1103588
+
+- Table texture: <a href="https://www.freepik.com/free-photo/wooden-textured-background_2768392.htm#query=wood%20table%20texture&position=3&from_view=keyword&track=ais">Image by rawpixel.com</a> on Freepik

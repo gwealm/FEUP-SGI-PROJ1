@@ -19,6 +19,7 @@ import { MyCircularWindowFactory } from "./objects/window/MyCircularWindowFactor
 import { MyRectangularFrameFactory } from "./objects/painting/frame/MyRectangularFrameFactory.js";
 import { MyPaintingFactory } from "./objects/painting/MyPaintingFactory.js";
 import * as materials from "./MyMaterials.js"
+import { MyCandleFactory } from "./objects/cake/MyCandleFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -34,11 +35,14 @@ class MyContentsTest {
         // axis related attributes
         this.axis = null;
         this.displayAxis = false;
+
+        this.displayHelpers = true;
+
     }
 
     addPointLight(x, y, z) {
         // add a point light on top of the model
-        const pointLight = new THREE.PointLight(0xffffff, 500, 0);
+        const pointLight = new THREE.PointLight(0xffffff, 20, 0);
         pointLight.position.set(x, y, z);
         pointLight.castShadow = true;
 
@@ -50,6 +54,13 @@ class MyContentsTest {
             sphereSize
         );
         this.app.scene.add(pointLightHelper);
+    }
+
+    updateHelpers() {
+        this.app.scene?.dispatchEvent({
+            type: "custom:updateHelpers",
+            displayHelpers: this.displayHelpers,
+        })
     }
 
     /**
@@ -71,11 +82,12 @@ class MyContentsTest {
         // this.addPointLight(0, -10, 0);
 
         // add an ambient light
-        const ambientLight = new THREE.AmbientLight(0x111111);
+        const ambientLight = new THREE.AmbientLight(0x333333);
         this.app.scene.add(ambientLight);
 
         let floorFactory = new MyFloorFactory("carpet");
         let floor = floorFactory.buildFloor(10, 15);
+        floor.rotateX(Math.PI);
         this.app.scene.add(floor);
 
         let wallFactory = new MyWallFactory("velvet");
@@ -105,18 +117,9 @@ class MyContentsTest {
         roof.position.set(0, frontWall.__height, 0);
         this.app.scene.add(roof);
 
-
-        // const directionalLightFactory = new MySpotlightFactory();
-        // const directionalLight = directionalLightFactory.buildSpotlight({ intensity: 5, angle: 15 * degreesToRadians });
-        // directionalLight.position.set(0, downWall.__height, -floor.__height / 2);
-        // directionalLight.target = floor;
-
-        // this.app.scene.add(directionalLight);
-
         // const cageFactory = new MyCageFactory();
         // const cage = cageFactory.buildCage(floor.__width, frontWall.__height);
         // this.app.scene.add(cage)
-    
 
         let tableFactory = new MyTableFactory("wood");
         const table = tableFactory.buildTable(4, 0.1, 3, 1.5, 0.1);
@@ -129,7 +132,6 @@ class MyContentsTest {
         cake.position.y = table.__leg_height + table.__height / 2;
         this.app.scene.add(cake);
 
-
         let watchFactory = new MyWatchFactory("velvet");
         const watch = watchFactory.buildWatch(2, new THREE.Vector3(0, -floor.__height / 2 + 0.130, - backWall.__height / 2))
         // watch.position.set(-floor.__width / 2, watch.__height / 2, 0);
@@ -138,31 +140,46 @@ class MyContentsTest {
         watch.rotateX(Math.PI / 2);
         this.app.scene.add(watch);
 
-        let frameFactory = new MyFrameFactory("gui", "blue");
-        const frame = frameFactory.buildFrame(2, 2, 0.1);
-        frame.rotateY(- Math.PI / 2);
-        frame.position.set(floor.__width / 2 - 0.1, rightWall.__height / 2, - floor.__height / 5)
-        this.app.scene.add(frame);
+        const rectangularFrameFactory = new MyRectangularFrameFactory("wood");
+        const studentsFrame = rectangularFrameFactory.build(2, 2);
+
+        const paintingFactory = new MyPaintingFactory();
+        const painting = paintingFactory.build(studentsFrame, materials.frame.inner.gui);
+        
+        painting.rotateY(- Math.PI / 2);
+        painting.position.set(floor.__width / 2 - 0.1, rightWall.__height / 2, - floor.__height / 5)
+        this.app.scene.add(painting);
 
         let boxFactory = new MyBoxFactory("wood");
-        const box = boxFactory.buildBox(1, 1, 1, new THREE.Vector3(0, 0.5, 0));
-        box.position.set(floor.__width / 2 - box.__width / 2 - 0.3, 0, - floor.__height / 2 + box.__width / 2)
-        // box.position.z -= floor.__height / 2 - box.__height / 2;
+        const boxPosition = new THREE.Vector3(4, 0.5, 0);
+        const box = boxFactory.buildBox(1, 1, 1, boxPosition);
         this.app.scene.add(box);
 
-        let canvasFrameFactory = new MyFrameFactory("inner", "blue");
-        const canvasFrame = canvasFrameFactory.buildFrame(4, 2, 0.1);
-        canvasFrame.rotateY(- Math.PI / 2);
-        canvasFrame.position.set(floor.__width / 2 - 0.1, rightWall.__height / 2, frame.__width, 0);
-        this.app.scene.add(canvasFrame);
+        const candleFactory = new MyCandleFactory();
+        const candle = candleFactory.buildCandle();
+        candle.position.copy(boxPosition);
+        candle.position.y += 0.6;
+        this.app.scene?.add(candle);
+
+        // let canvasFrameFactory = new MyFrameFactory("inner", "blue");
+        // const canvasFrame = canvasFrameFactory.buildFrame(4, 2, 0.1);
+        // canvasFrame.rotateY(- Math.PI / 2);
+        // canvasFrame.position.set(floor.__width / 2 - 0.1, rightWall.__height / 2, frame.__width, 0);
+        // this.app.scene.add(canvasFrame);
+
+
+        const beetleFrame = rectangularFrameFactory.build(4, 3);
+        const beetlePainting = paintingFactory.build(beetleFrame, materials.basic.white);
+        beetlePainting.rotateY(- Math.PI / 2);
+        beetlePainting.position.set(floor.__width / 2 - 0.1, rightWall.__height / 2, beetlePainting.__width);
+        this.app.scene.add(beetlePainting);
 
 
         let beetleFactory = new MyBeetleFactory();
         let beetle = beetleFactory.buildBeetle(1.5);
-        beetle.position.set(floor.__width / 2 - 0.1 - frame.__depth, rightWall.__height / 2 - frame.__width / 3, frame.__width, 0);
+        beetle.position.set(floor.__width / 2 - 0.1 - beetlePainting.__depth, rightWall.__height / 2 - 0.6, beetlePainting.__width);
         beetle.rotateY(Math.PI / 2);
-        canvasFrame.add(beetle);
-        
+
         this.app.scene.add(beetle);
 
         let springFactory = new MySpringFactory();
@@ -176,11 +193,12 @@ class MyContentsTest {
         this.app.scene.add(spring)
 
         let newspaperFactory = new MyNewspaperFactory('newspaper');
-        let newspaper = newspaperFactory.buildNewspaper();
-        // newspaper.position.copy(table.position);
-        newspaper.position.y += newspaper.__depth * 2 + table.__leg_height ;
-        // newspaper.position.z += table.__depth / 3;
-        // newspaper.position.x -= table.__depth / 2 ;
+        let newspaper = newspaperFactory.buildNewspaper(0.5, 0.5, 0.5);
+        newspaper.rotateX(-Math.PI / 2);
+        newspaper.position.copy(table.position);
+        newspaper.position.y += table.__leg_height ;
+        newspaper.position.z += table.__depth / 3;
+        newspaper.position.x -= table.__depth / 2 ;
 
         this.app.scene.add(newspaper);
 
@@ -193,21 +211,20 @@ class MyContentsTest {
 
         const flowerPotFactory = new MyFlowerPotFactory();
         const flowerPot = flowerPotFactory.build(1);
-        flowerPot.position.set(floor.__width / 2 - flowerPot.__depth / 2 - 0.3, flowerPot.__height / 2 + box.__height, -floor.__height / 2 + flowerPot.__depth / 2);
+        flowerPot.position.set(floor.__width / 2 - flowerPot.__depth / 2 - 0.3, flowerPot.__height / 2, -floor.__height / 2 + flowerPot.__depth / 2);
         this.app.scene?.add(flowerPot);
 
         let flowerFactory = new MyFlowerFactory();
         let flower = flowerFactory.createFlower(1, 12);
         flower.rotateX(Math.PI / 2);
-        flower.position.set(0, 4, 5)
+        flower.position.set(0, 0, 5)
         this.app.scene.add(flower);
 
         flower.position.copy(flowerPot.position);
 
-        const rectangularFrameFactory = new MyRectangularFrameFactory();
-        const rectangularFrame = rectangularFrameFactory.build(1, 1, 1, 1)
-        this.app.scene?.add(rectangularFrame);
-        
+        // const stemFactory = new MyStemFactory();
+        // const stem = stemFactory.buildStem();
+        // this.app.scene?.add(stem);
     }
 
     /**

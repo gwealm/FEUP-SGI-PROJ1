@@ -57,6 +57,8 @@ export class MyCakeFactory {
         // candle.position.set(0, candle.__height / 2, 3)
         cakeGroup.add(candle);
 
+        cakeGroup.castShadow = true;
+
         return cakeGroup;
     }
 }

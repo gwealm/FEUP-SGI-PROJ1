@@ -31,7 +31,7 @@ export class MyCircularFrameFactory {
         
         outerFrame.holes.push(innerFrame);
         
-        const depth = 0.1 * scaleZ;
+        const depth = 0.05 * scaleZ;
         const frame = new THREE.ExtrudeGeometry(outerFrame, {
             depth,
             bevelSegments: 12,

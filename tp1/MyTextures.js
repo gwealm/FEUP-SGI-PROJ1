@@ -128,33 +128,9 @@ const textures = await withConcurrentTextureLoader((load) => ({
         }
     },
     table: {
-        fabric: {
-            baseColor: load('resources/textures/table/fabric/baseColor.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-                texture.offset.set(0.5, 0.5);
-                texture.repeat.set(2, 2);
-            }),
-            roughness: load('resources/textures/table/fabric/roughness.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-                texture.offset.set(0.5, 0.5);
-                texture.repeat.set(2, 2);
-            }),
-            ambientOcclusion: load('resources/textures/table/fabric/ambientOcclusion.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-                texture.offset.set(0.5, 0.5);
-                texture.repeat.set(2, 2);
-            }),
-            height: load('resources/textures/table/fabric/height.png', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-                texture.offset.set(0.5, 0.5);
-                texture.repeat.set(2, 2);
-            }),
-            normal: load('resources/textures/table/fabric/normal.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-                texture.offset.set(0.5, 0.5);
-                texture.repeat.set(2, 2);
-            }),
-        }
+        wood: load('resources/textures/table/wood.jpg', (texture) => {
+            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+        })
     },
     box: {
         wood: {

@@ -19,6 +19,8 @@ class MyContents {
         this.axis = null;
         this.displayAxis = false;
 
+        this.displayHelpers = true;
+
         // box related attributes
         this.boxMesh = null;
         this.boxMeshSize = 1.0;
@@ -26,6 +28,7 @@ class MyContents {
         this.lastBoxEnabled = null;
         this.boxDisplacement = new THREE.Vector3(0, 2, 0);
     }
+
 
     /**
      * displays the cylinder

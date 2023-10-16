@@ -2,10 +2,9 @@ import * as THREE from "three";
 import * as textures from "./MyTextures.js";
 
 export const wall = {
-    velvet: new THREE.MeshPhongMaterial({
+    velvet: new THREE.MeshStandardMaterial({
         color: "#494a99",
         // color: "#ffffff",
-        specular: "#000000",
         emissive: "#000000",
         map: textures.wall.velvet,
         bumpMap: textures.wall.bump.velvet,
@@ -97,10 +96,7 @@ export const frame = {
 export const table = {
     wood: {
         top: new THREE.MeshStandardMaterial({
-            map: textures.box.wood.baseColor,
-            aoMap: textures.box.wood.ambientOcclusion,
-            normalMap: textures.box.wood.normal,
-            roughnessMap: textures.box.wood.roughness,
+            map: textures.table.wood,
             color: "#ffffff",
         }),
         leg: new THREE.MeshPhongMaterial({
@@ -139,7 +135,6 @@ export const box = {
 export const floor = {
     carpet: new THREE.MeshStandardMaterial({
         color: "#5d7dc2",
-        side: THREE.DoubleSide,
         map: textures.floor.carpet,
     }),
 };
@@ -241,7 +236,14 @@ export const flower = {
             side: THREE.DoubleSide,
         }),
     stem: new THREE.MeshBasicMaterial({
-      color: "#003300",
-      wireframe: false,
+        color: "#003300",
+        wireframe: false,
+        map: textures.flower.leaf,
+    }),
+}
+
+export const basic = {
+    white: new THREE.MeshPhongMaterial({
+        color: "#ffffff",
     })
 }

@@ -34,8 +34,8 @@ export class MyTableFactory {
     }
 
     buildTable(width, height, depth, legHeight, legRadius) {
-        let top = this.#buildTop(width, height, depth);
         let tableGroup = new THREE.Group();
+        let top = this.#buildTop(width, height, depth);
         top.position.set(0, -height / 2 + legHeight, 0);
         tableGroup.add(top);
 
@@ -55,6 +55,9 @@ export class MyTableFactory {
         const leg4 = this.#buildLeg(legHeight, legRadius);
         leg4.position.set(width / 2 - legRadius, -height / 2 + legHeight / 2, depth / 2 - legRadius);
         tableGroup.add(leg4);
+
+        tableGroup.receiveShadow = true;
+        tableGroup.castShadow = true;
 
         
         return Object.assign(

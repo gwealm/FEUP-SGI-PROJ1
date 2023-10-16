@@ -70,11 +70,18 @@ export class MyCircularWindowFactory {
         group.add(frame);
         
         const lightSourcePosition = this.#calculateSpotlightPosition(frame.__innerRadius, frame.__depth, moonAngle, lightAmplitude);
+        const distance = lightSourcePosition.sub(frame.position).length();
         const lightSource = this.spotlightFactory.buildSpotlight({
             angle: lightAmplitude / 2,
-            distance: 0,
+            distance: distance + 99,
             intensity: 5,
-            color: 0xafafff
+            color: 0xafafff,
+            castShadows: true,
+            shadowsOptions: {
+                near: distance - 1,
+                far: distance + 99,
+                fov: lightAmplitude,
+            }
         });
 
         lightSource.position.copy(lightSourcePosition);

@@ -21,8 +21,11 @@ export class MyWallFactory {
             512
         );
 
+        const boxMesh = new THREE.Mesh(box, this.material);
+        boxMesh.receiveShadow = true;
+
         return Object.assign(
-            new THREE.Mesh(box, this.material), {
+            boxMesh, {
                 __width: width,
                 __height: height,
             }

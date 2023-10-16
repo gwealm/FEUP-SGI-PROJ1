@@ -1,8 +1,10 @@
 import { cake } from "../../MyMaterials.js";
 import * as THREE from 'three';
+import { MyPointLightFactory } from "../../lights/MyPointLightFactory.js";
 
 export class MyCandleFactory {
     constructor() {
+        this.pointLightFactory = new MyPointLightFactory();
     }
 
     #buildWick(scale) {
@@ -21,11 +23,18 @@ export class MyCandleFactory {
         const height = 0.2 * scale;
 
         const cone = new THREE.ConeGeometry(radius, height);
-        let flameMesh = new THREE.Mesh(cone, cake.candle.flame);
+        const coneMesh = new THREE.Mesh(cone, cake.candle.flame);
 
-        flameMesh.castShadow = true;
+        const light = this.pointLightFactory.build({
+            //orange flame color
+            color: "#ff8f3f",
+            intensity: 0.25,
+            decay: 2,
+            castShadow: true,
+        });
 
-        return flameMesh
+        coneMesh.add(light);
+        return coneMesh;
     }
 
     buildCandle(scale = 1) {

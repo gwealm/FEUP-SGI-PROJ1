@@ -1,7 +1,14 @@
 import * as THREE from "three";
-import { wall } from "../../../MyMaterials.js";
+import { table } from "../../../MyMaterials.js";
 
 export class MyRectangularFrameFactory {
+
+    /** 
+     * @param {keyof table} variant 
+     */
+    constructor(variant) {
+        this.material = table[variant];
+    }
 
     #buildRectangle(scaleX, scaleY) {
         const rectangle = new THREE.Shape();
@@ -38,7 +45,7 @@ export class MyRectangularFrameFactory {
         
         outerFrame.holes.push(innerFrame);
         
-        const depth = 0.1 * scaleZ;
+        const depth = 0.05 * scaleZ;
         const frame = new THREE.ExtrudeGeometry(outerFrame, {
             depth,
             bevelSegments: 12,
@@ -46,7 +53,7 @@ export class MyRectangularFrameFactory {
             bevelThickness: 2 * realBezelScale,
         });
 
-        const mesh = new THREE.Mesh(frame, wall.velvet);
+        const mesh = new THREE.Mesh(frame, this.material.top);
         return Object.assign(
             mesh, {
                 __width: outerFrame.__width,

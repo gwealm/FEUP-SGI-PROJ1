@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { line } from '../MyMaterials.js';
 import { MyBezierCurveFactory } from './MyBezierCurveFactory.js'
+import { MyRectangularFrameFactory } from '../objects/painting/frame/MyRectangularFrameFactory.js';
 
 export class MyBeetleFactory {
     constructor() {
