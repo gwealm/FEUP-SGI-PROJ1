@@ -3,10 +3,7 @@ import { RectAreaLightUniformsLib } from "three/addons/lights/RectAreaLightUnifo
 import { MyAxis } from "./MyAxis.js";
 import { MyFloorFactory } from "./objects/MyFloorFactory.js";
 import { MyWallFactory } from "./objects/MyWallFactory.js";
-import { MySpotlightFactory } from "./lights/MySpotlightFactory.js";
-import { MyCageFactory } from "./objects/MyCageFactory.js";
 import { MyWatchFactory } from "./objects/MyWatchFactory.js";
-import { wall, watch } from "./MyTextures.js";
 import { MyBoxFactory } from "./objects/MyBoxFactory.js";
 import { MyFrameFactory } from "./objects/MyFrameFactory.js";
 import { MyBeetleFactory } from "./curves/MyBeetleFactory.js";
