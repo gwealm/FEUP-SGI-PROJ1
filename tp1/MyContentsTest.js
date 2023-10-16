@@ -14,10 +14,12 @@ import { MySpringFactory } from "./curves/MySpringFactory.js";
 import { MyTableFactory } from "./objects/MyTableFactory.js";
 import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
 import { MyNewspaperFactory } from "./nurbs/MyNewspaperFactory.js"
-import { MyFlowerFactory } from "./objects/MyFlowerFactory.js";
-import { MyFlowerPotFactory } from "./nurbs/MyFlowerPotFactory.js";
-// import { MyNurbsBuilder } from "./nurbs/MyNurbsBuilder.js"
+import { MyFlowerFactory } from "./objects/flower/MyFlowerFactory.js";
+import { MyFlowerPotFactory } from "./objects/flower/MyFlowerPotFactory.js";
+import { MyLeafFactory } from "./objects/flower/MyLeafFactory.js";
+import { MyStemFactory } from "./objects/flower/MyStemFactory.js"
 import { MyCircularWindowFactory } from "./objects/window/MyCircularWindowFactory.js";
+import { MyRectangularFrameFactory } from "./objects/frame/MyRectangularFrameFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -66,7 +68,7 @@ class MyContentsTest {
 
         const degreesToRadians = Math.PI / 180;
         
-        this.addPointLight(0, 10, 0);
+        this.addPointLight(1, 10, 1);
         // this.addPointLight(0, -10, 0);
 
         // add an ambient light
@@ -191,8 +193,20 @@ class MyContentsTest {
 
         const flowerPotFactory = new MyFlowerPotFactory();
         const flowerPot = flowerPotFactory.build(1);
-        flowerPot.position.set(0, flowerPot.__height / 2, 0);
+        flowerPot.position.set(2, flowerPot.__height / 2, 0);
         this.app.scene?.add(flowerPot);
+
+        const rectangularFrameFactory = new MyRectangularFrameFactory();
+        const rectangularFrame = rectangularFrameFactory.build(1, 1, 1, 1)
+        this.app.scene?.add(rectangularFrame);
+
+        const leafFactory = new MyLeafFactory();
+        const leaf = leafFactory.buildLeaf(5, 5, 5);
+        this.app.scene?.add(leaf);
+
+        const stemFactory = new MyStemFactory();
+        const stem = stemFactory.buildStem();
+        this.app.scene?.add(stem);
     }
 
     /**

@@ -219,7 +219,39 @@ const textures = await withConcurrentTextureLoader((load) => ({
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(1, 1);
         }),
-    }
+    },
+    pot: {
+        blue: {
+            baseColor: load('resources/textures/pot/blue/color.jpg', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+                texture.offset.set(0.5, 0.5);
+                texture.repeat.set(2, 2);
+            }),
+            roughness: load('resources/textures/pot/blue/roughness.jpg', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+                texture.offset.set(0.5, 0.5);
+                texture.repeat.set(2, 2);
+            }),
+            ambientOcclusion: load('resources/textures/pot/blue/ambient-occlusion.jpg', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+                texture.offset.set(0.5, 0.5);
+                texture.repeat.set(2, 2);
+            }),
+            normal: load('resources/textures/pot/blue/normal.jpg', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+                texture.offset.set(0.5, 0.5);
+                texture.repeat.set(2, 2);
+            }),
+        }
+    },
+    flower: {
+        leaf: load('resources/textures/flower/leaf.jpg', (texture) => {
+            texture.wrapS = THREE.ClampToEdgeWrapping
+            texture.wrapT = THREE.ClampToEdgeWrapping;
+            texture.anisotropy = 16;
+            texture.colorSpace = THREE.SRGBColorSpace;
+        }),
+    },
 }));
 
 export const {
@@ -232,4 +264,6 @@ export const {
     cake,
     nurb,
     window,
+    flower,
+    pot
 } = textures;

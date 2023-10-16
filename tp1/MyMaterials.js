@@ -192,12 +192,24 @@ export const line = {
 };
 
 export const nurb = {
-    periodicTable: new THREE.MeshLambertMaterial({
-        map: textures.nurb.periodicTable,
-        side: THREE.DoubleSide,
-        transparent: true, 
-        opacity: 0.90 
-    }),
+    pot: {
+        periodicTable: new THREE.MeshLambertMaterial({
+            map: textures.nurb.periodicTable,
+            side: THREE.DoubleSide,
+            transparent: true, 
+            opacity: 0.90 
+        }),
+        blue: new THREE.MeshStandardMaterial({
+            color: "#ffffff",
+            map: textures.pot.blue.baseColor,
+            aoMap: textures.pot.blue.ambientOcclusion,
+            normalMap: textures.pot.blue.normal,
+            roughnessMap: textures.pot.blue.roughness,
+            side: THREE.DoubleSide,
+        }),
+    },
+    
+
     newspaper: new THREE.MeshLambertMaterial({
         map: textures.nurb.newspaper,
         side: THREE.DoubleSide,
@@ -219,4 +231,12 @@ export const window = {
             map: textures.window.landscape,
         }),
     }
+}
+
+export const flower = {
+    leaf: new THREE.MeshPhongMaterial({
+            map: textures.flower.leaf,
+            color: "#ffffff",
+            reflectivity: 90
+        }),
 }
