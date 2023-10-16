@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { wall } from "../../MyMaterials.js";
+import { wall } from "../../../MyMaterials.js";
 
 export class MyRectangularFrameFactory {
 
@@ -54,6 +54,7 @@ export class MyRectangularFrameFactory {
                 __innerWidth: innerFrame.__width,
                 __innerHeight: innerFrame.__height,
                 __depth: depth,
+                __placeholder: new THREE.PlaneGeometry(innerFrame.__width, innerFrame.__height),
             }
         )
     }

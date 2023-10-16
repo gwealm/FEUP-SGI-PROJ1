@@ -16,7 +16,9 @@ import { MyFlowerPotFactory } from "./objects/flower/MyFlowerPotFactory.js";
 import { MyLeafFactory } from "./objects/flower/MyLeafFactory.js";
 import { MyStemFactory } from "./objects/flower/MyStemFactory.js"
 import { MyCircularWindowFactory } from "./objects/window/MyCircularWindowFactory.js";
-import { MyRectangularFrameFactory } from "./objects/frame/MyRectangularFrameFactory.js";
+import { MyRectangularFrameFactory } from "./objects/painting/frame/MyRectangularFrameFactory.js";
+import { MyPaintingFactory } from "./objects/painting/MyPaintingFactory.js";
+import * as materials from "./MyMaterials.js"
 
 /**
  *  This class contains the contents of out application
@@ -65,7 +67,7 @@ class MyContentsTest {
 
         const degreesToRadians = Math.PI / 180;
         
-        this.addPointLight(1, 10, 1);
+        this.addPointLight(1, 8, 1);
         // this.addPointLight(0, -10, 0);
 
         // add an ambient light
@@ -97,6 +99,12 @@ class MyContentsTest {
         frontWall.rotateY(180 * degreesToRadians);
         frontWall.position.set(0, backWall.__height / 2, floor.__height / 2);
         this.app.scene.add(frontWall);
+
+        const roof = wallFactory.buildWall(floor.__width, floor.__height);
+        roof.rotateX(90 * degreesToRadians);
+        roof.position.set(0, frontWall.__height, 0);
+        this.app.scene.add(roof);
+
 
         // const directionalLightFactory = new MySpotlightFactory();
         // const directionalLight = directionalLightFactory.buildSpotlight({ intensity: 5, angle: 15 * degreesToRadians });
@@ -193,10 +201,7 @@ class MyContentsTest {
         flowerPot.position.set(2, flowerPot.__height / 2, 0);
         this.app.scene?.add(flowerPot);
 
-        const rectangularFrameFactory = new MyRectangularFrameFactory();
-        const rectangularFrame = rectangularFrameFactory.build(1, 1, 1, 1)
-        this.app.scene?.add(rectangularFrame);
-
+        
         const leafFactory = new MyLeafFactory();
         const leaf = leafFactory.buildLeaf(5, 5, 5);
         this.app.scene?.add(leaf);
@@ -204,6 +209,16 @@ class MyContentsTest {
         const stemFactory = new MyStemFactory();
         const stem = stemFactory.buildStem();
         this.app.scene?.add(stem);
+        
+        const rectangularFrameFactory = new MyRectangularFrameFactory();
+        const rectangularFrame = rectangularFrameFactory.build(1, 1, 1, 1)
+
+        const paintingFactory = new MyPaintingFactory();
+        const painting = paintingFactory.build(rectangularFrame, materials.nurb.pot.periodicTable);
+        this.app.scene?.add(painting);
+
+        console.log(painting)
+        console.log(rectangularFrame)
     }
 
     /**

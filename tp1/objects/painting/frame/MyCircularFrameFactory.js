@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { wall } from "../../MyMaterials.js";
+import { wall } from "../../../MyMaterials.js";
 
 export class MyCircularFrameFactory {
 
@@ -45,6 +45,7 @@ export class MyCircularFrameFactory {
                 __radius: outerFrame.__radius,
                 __innerRadius: innerFrame.__radius,
                 __depth: depth,
+                __placeholder: new THREE.CircleGeometry(innerFrame.__radius),
             }
         )
     }
