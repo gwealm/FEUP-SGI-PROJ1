@@ -182,7 +182,7 @@ const textures = await withConcurrentTextureLoader((load) => ({
     cake: {
         outter: load('resources/textures/cake/outer_cake.jpg', (texture) => {
             texture.wrapS = THREE.MirroredRepeatWrapping;
-            texture.wrapT = THREE.ClampToEdgeWrapping;
+            texture.wrapT = THREE.MirroredRepeatWrapping;
             texture.anisotropy = 16;
             texture.colorSpace = THREE.SRGBColorSpace;
         }),

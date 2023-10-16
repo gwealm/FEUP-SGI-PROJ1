@@ -3,8 +3,8 @@ import * as textures from "./MyTextures.js";
 
 export const wall = {
     velvet: new THREE.MeshPhongMaterial({
-        // color: "#494a99"
-        color: "#ffffff",
+        color: "#494a99",
+        // color: "#ffffff",
         specular: "#000000",
         emissive: "#000000",
         map: textures.wall.velvet,

@@ -15,6 +15,7 @@ import { MyTableFactory } from "./objects/MyTableFactory.js";
 import { MyCakeFactory } from "./objects/cake/MyCakeFactory.js";
 import { MyNewspaperFactory } from "./nurbs/MyNewspaperFactory.js"
 import { MyFlowerFactory } from "./objects/MyFlowerFactory.js";
+import { MyFlowerPotFactory } from "./nurbs/MyFlowerPotFactory.js";
 // import { MyNurbsBuilder } from "./nurbs/MyNurbsBuilder.js"
 import { MyCircularWindowFactory } from "./objects/window/MyCircularWindowFactory.js";
 
@@ -188,6 +189,10 @@ class MyContentsTest {
         circularWindow.rotateY(Math.PI);
         this.app.scene?.add(circularWindow);
 
+        const flowerPotFactory = new MyFlowerPotFactory();
+        const flowerPot = flowerPotFactory.build(1);
+        flowerPot.position.set(0, flowerPot.__height / 2, 0);
+        this.app.scene?.add(flowerPot);
     }
 
     /**
