@@ -236,7 +236,12 @@ export const window = {
 export const flower = {
     leaf: new THREE.MeshPhongMaterial({
             map: textures.flower.leaf,
-            color: "#ffffff",
-            reflectivity: 90
+            color: 0x003300, 
+            reflectivity: 90,
+            side: THREE.DoubleSide,
         }),
+    stem: new THREE.MeshBasicMaterial({
+      color: "#003300",
+      wireframe: false,
+    })
 }

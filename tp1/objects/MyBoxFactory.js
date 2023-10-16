@@ -19,6 +19,12 @@ export class MyBoxFactory {
         box.castShadow = true;
         box.receiveShadow = true;
 
+        Object.assign(box, {
+            __width: width,
+            __height: height,
+            __depth: depth,
+        });
+
         return box;
     }
 }

@@ -145,7 +145,9 @@ class MyContentsTest {
         this.app.scene.add(frame);
 
         let boxFactory = new MyBoxFactory("wood");
-        const box = boxFactory.buildBox(1, 1, 1, new THREE.Vector3(4, 0.5, 0));
+        const box = boxFactory.buildBox(1, 1, 1, new THREE.Vector3(0, 0.5, 0));
+        box.position.set(floor.__width / 2 - box.__width / 2 - 0.3, 0, - floor.__height / 2 + box.__width / 2)
+        // box.position.z -= floor.__height / 2 - box.__height / 2;
         this.app.scene.add(box);
 
         let canvasFrameFactory = new MyFrameFactory("inner", "blue");
@@ -182,13 +184,6 @@ class MyContentsTest {
 
         this.app.scene.add(newspaper);
 
-
-        let flowerFactory = new MyFlowerFactory();
-        let flower = flowerFactory.createFlower(1, 12);
-        flower.rotateX(Math.PI / 2);
-        flower.position.set(0, 4, 5)
-        this.app.scene.add(flower);
-
         let circularWindowFactory = new MyCircularWindowFactory("metal");
         // const moonAngle = cake.position.sub(c)
         const circularWindow = circularWindowFactory.build(2, 2, 1, Math.PI / 12, 0.01);
@@ -198,27 +193,21 @@ class MyContentsTest {
 
         const flowerPotFactory = new MyFlowerPotFactory();
         const flowerPot = flowerPotFactory.build(1);
-        flowerPot.position.set(2, flowerPot.__height / 2, 0);
+        flowerPot.position.set(floor.__width / 2 - flowerPot.__depth / 2 - 0.3, flowerPot.__height / 2 + box.__height, -floor.__height / 2 + flowerPot.__depth / 2);
         this.app.scene?.add(flowerPot);
 
-        
-        const leafFactory = new MyLeafFactory();
-        const leaf = leafFactory.buildLeaf(5, 5, 5);
-        this.app.scene?.add(leaf);
+        let flowerFactory = new MyFlowerFactory();
+        let flower = flowerFactory.createFlower(1, 12);
+        flower.rotateX(Math.PI / 2);
+        flower.position.set(0, 4, 5)
+        this.app.scene.add(flower);
 
-        const stemFactory = new MyStemFactory();
-        const stem = stemFactory.buildStem();
-        this.app.scene?.add(stem);
-        
+        flower.position.copy(flowerPot.position);
+
         const rectangularFrameFactory = new MyRectangularFrameFactory();
         const rectangularFrame = rectangularFrameFactory.build(1, 1, 1, 1)
-
-        const paintingFactory = new MyPaintingFactory();
-        const painting = paintingFactory.build(rectangularFrame, materials.nurb.pot.periodicTable);
-        this.app.scene?.add(painting);
-
-        console.log(painting)
-        console.log(rectangularFrame)
+        this.app.scene?.add(rectangularFrame);
+        
     }
 
     /**
