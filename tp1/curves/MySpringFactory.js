@@ -45,7 +45,8 @@ export class MySpringFactory {
             const firstHalfCurve = this.bezierCurveFactory.build(
                 firstHalfPoint,
                 50,
-                false
+                false,
+                true
             );
             spring.add(firstHalfCurve);
 
@@ -73,7 +74,8 @@ export class MySpringFactory {
             let secondHalfCurve = this.bezierCurveFactory.build(
                 secondHalfPoints,
                 50,
-                false
+                false,
+                true,
             );
 
             spring.add(secondHalfCurve);
