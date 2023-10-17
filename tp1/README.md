@@ -18,6 +18,7 @@
 - Pot Nurb
 - 3D Flower
 - Clock
+- Door
 - Velvet Room Themed Room (from persona game series)
 
 #### Scene
