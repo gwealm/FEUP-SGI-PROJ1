@@ -91,7 +91,7 @@ export class MyCircularWindowFactory {
         const lightSource = this.spotlightFactory.buildSpotlight({
             angle: lightAmplitude / 2,
             distance: distance + 99,
-            intensity: 5,
+            intensity: 10,
             color: 0xafafff,
             castShadows: true,
             shadowsOptions: {

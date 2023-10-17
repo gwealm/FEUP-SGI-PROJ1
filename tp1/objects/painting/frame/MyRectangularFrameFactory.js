@@ -16,10 +16,8 @@ export class MyRectangularFrameFactory {
 
     /**
      * Builds a rectangular shape with the specified scales.
-     * @private
      * @param {number} scaleX - The scale factor for the rectangle in the X direction.
      * @param {number} scaleY - The scale factor for the rectangle in the Y direction.
-     * @returns {THREE.Shape} - The rectangular shape.
      */
     #buildRectangle(scaleX, scaleY) {
         const rectangle = new THREE.Shape();
@@ -47,7 +45,6 @@ export class MyRectangularFrameFactory {
      * @param {number} [scaleY=1] - The scale factor for the rectangular frame in the Y direction.
      * @param {number} [scaleZ=1] - The scale factor for the rectangular frame in the Z direction.
      * @param {number} [bezelScale=1] - The scale factor for the bezel of the frame.
-     * @returns {THREE.Mesh} - The 3D mesh representing the rectangular frame.
      */
     build(scaleX = 1, scaleY = 1, scaleZ = 1, bezelScale = 1) {
         const realBezelScale = 0.05 * bezelScale;

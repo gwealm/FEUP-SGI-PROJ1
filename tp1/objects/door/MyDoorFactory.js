@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { door } from "../../MyMaterials.js";
 import { MyRectangularFrameFactory } from "../painting/frame/MyRectangularFrameFactory.js";
+import { MyPaintingFactory } from "../painting/MyPaintingFactory.js";
 
 /**
  * Class for creating rectangular frames.
@@ -8,6 +9,8 @@ import { MyRectangularFrameFactory } from "../painting/frame/MyRectangularFrameF
 export class MyDoorFactory {
     constructor(variant) {
         this.material = door[variant];
+        this.rectangularFrameFactory = new MyRectangularFrameFactory("wood");
+        this.paintingFactory = new MyPaintingFactory();
     }
     
     /**
@@ -15,27 +18,16 @@ export class MyDoorFactory {
      * @param {number} width - Width of the door.
      * @param {number} height - Height of the door.
      * @param {number} depth - Depth of the door.
-     * @returns {THREE.Group} - The 3D object representing the complete door.
+     * @returns {THREE.Mesh} - The 3D object representing the complete door.
      */
     buildDoor(width = 3, height = 3, depth = 3) {
-        const doorGroup = new THREE.Group();
-        
         const rectangularFrameFactory = new MyRectangularFrameFactory("wood");
         const frame = rectangularFrameFactory.build(width, height, depth * 8);
-        doorGroup.add(frame); 
 
-        let doorGeometry = new THREE.BoxGeometry(width, height, frame.__width / 8);
+        const painting = this.paintingFactory.build(frame, this.material);
+        painting.position.y += height / 2 - painting.__bevelThickness 
+        painting.position.x += 0.1; 
 
-
-        let door = new THREE.Mesh(
-            doorGeometry,
-            this.material
-        );
-
-        doorGroup.add(door);
-
-        doorGroup.position.y += height / 2 - frame.__bevelThickness 
-
-        return doorGroup;
+        return painting;
     }
 }

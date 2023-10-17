@@ -20,6 +20,7 @@ import { MyPaintingFactory } from "./objects/painting/MyPaintingFactory.js";
 import * as materials from "./MyMaterials.js";
 import { MyCandleFactory } from "./objects/cake/MyCandleFactory.js";
 import { MyDoorFactory } from "./objects/door/MyDoorFactory.js";
+import { MyBookshelfFactory } from "./objects/bookshelf/MyBookshelfFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -39,9 +40,9 @@ class MyContents {
         this.displayHelpers = true;
     }
 
-    addPointLight(x, y, z) {
+    addPointLight(x, y, z, intensity = 40) {
         // add a point light on top of the model
-        const pointLight = new THREE.PointLight(0xffffff, 20, 0);
+        const pointLight = new THREE.PointLight(0xffffff, intensity, 0);
         pointLight.position.set(x, y, z);
         pointLight.castShadow = true;
 
@@ -78,10 +79,10 @@ class MyContents {
         const degreesToRadians = Math.PI / 180;
 
         this.addPointLight(1, 8, 1);
-        // this.addPointLight(0, -10, 0);
+        // this.addPointLight(0, 8, 0, 200);
 
         // Adds an ambient light
-        const ambientLight = new THREE.AmbientLight(0x333333, 10);
+        const ambientLight = new THREE.AmbientLight(0x333333);
         this.app.scene.add(ambientLight);
 
         // Adds a floor
@@ -282,6 +283,14 @@ class MyContents {
 
         this.app.scene.add(door);
 
+        const bookshelfFactory = new MyBookshelfFactory();
+        const bookshelf = bookshelfFactory.build(2, 2, 2);
+        bookshelf.position.y = bookshelf.__height / 2;
+        this.app.scene?.add(bookshelf);
+
+        // const stemFactory = new MyStemFactory();
+        // const stem = stemFactory.buildStem();
+        // this.app.scene?.add(stem);
     }
 
     /**
