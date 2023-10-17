@@ -76,6 +76,7 @@ export class MyRectangularFrameFactory {
             __height: outerFrame.__height,
             __innerWidth: innerFrame.__width,
             __innerHeight: innerFrame.__height,
+            __bevelThickness: 2 * realBezelScale,
             __depth: depth,
             __placeholder: new THREE.PlaneGeometry(
                 innerFrame.__width,

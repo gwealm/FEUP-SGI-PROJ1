@@ -13,6 +13,16 @@ export const wall = {
     }),
 };
 
+export const door = {
+    wood: new THREE.MeshPhongMaterial({
+        color: "#ffffff",
+        specular: "#000000",
+        emissive: "#000000",
+        map: textures.door.wood,
+        shininess: 90,
+    }),
+};
+
 export const dish = {
     porcelain: new THREE.MeshPhongMaterial({
         color: "#f2f2f2", // Light porcelain color
@@ -59,13 +69,7 @@ export const frame = {
             shininess: 90,
             map: textures.frame.inner.guima,
         }),
-        lima: new THREE.MeshPhongMaterial({
-            color: "#ffffff",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-            map: textures.frame.inner.guima,
-        }),
+
         canvas: new THREE.MeshPhongMaterial({
             color: "#ffffff",
             specular: "#000000",
@@ -79,15 +83,6 @@ export const frame = {
             specular: "#000000",
             emissive: "#000000",
             shininess: 90,
-        }),
-        blue: new THREE.MeshStandardMaterial({
-            color: "#494a90",
-            map: textures.frame.border.blue_wood.diffuse,
-            bumpMap: textures.frame.border.blue_wood.bump,
-            metalnessMap: textures.frame.border.blue_wood.metalness,
-            roughnessMap: textures.frame.border.blue_wood.roughness,
-            aoMap: textures.frame.border.blue_wood.ambientOcclusion,
-            normalMap: textures.frame.border.blue_wood.normal,
         }),
     },
 };

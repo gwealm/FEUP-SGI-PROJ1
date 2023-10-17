@@ -19,6 +19,7 @@ import { MyRectangularFrameFactory } from "./objects/painting/frame/MyRectangula
 import { MyPaintingFactory } from "./objects/painting/MyPaintingFactory.js";
 import * as materials from "./MyMaterials.js";
 import { MyCandleFactory } from "./objects/cake/MyCandleFactory.js";
+import { MyDoorFactory } from "./objects/door/MyDoorFactory.js";
 
 /**
  *  This class contains the contents of out application
@@ -80,7 +81,7 @@ class MyContents {
         // this.addPointLight(0, -10, 0);
 
         // Adds an ambient light
-        const ambientLight = new THREE.AmbientLight(0x333333);
+        const ambientLight = new THREE.AmbientLight(0x333333, 10);
         this.app.scene.add(ambientLight);
 
         // Adds a floor
@@ -272,9 +273,15 @@ class MyContents {
 
         flower.position.copy(flowerPot.position);
 
-        // const stemFactory = new MyStemFactory();
-        // const stem = stemFactory.buildStem();
-        // this.app.scene?.add(stem);
+        // Adds door
+        let doorFactory = new MyDoorFactory("wood");
+        let door = doorFactory.buildDoor(3, 5, 1);
+        door.rotateY(Math.PI / 2);
+        door.position.x -= floor.__width / 2;
+        door.position.z += floor.__height / 3;
+
+        this.app.scene.add(door);
+
     }
 
     /**

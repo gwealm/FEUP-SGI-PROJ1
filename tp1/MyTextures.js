@@ -76,6 +76,7 @@ const textures = await withConcurrentTextureLoader((load) => ({
         velvet: load('resources/textures/watch/velvet.png', (texture) => {
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
+            texture.colorSpace = THREE.SRGBColorSpace;
         }),
     },
     wall: {
@@ -98,44 +99,18 @@ const textures = await withConcurrentTextureLoader((load) => ({
                 texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
             }),
         },
-        border: {
-            blue_wood: {
-                roughness: load('resources/textures/frame/blue_wood/roughness.png', (texture) => {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                }),
-                metalness: load('resources/textures/frame/blue_wood/metalness.png', (texture) => {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                }),
-                ambientOcclusion: load('resources/textures/frame/blue_wood/ambientOcclusion.png', (texture) => {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                }),
-                bump: load('resources/textures/frame/blue_wood/bump.png', (texture) => {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                }),
-                diffuse: load('resources/textures/frame/blue_wood/diffuse.png', (texture) => {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                }),
-                displacement: load('resources/textures/frame/blue_wood/displacement.png', (texture) => {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                }),
-                normal: load('resources/textures/frame/blue_wood/normal.png', (texture) => {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                }),
-                specular: load('resources/textures/frame/blue_wood/specular.png', (texture) => {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                }),
-            },
-        }
     },
     table: {
         wood: load('resources/textures/table/wood.jpg', (texture) => {
             texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+            texture.colorSpace = THREE.SRGBColorSpace;
         })
     },
     box: {
         wood: {
             baseColor: load('resources/textures/box/wood/color_map.jpg', (texture) => {
                 texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                texture.colorSpace = THREE.SRGBColorSpace;
                 // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
             }),
             roughness: load('resources/textures/box/wood/roughness_map.jpg', (texture) => {
@@ -183,6 +158,14 @@ const textures = await withConcurrentTextureLoader((load) => ({
             texture.colorSpace = THREE.SRGBColorSpace;
         }),
         newspaper: load('resources/textures/nurbs/newspaper/newspaper2.png', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.anisotropy = 16;
+            texture.colorSpace = THREE.SRGBColorSpace;
+        }),
+    },
+    door: {
+        wood: load('resources/textures/door/antique-door.jpg', (texture) => {
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.anisotropy = 16;
@@ -241,5 +224,6 @@ export const {
     nurb,
     window,
     flower,
-    pot
+    pot,
+    door
 } = textures;
