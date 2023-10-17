@@ -2,8 +2,16 @@ import * as THREE from "three";
 import { window } from "../../MyMaterials.js";
 import { MySpotlightFactory } from "../../lights/MySpotlightFactory.js";
 
+/**
+ * Factory class for creating circular windows with frames.
+ */
 export class MyCircularWindowFactory {
 
+  /**
+   * Creates an instance of MyCircularWindowFactory.
+   * @param {keyof window} variant - The variant of the window material.
+   * @param {number} lod - Level of detail for the window frame.
+   */
     constructor(/** @type {keyof window} */ variant, lod = 15) {
         this.twoPi = 2 * Math.PI;
         this.material = window[variant];
@@ -13,6 +21,15 @@ export class MyCircularWindowFactory {
     }
     
 
+  /**
+   * Builds a circular window with a frame and glass.
+   * @param {number} scaleXY - Scale factor for the window's X and Y dimensions.
+   * @param {number} scaleZ - Scale factor for the window's Z dimension.
+   * @param {number} bezelScale - Scale factor for the window's bezel.
+   * @param {number} moonAngle - The angle of the moon in radians.
+   * @param {number} lightAmplitude - The amplitude of the spotlight's light in radians.
+   * @returns {THREE.Group} - The 3D object representing the circular window.
+   */
     #buildWindow(scaleXY, scaleZ, bezelScale) {
         const radius = scaleXY;
 

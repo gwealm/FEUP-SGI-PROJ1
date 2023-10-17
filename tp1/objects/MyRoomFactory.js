@@ -1,16 +1,31 @@
-import * as THREE from 'three';
-import  {MyWallFactory} from './MyWallFactory.js'
+import * as THREE from "three";
+import { MyWallFactory } from "./MyWallFactory.js";
 
+/**
+ * MyRoomFactory class for creating 3D rooms.
+ * @class
+ */
 export class MyRoomFactory {
+    /**
+     * Constructor for MyRoomFactory.
+     * @param {string} variant - The variant for the room walls.
+     */
     constructor(variant) {
         this.variant = variant;
     }
 
+    /**
+     * Builds a 3D room with walls.
+     * @param {number} width - Width of the room.
+     * @param {number} height - Height of the room.
+     * @param {number} depth - Depth of the room.
+     * @returns {THREE.Group} - The 3D object representing the room.
+     */
     buildRoom(width, height, depth) {
         let roomGroup = new THREE.Group();
 
         let wallFactory = new MyWallFactory(this.variant);
-        
+
         let wall1 = wallFactory.buildWall(width, height, depth);
         wall1.position.set(0, 0, -depth / 2);
         roomGroup.add(wall1);
