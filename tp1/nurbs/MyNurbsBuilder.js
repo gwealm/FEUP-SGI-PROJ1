@@ -6,7 +6,6 @@ import { ParametricGeometry } from "three/addons/geometries/ParametricGeometry.j
  *  This class contains the contents of out application
  */
 class MyNurbsBuilder {
-
     build(controlPoints, degree1, degree2, samples1, samples2) {
         const knots1 = [];
 
@@ -41,18 +40,12 @@ class MyNurbsBuilder {
                 let item = row[j];
 
                 newRow.push(
-                    new THREE.Vector4(
-                        item[0],
-                        item[1],
-                        item[2],
-                        item[3]
-                    )
+                    new THREE.Vector4(item[0], item[1], item[2], item[3])
                 );
             }
 
             stackedPoints[i] = newRow;
         }
-
 
         const nurbsSurface = new NURBSSurface(
             degree1,
@@ -77,4 +70,3 @@ class MyNurbsBuilder {
 }
 
 export { MyNurbsBuilder };
-

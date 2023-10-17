@@ -1,12 +1,24 @@
 import { dish } from "../../MyMaterials.js";
 import * as THREE from "three";
 
-
+/**
+ * Class for creating a 3D dish model using a cylinder geometry.
+ */
 export class MyDishFactory {
+    /**
+     * Constructor for MyDishFactory class.
+     * @param {string} variant - The variant of the dish material.
+     */
     constructor(variant) {
         this.material = dish[variant];
     }
 
+    /**
+     * Builds a 3D dish model with specified scales.
+     * @param {number} scale - The overall scale of the dish.
+     * @returns {THREE.Mesh} - The 3D mesh representing the dish.
+     * @throws {string} - Throws an error if radiusTop is not greater than radiusBottom.
+     */
     buildDish(scale = 1) {
         const radiusTop = scale;
         const radiusBottom = 0.4 * scale;
