@@ -61,8 +61,8 @@ export class MyPrimitiveBuilder {
             parts_y,
         } = representation;
 
-        const width = Math.abs(xy1.x - xy2.x);
-        const height = Math.abs(xy1.y - xy2.y);
+        const width = Math.abs(xy1[0] - xy2[0]);
+        const height = Math.abs(xy1[1] - xy2[1]);
 
         const geometry = new THREE.PlaneGeometry(
             width,
@@ -122,6 +122,7 @@ export class MyPrimitiveBuilder {
     }
 
     #buildBox(representation, ctx) {
+        console.log("CONTEXT", ctx);
         const {
             xyz1,
             xyz2,
@@ -129,10 +130,11 @@ export class MyPrimitiveBuilder {
             parts_y,
             parts_z,
         } = representation;
+        new THREE.Vector3
 
-        const width = Math.abs(xyz1.x - xyz2.x);
-        const height = Math.abs(xyz1.y - xyz2.y);
-        const depth = Math.abs(xyz1.z - xyz2.z);
+        const width = Math.abs(xyz1[0] - xyz2[0]);
+        const height = Math.abs(xyz1[1] - xyz2[1]);
+        const depth = Math.abs(xyz1[2] - xyz2[2]);
 
         const boxGeometry = new THREE.BoxGeometry(width, height, depth, parts_x, parts_y, parts_z);
         return new THREE.Mesh(boxGeometry, material);
