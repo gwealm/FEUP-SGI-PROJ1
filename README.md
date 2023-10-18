@@ -12,13 +12,17 @@
 ### [TP1 - ThreeJS Basics](tp1)
 
 **All the topics** from the evaluation document **where implemented**.
+
 #### Features
+
 - Efficient texture parallel loading
-- Newspaper Nurb
-- Pot Nurb
+- Newspaper NURBS
+- Pot NURBS
 - 3D Flower
 - Clock
 - Door
+- Bookshelf
+- (Sort of) Realistic illumination
 - Velvet Room Themed Room (from persona game series)
 
 #### Scene
@@ -38,4 +42,3 @@ This curated scene invites viewers to immerse themselves in its atmosphere, wher
 
 ### [TP3 - ...](tp3)
 - (items briefly describing main strong points)
-
