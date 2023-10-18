@@ -1,4 +1,3 @@
-import { dish } from "../../MyMaterials.js";
 import * as THREE from "three";
 
 /**
@@ -6,26 +5,22 @@ import * as THREE from "three";
  */
 export class MyDishFactory {
     /**
-     * Constructor for MyDishFactory class.
-     * @param {string} variant - The variant of the dish material.
-     */
-    constructor(variant) {
-        this.material = dish[variant];
-    }
-
-    /**
      * Builds a 3D dish model with specified scales.
-     * @param {number} scale - The overall scale of the dish.
-     * @returns {THREE.Mesh} - The 3D mesh representing the dish.
-     * @throws {string} - Throws an error if radiusTop is not greater than radiusBottom.
+     * @param {object} options Options to control dish construction.
+     * @param {THREE.Material} options.material The material to use for the dish.
+     * @param {number=} options.scale The scale factor for the dish.
+     * @returns The 3D mesh representing the dish.
+     * @throws {Error} - Throws an error if radiusTop is not greater than radiusBottom.
      */
-    buildDish(scale = 1) {
+    buildDish(options) {
+        const scale = options.scale ?? 1;
+
         const radiusTop = scale;
         const radiusBottom = 0.4 * scale;
         const height = scale * 0.2;
 
         if (radiusTop <= radiusBottom) {
-            throw "radiusTop must be bigger than radiusBottom";
+            throw new Error("radiusTop must be bigger than radiusBottom");
         }
 
         let radialSegments = 32;
@@ -40,11 +35,13 @@ export class MyDishFactory {
             heightSegments
         );
 
-        let dishMesh = Object.assign(new THREE.Mesh(cylinder, this.material), {
-            __radius_top: radiusTop,
-            __radius_bottom: radiusBottom,
-            __height: height,
-        });
+        let dishMesh = Object.assign(
+            new THREE.Mesh(cylinder, options.material), {
+                __radius_top: radiusTop,
+                __radius_bottom: radiusBottom,
+                __height: height,
+            }
+        );
 
         dishMesh.castShadow = true;
         dishMesh.receiveShadow = true;

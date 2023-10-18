@@ -1,21 +1,12 @@
 import * as THREE from "three";
-import { flower } from "../../MyMaterials.js";
 
 /**
  * Class for creating 3D leaf models using customized shapes.
  */
 export class MyLeafFactory {
     /**
-     * Constructor for MyLeafFactory class.
-     */
-    constructor() {
-        this.material = flower.leaf;
-    }
-
-    /**
      * Builds the geometry for a customized leaf shape.
-     * @private
-     * @returns {THREE.ShapeGeometry} - The geometry for the leaf shape.
+     * @returns The geometry for the leaf shape.
      */
     #buildLeafGeometry() {
         const leafShape = new THREE.Shape();
@@ -31,16 +22,18 @@ export class MyLeafFactory {
 
     /**
      * Builds a 3D leaf model using a customized leaf shape.
-     * @param {number} scaleX - The scale in the X direction.
-     * @param {number} scaleY - The scale in the Y direction.
-     * @param {number} scaleZ - The scale in the Z direction.
-     * @returns {THREE.Mesh} - The 3D mesh representing the leaf.
+     * @param {object} options Options to control leaf construction.
+     * @param {THREE.Material} options.material The material to use for the leaf.
+     * @param {number=} options.scale The scale factor for the leaf.
+     * @returns The 3D mesh representing the leaf.
      */
-    buildLeaf(scaleX = 1, scaleY = 1, scaleZ = 1) {
-        const leafGeometry = this.#buildLeafGeometry();
-        const leafMesh = new THREE.Mesh(leafGeometry, this.material);
+    buildLeaf(options) {
+        const scale = options.scale ?? 1;
 
-        // leafMesh.scale.set(scaleX, scaleY, scaleZ);
+        const leafGeometry = this.#buildLeafGeometry();
+        const leafMesh = new THREE.Mesh(leafGeometry, options.material);
+
+        leafMesh.scale.set(scale, scale, 1);
         leafMesh.castShadow = true;
 
         return leafMesh;

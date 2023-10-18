@@ -1,23 +1,52 @@
 import * as THREE from "three";
-import { MyBezierCurveFactory } from "./MyBezierCurveFactory.js";
+import { materials } from "../MyMaterials.js";
 
 /**
- * Class for generating a simple 3D beetle model using Three.js.
+ * Class for generating a simple 2D beetle drawing.
  */
 export class MyBeetleFactory {
     /**
      * Constructor for MyBeetleFactory class.
+     * @param {import('./MyBezierCurveFactory.js').MyBezierCurveFactory} bezierCurveFactory 
+     * @param {object} options Options for this factory.
+     * @param {boolean=} options.enableHulls Whether to enable the convex hulls.
      */
-    constructor() {
-        this.bezierCurveFactory = new MyBezierCurveFactory("basic");
-        this.points = [];
+    constructor(bezierCurveFactory, options = {}) {
+        this.bezierCurveFactory = bezierCurveFactory;
+        this.enableHulls = options.enableHulls ?? false;
+    }
+
+    /**
+     * Generates a line from a set of points.
+     * @param {THREE.Vector3[]} points The points for the line.
+     * @returns 
+     */
+    #generateLineFromPoints(points) {
+        const group = new THREE.Group();
+
+        const curve = this.bezierCurveFactory.buildCurve(points);
+        const line = this.bezierCurveFactory.rasterizeToLine(curve, {
+            material: materials.line.solidBlue,
+            samples: 50,
+        });
+
+        group.add(line);
+        
+        if (this.enableHulls) {
+            const hull = this.bezierCurveFactory.buildHull(points, {
+                material: materials.line.greenDashed,
+            });
+
+            group.add(hull);
+        }
+
+        return group;
     }
 
     /**
      * Generates a half-circle curve with a specified scale.
-     * @private
-     * @param {number} scale - The scale of the half-circle.
-     * @returns {THREE.Curve} - The generated half-circle curve.
+     * @param {number} scale The scale of the half-circle.
+     * @returns The generated half-circle curve.
      */
     #generateHalfCircle(scale) {
         const points = [
@@ -27,16 +56,17 @@ export class MyBeetleFactory {
             new THREE.Vector3(scale, 0, 0),
         ];
 
-        return Object.assign(this.bezierCurveFactory.build(points, 50), {
-            __radius: scale,
-        });
+        return Object.assign(
+            this.#generateLineFromPoints(points), {
+                __radius: scale,
+            }
+        );
     }
 
     /**
      * Generates a quarter-circle curve with a specified scale.
-     * @private
-     * @param {number} scale - The scale of the quarter-circle.
-     * @returns {THREE.Curve} - The generated quarter-circle curve.
+     * @param {number} scale The scale of the quarter-circle.
+     * @returns The generated quarter-circle curve.
      */
     #generateQuarterCircle(scale) {
         const controlPointOffset = scale * (4 / 3) * (Math.sqrt(2) - 1);
@@ -47,15 +77,17 @@ export class MyBeetleFactory {
             new THREE.Vector3(scale, 0, 0),
         ];
 
-        return Object.assign(this.bezierCurveFactory.build(points, 50), {
-            __radius: scale,
-        });
+        return Object.assign(
+            this.#generateLineFromPoints(points), {
+                __radius: scale,
+            }
+        );
     }
 
     /**
-     * Builds a 3D beetle model with specified scale proportions.
-     * @param {number} scale - The overall scale of the beetle.
-     * @returns {THREE.Group} - The 3D beetle model as a Three.js group.
+     * Builds a 2D beetle model with specified scale proportions.
+     * @param {number} scale The overall scale of the beetle.
+     * @returns The 2D beetle model as a Three.js group.
      */
     buildBeetle(scale = 1) {
         const backScale = scale;
@@ -79,19 +111,18 @@ export class MyBeetleFactory {
 
         const beetleFrontWheel = this.#generateHalfCircle(wheelsScale);
         beetleFrontWheel.position.set(
-            beetleWindshield.__radius +
-                beetleHood.__radius -
-                beetleFrontWheel.__radius,
-            0,
-            0
+            beetleWindshield.__radius
+            + beetleHood.__radius
+            - beetleFrontWheel.__radius,
+            0, 0
         );
         beetle.add(beetleFrontWheel);
 
         const beetleBackWheel = this.#generateHalfCircle(wheelsScale);
         beetleBackWheel.position.set(
-            -beetleTrunk.__radius + beetleBackWheel.__radius,
-            0,
-            0
+            -beetleTrunk.__radius
+            + beetleBackWheel.__radius,
+            0, 0
         );
         beetle.add(beetleBackWheel);
 

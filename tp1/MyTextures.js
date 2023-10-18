@@ -64,144 +64,119 @@ async function withConcurrentTextureLoader(fn) {
     return textureObj;
 }
 
-const textures = await withConcurrentTextureLoader((load) => ({
-    floor: {
-        carpet: load('resources/textures/floor/carpet.jpg', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(2, 2);
-        })
+export const textures = await withConcurrentTextureLoader((load) => ({
+    debug: {
+        uvGrid: load('resources/textures/debug/uv_grid_opengl.jpg')
     },
-    watch: {
-        velvet: load('resources/textures/watch/velvet.png', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
+    basic: {
+        wood: load('resources/textures/basic/wood.jpg', (texture) => {
+            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
             texture.colorSpace = THREE.SRGBColorSpace;
         }),
-    },
-    wall: {
-        velvet: load('resources/textures/wall/velvet.jpg', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(2, 2);
-        }),
-        bump: {
-            velvet: load('resources/textures/wall/velvet.bump.jpg', (texture) => {
-                texture.wrapS = THREE.RepeatWrapping;
-                texture.wrapT = THREE.RepeatWrapping;
+        porcelain: {
+            map: load('resources/textures/basic/porcelain/map.jpg', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+                texture.offset.set(0.5, 0.5);
+                texture.repeat.set(2, 2);
+            }),
+            roughnessMap: load('resources/textures/basic/porcelain/roughnessMap.jpg', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+                texture.offset.set(0.5, 0.5);
+                texture.repeat.set(2, 2);
+            }),
+            aoMap: load('resources/textures/basic/porcelain/aoMap.jpg', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+                texture.offset.set(0.5, 0.5);
+                texture.repeat.set(2, 2);
+            }),
+            normalMap: load('resources/textures/basic/porcelain/normalMap.jpg', (texture) => {
+                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+                texture.offset.set(0.5, 0.5);
                 texture.repeat.set(2, 2);
             }),
         }
     },
-    frame: {
-        inner: {
-            guima : load('resources/textures/frame/guima.png', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+    room: {
+        velvet: {
+            map: load('resources/textures/room/velvet/map.jpg', (texture) => {
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.repeat.set(2, 2);
             }),
+            bumpMap: load('resources/textures/room/velvet/bumpMap.jpg', (texture) => {
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.repeat.set(2, 2);
+            })
         },
-    },
-    table: {
-        wood: load('resources/textures/table/wood.jpg', (texture) => {
-            texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-            texture.colorSpace = THREE.SRGBColorSpace;
+        carpet: load('resources/textures/room/carpet.jpg', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(2, 2);
         })
     },
+    clock: load('resources/textures/clock.png', (texture) => {
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.colorSpace = THREE.SRGBColorSpace;
+    }),
+    guima: load('resources/textures/guima.png', (texture) => {
+        texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+    }),
     box: {
-        wood: {
-            baseColor: load('resources/textures/box/wood/color_map.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                texture.colorSpace = THREE.SRGBColorSpace;
-                // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-            }),
-            roughness: load('resources/textures/box/wood/roughness_map.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-            }),
-            ambientOcclusion: load('resources/textures/box/wood/ambient_occlusion.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-            }),
-            height: load('resources/textures/box/wood/height_map.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-            }),
-            normal: load('resources/textures/box/wood/normal_map.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-            }),
-        },
+        map: load('resources/textures/box/map.jpg', (texture) => {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.colorSpace = THREE.SRGBColorSpace;
+            // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+        }),
+        roughnessMap: load('resources/textures/box/roughnessMap.jpg', (texture) => {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+        }),
+        aoMap: load('resources/textures/box/aoMap.jpg', (texture) => {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            // texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
+        }),
+        normalMap: load('resources/textures/box/normalMap.jpg', (texture) => {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        }),
+    },
+    newspaper: {
+        firstPage: load('resources/textures/newspaper/page-1.png', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.anisotropy = 16;
+            texture.colorSpace = THREE.SRGBColorSpace;
+        }),
+        secondPage: load('resources/textures/newspaper/page-2.png', (texture) => {
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.anisotropy = 16;
+            texture.colorSpace = THREE.SRGBColorSpace;
+        }),
     },
     cake: {
-        outter: load('resources/textures/cake/outer_cake.jpg', (texture) => {
+        outside: load('resources/textures/cake/outside.jpg', (texture) => {
             texture.wrapS = THREE.MirroredRepeatWrapping;
             texture.wrapT = THREE.MirroredRepeatWrapping;
             texture.anisotropy = 16;
             texture.colorSpace = THREE.SRGBColorSpace;
         }),
-        inner: load('resources/textures/cake/inner_cake.jpg', (texture) => {
+        inside: load('resources/textures/cake/inside.jpg', (texture) => {
             texture.wrapS = THREE.MirroredRepeatWrapping;
             texture.wrapT = THREE.ClampToEdgeWrapping;
             texture.anisotropy = 16;
             texture.colorSpace = THREE.SRGBColorSpace;
         }),
-        newspaper: load('resources/textures/nurbs/newspaper/newspaper2.png', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.anisotropy = 16;
-            texture.colorSpace = THREE.SRGBColorSpace;
-        }),
     },
-    nurb: {
-        periodicTable: load('resources/textures/nurbs/uv_grid_opengl.jpg', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.anisotropy = 16;
-            texture.colorSpace = THREE.SRGBColorSpace;
-        }),
-        newspaper: load('resources/textures/nurbs/newspaper/newspaper2.png', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.anisotropy = 16;
-            texture.colorSpace = THREE.SRGBColorSpace;
-        }),
-    },
-    door: {
-        wood: load('resources/textures/door/antique-door.jpg', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.anisotropy = 16;
-            texture.colorSpace = THREE.SRGBColorSpace;
-        }),
-    },
+    door: load('resources/textures/door.jpg', (texture) => {
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.anisotropy = 16;
+        texture.colorSpace = THREE.SRGBColorSpace;
+    }),
     window: {
-        landscape: load('resources/textures/window/landscape.jpg', (texture) => {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(1, 1);
-        }),
-    },
-    pot: {
-        blue: {
-            baseColor: load('resources/textures/pot/blue/color.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-                texture.offset.set(0.5, 0.5);
-                texture.repeat.set(2, 2);
-            }),
-            roughness: load('resources/textures/pot/blue/roughness.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-                texture.offset.set(0.5, 0.5);
-                texture.repeat.set(2, 2);
-            }),
-            ambientOcclusion: load('resources/textures/pot/blue/ambient-occlusion.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-                texture.offset.set(0.5, 0.5);
-                texture.repeat.set(2, 2);
-            }),
-            normal: load('resources/textures/pot/blue/normal.jpg', (texture) => {
-                texture.wrapS = texture.wrapT = THREE.MirroredRepeatWrapping;
-                texture.offset.set(0.5, 0.5);
-                texture.repeat.set(2, 2);
-            }),
-        }
+        landscape: load('resources/textures/window/landscape.jpg'),
     },
     flower: {
         leaf: load('resources/textures/flower/leaf.jpg', (texture) => {
@@ -212,18 +187,3 @@ const textures = await withConcurrentTextureLoader((load) => ({
         }),
     },
 }));
-
-export const {
-    box,
-    floor,
-    frame,
-    table,
-    wall,
-    watch,
-    cake,
-    nurb,
-    window,
-    flower,
-    pot,
-    door
-} = textures;

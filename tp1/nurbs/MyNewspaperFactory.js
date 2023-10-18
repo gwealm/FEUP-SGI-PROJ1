@@ -1,6 +1,4 @@
 import * as THREE from "three";
-import { MyNurbsBuilder } from "./MyNurbsBuilder.js";
-import { nurb } from "../MyMaterials.js";
 
 /**
  * Class for creating a 3D newspaper model using NURBS surfaces.
@@ -8,28 +6,26 @@ import { nurb } from "../MyMaterials.js";
 export class MyNewspaperFactory {
     /**
      * Constructor for MyNewspaperFactory class.
-     * @param {string} variant - The variant of the NURBS material.
+     * @param {import('./MyNurbsBuilder.js').MyNurbsBuilder} nurbsBuilder
      */
-    constructor(variant) {
-        this.builder = new MyNurbsBuilder();
-        this.material = nurb[variant];
+    constructor(nurbsBuilder) {
+        this.nurbsBuilder = nurbsBuilder;
         this.samplesU = 24;
         this.samplesV = 24;
     }
 
     /**
      * Builds a single page of the newspaper with specified scales.
-     * @private
-     * @param {number} scaleX - The scale along the x-axis.
-     * @param {number} scaleY - The scale along the y-axis.
-     * @param {number} scaleZ - The scale along the z-axis.
-     * @returns {THREE.Mesh} - The 3D mesh representing a newspaper page.
+     * @param {object} options Options to control page construction.
+     * @param {THREE.Material} options.material The material to use for the page.
+     * @param {number} options.scaleX The scale along the X-axis.
+     * @param {number} options.scaleY The scale along the Y-axis.
+     * @param {number} options.scaleZ The scale along the Z-axis.
+     * @returns The 3D mesh representing a newspaper page.
      */
-    #buildPage(scaleX, scaleY, scaleZ) {
-        // declare local variables
+    #buildPage(options) {
+        const { scaleX, scaleY, scaleZ } = options;
 
-        let surfaceData;
-        let mesh;
         let orderU = 3;
         let orderV = 1;
 
@@ -66,19 +62,15 @@ export class MyNewspaperFactory {
             });
         }
 
-        surfaceData = this.builder.build(
+        const surfaceData = this.nurbsBuilder.build(
             controlPoints,
             orderU,
             orderV,
             this.samplesU,
             this.samplesV,
-            this.material
         );
 
-        mesh = new THREE.Mesh(surfaceData, this.material);
-
-        // mesh.rotateZ(Math.PI);
-        // mesh.rotateX(Math.PI / 2);
+        const mesh = new THREE.Mesh(surfaceData, options.material);
 
         mesh.castShadow = true;
         return Object.assign(mesh, {
@@ -90,19 +82,37 @@ export class MyNewspaperFactory {
 
     /**
      * Builds a complete 3D newspaper model with two pages.
-     * @param {number} scaleX - The scale along the x-axis.
-     * @param {number} scaleY - The scale along the y-axis.
-     * @param {number} scaleZ - The scale along the z-axis.
-     * @returns {THREE.Group} - The 3D group representing the newspaper.
+     * @param {object} options Options to control newspaper construction.
+     * @param {[THREE.Material, THREE.Material]} options.materials The materials to use for the newspaper pages.
+     * @param {number=} options.scaleX The scale along the X-axis.
+     * @param {number=} options.scaleY The scale along the Y-axis.
+     * @param {number=} options.scaleZ The scale along the Z-axis.
+     * @returns The 3D group representing the newspaper.
      */
-    buildNewspaper(scaleX = 1, scaleY = 1, scaleZ = 1) {
+    build(options) {
+        const scaleX = options.scaleX ?? 1;
+        const scaleY = options.scaleY ?? 1;
+        const scaleZ = options.scaleZ ?? 1;
+        
         const group = new THREE.Group();
 
-        const leftPage = this.#buildPage(-scaleX, scaleY, scaleZ);
+        const leftPage = this.#buildPage({
+            scaleX: -scaleX,
+            scaleY,
+            scaleZ,
+            material: options.materials[0],
+        });
+
         leftPage.position.x += leftPage.__width / 2;
         group.add(leftPage);
 
-        const rightPage = this.#buildPage(scaleX, scaleY, scaleZ);
+        const rightPage = this.#buildPage({
+            scaleX,
+            scaleY,
+            scaleZ,
+            material: options.materials[1],
+        });
+
         rightPage.position.x += rightPage.__width / 2;
         group.add(rightPage);
 

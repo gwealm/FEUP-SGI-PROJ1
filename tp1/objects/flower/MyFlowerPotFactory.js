@@ -1,6 +1,5 @@
-import * as THREE from "three";
-import { MyNurbsBuilder } from "../../nurbs/MyNurbsBuilder.js";
-import { nurb } from "../../MyMaterials.js";
+import * as THREE from 'three';
+import { trueClone } from '../../utils.js';
 
 /**
  * Class for creating a 3D flower pot model using NURBS surfaces.
@@ -8,22 +7,25 @@ import { nurb } from "../../MyMaterials.js";
 export class MyFlowerPotFactory {
     /**
      * Constructor for MyFlowerPotFactory class.
+     * @param {import('../../nurbs/MyNurbsBuilder.js').MyNurbsBuilder} nurbsBuilder
      */
-    constructor() {
-        this.builder = new MyNurbsBuilder();
-        this.material = nurb.pot.blue;
+    constructor(nurbsBuilder) {
+        this.nurbsBuilder = nurbsBuilder;
         this.samplesU = 24;
         this.samplesV = 24;
     }
 
     /**
      * Builds half of a flower pot using NURBS surfaces.
-     * @private
-     * @param {number} scaleXZ - The scale in the X and Z directions.
-     * @param {number} scaleY - The scale in the Y direction.
-     * @returns {THREE.Mesh} - The 3D mesh representing half of the flower pot.
+     * @param {object} options Options to control flower pot construction.
+     * @param {THREE.Material} options.material The material to use for the flower pot.
+     * @param {number} options.scaleXZ The scale in the X and Z directions.
+     * @param {number} options.scaleY The scale in the Y direction.
+     * @returns The 3D mesh representing half of the flower pot.
      */
-    #buildHalfFlowerPot(scaleXZ, scaleY) {
+    #buildHalfFlowerPot(options) {
+        const { scaleXZ, scaleY } = options;
+
         let orderU = 31;
 
         const radiuses = [
@@ -49,7 +51,7 @@ export class MyFlowerPotFactory {
             );
         }
 
-        const surfaceData = this.builder.build(
+        const surfaceData = this.nurbsBuilder.build(
             controlPoints,
             orderU,
             orderV,
@@ -57,10 +59,7 @@ export class MyFlowerPotFactory {
             this.samplesV
         );
 
-        const mesh = new THREE.Mesh(surfaceData, this.material);
-
-        // mesh.rotateZ(Math.PI);
-        // mesh.rotateX(Math.PI / 2);
+        const mesh = new THREE.Mesh(surfaceData, options.material);
 
         mesh.castShadow = true;
 
@@ -73,19 +72,30 @@ export class MyFlowerPotFactory {
 
     /**
      * Builds a complete 3D flower pot model by combining two halves.
-     * @param {number} scaleXZ - The scale in the X and Z directions.
-     * @param {number} scaleY - The scale in the Y direction.
-     * @returns {THREE.Group} - The 3D group representing the flower pot.
+     * @param {object} options Options to control flower pot construction.
+     * @param {THREE.Material} options.material The material to use for the flower pot.
+     * @param {number=} options.scaleXZ The scale in the X and Z directions.
+     * @param {number=} options.scaleY The scale in the Y direction.
+     * @returns The 3D group representing the flower pot.
      */
-    build(scaleXZ = 1, scaleY = 1) {
+    build(options) {
+        const scaleXZ = options.scaleXZ ?? 1;
+        const scaleY = options.scaleY ?? 1;
+
         const group = new THREE.Group();
 
-        let halfFlowerPot = this.#buildHalfFlowerPot(scaleXZ, scaleY);
+        let halfFlowerPot = this.#buildHalfFlowerPot({ material: options.material, scaleXZ, scaleY });
         group.add(halfFlowerPot);
 
-        let otherHalfFlowerPot = this.#buildHalfFlowerPot(scaleXZ, scaleY);
+        halfFlowerPot.receiveShadow = true;
+        halfFlowerPot.castShadow = true;
+
+        let otherHalfFlowerPot = trueClone(halfFlowerPot);
         otherHalfFlowerPot.rotateY(Math.PI);
         group.add(otherHalfFlowerPot);
+
+        otherHalfFlowerPot.receiveShadow = true;
+        otherHalfFlowerPot.castShadow = true;
 
         return Object.assign(group, {
             __width: halfFlowerPot.__width,

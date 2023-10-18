@@ -1,19 +1,10 @@
 import * as THREE from "three";
-import { table } from "../../../MyMaterials.js";
 
 /**
  * Factory class for creating rectangular frames.
  * @class
  */
 export class MyRectangularFrameFactory {
-    /**
-     * Creates an instance of MyRectangularFrameFactory.
-     * @param {keyof table} variant - The variant of the frame material.
-     */
-    constructor(variant) {
-        this.material = table[variant];
-    }
-
     /**
      * Builds a rectangular shape with the specified scales.
      * @param {number} scaleX - The scale factor for the rectangle in the X direction.
@@ -41,12 +32,22 @@ export class MyRectangularFrameFactory {
 
     /**
      * Builds a 3D rectangular frame with specified scales.
-     * @param {number} [scaleX=1] - The scale factor for the rectangular frame in the X direction.
-     * @param {number} [scaleY=1] - The scale factor for the rectangular frame in the Y direction.
-     * @param {number} [scaleZ=1] - The scale factor for the rectangular frame in the Z direction.
-     * @param {number} [bezelScale=1] - The scale factor for the bezel of the frame.
+     * @param {object} options The options to control the frame construction.
+     * @param {object} options.material The material to use for the frame.
+     * @param {number=} options.scaleX The scale factor for the rectangular frame in the X direction.
+     * @param {number=} options.scaleY The scale factor for the rectangular frame in the Y direction.
+     * @param {number=} options.scaleZ The scale factor for the rectangular frame in the Z direction.
+     * @param {number=} options.bezelScale The scale factor for the bezel of the frame.
+     * @returns The 3D mesh representing the rectangular frame.
      */
-    build(scaleX = 1, scaleY = 1, scaleZ = 1, bezelScale = 1) {
+    build(options) {
+        const {
+            scaleX = 1,
+            scaleY = 1,
+            scaleZ = 1,
+            bezelScale = 1,
+        } = options;
+
         const realBezelScale = 0.05 * bezelScale;
 
         const outerScaleX = scaleX;
@@ -67,7 +68,11 @@ export class MyRectangularFrameFactory {
             bevelThickness: 2 * realBezelScale,
         });
 
-        const mesh = new THREE.Mesh(frame, this.material.top);
+        const mesh = new THREE.Mesh(frame, options.material);
+        
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+
         return Object.assign(mesh, {
             __width: outerFrame.__width,
             __height: outerFrame.__height,

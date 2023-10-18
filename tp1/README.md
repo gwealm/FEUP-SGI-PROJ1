@@ -13,12 +13,15 @@
 
 **All the topics** from the evaluation document **where implemented**.
 #### Features
+
 - Efficient texture parallel loading
-- Newspaper Nurb
-- Pot Nurb
+- Newspaper NURBS
+- Pot NURBS
 - 3D Flower
 - Clock
 - Door
+- Bookshelf
+- (Sort of) Realistic illumination
 - Velvet Room Themed Room (from persona game series)
 
 #### Scene
@@ -31,7 +34,7 @@ This curated scene invites viewers to immerse themselves in its atmosphere, wher
 
 ## Issues/Problems
 
-- Some of the code is not documented yet
+- Some objects' positions are sort of hardcoded or not accurate.
 
 ## Screenshots
 

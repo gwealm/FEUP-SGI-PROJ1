@@ -1,49 +1,35 @@
 import * as THREE from "three";
-import { box } from "../MyMaterials.js";
 
 /**
  * Factory class for creating boxes.
  */
 export class MyBoxFactory {
     /**
-     * Creates an instance of MyBoxFactory.
-     * @param {keyof box} variant - The variant of the box material.
-     */
-    constructor(variant) {
-        this.material = box[variant];
-    }
-
-    /**
      * Builds a box with specified dimensions and initial position.
-     * @param {number} width - The width of the box.
-     * @param {number} height - The height of the box.
-     * @param {number} depth - The depth of the box.
-     * @param {THREE.Vector3} initialPosition - The initial position of the box.
-     * @returns {THREE.Mesh} - The 3D object representing the box.
+     * @param {object} options The options to control the box construction.
+     * @param {THREE.Material} options.material The material to use for the box.
+     * @param {number=} options.scaleX The scale factor along the X-axis for the box.
+     * @param {number=} options.scaleY The scale factor along the Y-axis for the box.
+     * @param {number=} options.scaleZ The scale factor along the Z-axis for the box.
+     * @returns The 3D object representing the box.
      */
-    buildBox(
-        width,
-        height,
-        depth,
-        initialPosition = new THREE.Vector3(0, 0, 0)
+    build(
+        options,
     ) {
-        const boxGeometry = new THREE.BoxGeometry(width, height, depth);
-        boxGeometry.translate(
-            initialPosition.x,
-            initialPosition.y,
-            initialPosition.z
-        );
+        const scaleX = options.scaleX ?? 1;
+        const scaleY = options.scaleY ?? 1;
+        const scaleZ = options.scaleZ ?? 1;
 
-        const box = new THREE.Mesh(boxGeometry, this.material);
+        const boxGeometry = new THREE.BoxGeometry(scaleX, scaleY, scaleZ);
+        const box = new THREE.Mesh(boxGeometry, options.material);
+
         box.castShadow = true;
         box.receiveShadow = true;
 
-        Object.assign(box, {
-            __width: width,
-            __height: height,
-            __depth: depth,
+        return Object.assign(box, {
+            __width: scaleX,
+            __height: scaleY,
+            __depth: scaleZ,
         });
-
-        return box;
     }
 }

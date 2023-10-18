@@ -1,4 +1,3 @@
-import { floor } from "../MyMaterials.js";
 import * as THREE from "three";
 
 /**
@@ -6,38 +5,27 @@ import * as THREE from "three";
  */
 export class MyFloorFactory {
     /**
-     * Creates an instance of MyFloorFactory.
-     * @param {keyof floor} variant - The variant of the floor material.
-     */
-    constructor(variant) {
-        /**
-         * @type {THREE.MeshPhongMaterial}
-         */
-        this.material = floor[variant];
-    }
-
-    /**
      * Builds a floor with specified scales along the X and Y axes.
-     * @param {number} [scaleX=1] - The scale along the X-axis.
-     * @param {number} [scaleY=1] - The scale along the Y-axis.
-     * @returns {THREE.Mesh} - The 3D object representing the floor.
+     * @param {object} options The options to control the floor construction.
+     * @param {THREE.Material} options.material The material to use for the floor.
+     * @param {number=} options.scaleX The scale along the X-axis.
+     * @param {number=} options.scaleY The scale along the Y-axis.
+     * @returns The 3D object representing the floor.
      */
-    buildFloor(scaleX = 1, scaleY = 1) {
-        const width = scaleX;
-        const height = scaleY;
+    build(options) {
+        const width = options.scaleX ?? 1;
+        const height = options.scaleY ?? 1;
 
-        // Create a Cube Mesh with basic material
         let box = new THREE.PlaneGeometry(width, height);
-
         box.rotateX(Math.PI / 2);
 
-        let mesh = Object.assign(new THREE.Mesh(box, this.material), {
+        const mesh = new THREE.Mesh(box, options.material);
+        mesh.receiveShadow = true;
+
+        return Object.assign(
+            mesh, {
             __width: width,
             __height: height,
         });
-
-        mesh.receiveShadow = true;
-
-        return mesh;
     }
 }

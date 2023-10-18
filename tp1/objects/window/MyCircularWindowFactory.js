@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { window } from "../../MyMaterials.js";
 import { MySpotlightFactory } from "../../lights/MySpotlightFactory.js";
 
 /**
@@ -9,28 +8,31 @@ export class MyCircularWindowFactory {
 
   /**
    * Creates an instance of MyCircularWindowFactory.
-   * @param {keyof window} variant - The variant of the window material.
-   * @param {number} lod - Level of detail for the window frame.
+   * @param {import('../../lights/MySpotlightFactory.js').MySpotlightFactory} spotlightFactory The spotlight factory to use for the window's light source.
+   * @param {object} options The options to control this factory's behavior.
+   * @param {number=} options.lod The level of detail for the window frames.
    */
-    constructor(/** @type {keyof window} */ variant, lod = 15) {
-        this.twoPi = 2 * Math.PI;
-        this.material = window[variant];
-        this.lod = lod;
+    constructor(spotlightFactory, options = {}) {
+        this.spotlightFactory = spotlightFactory;
+        this.lod = options.lod ?? 15;
 
-        this.spotlightFactory = new MySpotlightFactory();
+        this.twoPi = 2 * Math.PI;
     }
-    
 
   /**
    * Builds a circular window with a frame and glass.
-   * @param {number} scaleXY - Scale factor for the window's X and Y dimensions.
-   * @param {number} scaleZ - Scale factor for the window's Z dimension.
-   * @param {number} bezelScale - Scale factor for the window's bezel.
-   * @param {number} moonAngle - The angle of the moon in radians.
-   * @param {number} lightAmplitude - The amplitude of the spotlight's light in radians.
-   * @returns {THREE.Group} - The 3D object representing the circular window.
+   * @param {object} options The options to control the window construction.
+   * @param {object} options.materials The materials to use for the window.
+   * @param {THREE.Material} options.materials.frame The material to use for the window frame.
+   * @param {THREE.Material} options.materials.landscape The material to use for the window landscape.
+   * @param {number} options.scaleXY Scale factor for the window's X and Y dimensions.
+   * @param {number} options.scaleZ Scale factor for the window's Z dimension.
+   * @param {number} options.bezelScale Scale factor for the window's bezel.
+   * @returns The 3D object representing the circular window.
    */
-    #buildWindow(scaleXY, scaleZ, bezelScale) {
+    #buildWindow(options) {
+        const { scaleXY, scaleZ, bezelScale } = options;
+        
         const radius = scaleXY;
 
         const outerCircle = new THREE.Shape();
@@ -53,13 +55,13 @@ export class MyCircularWindowFactory {
             depth,
         });
 
-        const frameMesh = new THREE.Mesh(frame, this.material.frame);
+        const frameMesh = new THREE.Mesh(frame, options.materials.frame);
         group.add(frameMesh);
 
-        const glass = new THREE.CircleGeometry(innerRadius, curveSegments);
-        const glassMesh = new THREE.Mesh(glass, this.material.glass);
-        glassMesh.position.z = depth / 2;
-        group.add(glassMesh);
+        const landscape = new THREE.CircleGeometry(innerRadius, curveSegments);
+        const landscapeMesh = new THREE.Mesh(landscape, options.materials.landscape);
+        landscapeMesh.position.z = depth / 2;
+        group.add(landscapeMesh);
 
         return Object.assign(
             group, {
@@ -70,6 +72,14 @@ export class MyCircularWindowFactory {
         );
     }
 
+    /**
+     * Calculates the position of the spotlight for the window.
+     * @param {number} innerRadius The inner radius of the window frame.
+     * @param {number} depth The depth of the window frame.
+     * @param {number} moonAngle The angle of the moon in radians.
+     * @param {number} lightAmplitude The amplitude of the spotlight in radians.
+     * @returns The position of the "moon" spotlight.
+     */
     #calculateSpotlightPosition(innerRadius, depth, moonAngle, lightAmplitude) {
         const target = new THREE.Vector3(0, 0, -depth / 2);
         const direction = new THREE.Vector3(0, Math.sin(moonAngle), -Math.cos(moonAngle));
@@ -80,10 +90,32 @@ export class MyCircularWindowFactory {
         return spotlightPosition;
     }
 
-    build(scaleXY = 1, scaleZ = 1, bezelScale = 1, moonAngle = 0, lightAmplitude = Math.PI / 6) {
+    /**
+     * Builds a complete 3D circular window model with a frame and light source.
+     * @param {object} options The options to control the window construction.
+     * @param {object} options.materials The materials to use for the window.
+     * @param {THREE.Material} options.materials.frame The material to use for the window frame.
+     * @param {THREE.Material} options.materials.landscape The material to use for the window landscape.
+     * @param {number=} options.scaleXY Scale factor for the window's X and Y dimensions.
+     * @param {number=} options.scaleZ Scale factor for the window's Z dimension.
+     * @param {number=} options.bezelScale Scale factor for the window's bezel.
+     * @param {number=} options.moonAngle The angle of the moon in radians.
+     * @param {number=} options.lightAmplitude The amplitude of the spotlight in radians.
+     * @returns The 3D object representing the circular window.
+     */
+    build(options) {
+        const {
+            scaleXY = 1,
+            scaleZ = 1,
+            bezelScale = 1,
+            moonAngle = 0,
+            lightAmplitude = Math.PI / 6,
+            materials,
+        } = options;
+
         const group = new THREE.Group();
 
-        const frame = this.#buildWindow(scaleXY, scaleZ, bezelScale);
+        const frame = this.#buildWindow({ scaleXY, scaleZ, bezelScale, materials });
         group.add(frame);
         
         const lightSourcePosition = this.#calculateSpotlightPosition(frame.__innerRadius, frame.__depth, moonAngle, lightAmplitude);

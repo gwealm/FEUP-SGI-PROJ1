@@ -1,243 +1,144 @@
 import * as THREE from "three";
-import * as textures from "./MyTextures.js";
+import { textures } from "./MyTextures.js";
 
-export const wall = {
-    velvet: new THREE.MeshStandardMaterial({
-        color: "#494a99",
-        // color: "#ffffff",
-        emissive: "#000000",
-        map: textures.wall.velvet,
-        bumpMap: textures.wall.bump.velvet,
-        // displacementMap: textures.wall.bump.velvet,
-        // displacementScale: 0.1,
-    }),
-};
-
-export const door = {
-    wood: new THREE.MeshPhongMaterial({
-        color: "#ffffff",
-        specular: "#000000",
-        emissive: "#000000",
-        map: textures.door.wood,
-        shininess: 90,
-    }),
-};
-
-export const dish = {
-    porcelain: new THREE.MeshPhongMaterial({
-        color: "#f2f2f2", // Light porcelain color
-        specular: "#ffffff", // White specular highlights
-        shininess: 30, // Adjust shininess for a porcelain look
-    }),
-};
-
-export const pillar = {
-    // TODO: Fix naming and colors
-    vanilla: new THREE.MeshPhongMaterial({
-        color: "#ffff77",
-        specular: "#000000",
-        emissive: "#000000",
-        shininess: 90,
-    }),
-};
-
-export const watch = {
-    velvet: [
+export const materials = {
+    debug: {
+        uvGrid: {
+            map: textures.debug.uvGrid,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.9,
+            color: "#ffffff",
+        }
+    },
+    line: {
+        solidBlue: new THREE.LineBasicMaterial({ 
+            color: "#5d7dc2" 
+        }),
+        greenDashed: new THREE.LineDashedMaterial({ 
+            dashSize: 0.1, 
+            gapSize: 0.05,
+            color: "#00ff00", 
+        }),
+    },
+    basic: {
+        textured: {
+            wood: new THREE.MeshStandardMaterial({
+                map: textures.basic.wood,
+                color: "#ffffff",
+            }),
+            porcelain: new THREE.MeshStandardMaterial({
+                ...textures.basic.porcelain,
+                side: THREE.DoubleSide,
+                color: "#ffffff",
+            }),
+        },
+        white: new THREE.MeshPhongMaterial({
+            color: "#ffffff",
+        }),
+        porcelain: new THREE.MeshPhongMaterial({
+            color: "#f2f2f2",
+            specular: "#ffffff",
+            shininess: 30,
+        }),
+        metal: new THREE.MeshPhongMaterial({
+            color: "#7f7f7f",
+            specular: "#afafaf",
+            reflectivity: 90,
+        }),
+    },
+    room: {
+        velvet: new THREE.MeshStandardMaterial({
+            ...textures.room.velvet,
+            color: "#494a99",
+        }),
+        carpet: new THREE.MeshStandardMaterial({
+            map: textures.room.carpet,
+            color: "#5d7dc2",
+        }),
+    },
+    clock: [
         new THREE.MeshPhongMaterial({
             color: "#000000",
         }),
         new THREE.MeshPhongMaterial({
-            color: "#ffffff",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-            map: textures.watch.velvet,
+            map: textures.clock,
             side: THREE.DoubleSide,
+            color: "#ffffff",
         }),
         new THREE.MeshPhongMaterial({
             color: "#000000",
         }),
     ],
-};
-
-export const frame = {
-    inner: {
-        gui: new THREE.MeshPhongMaterial({
-            color: "#ffffff",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-            map: textures.frame.inner.guima,
-        }),
-
-        canvas: new THREE.MeshPhongMaterial({
-            color: "#ffffff",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        }),
-    },
-    outter: {
-        black: new THREE.MeshPhongMaterial({
-            color: "#000000",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        }),
-    },
-};
-
-export const table = {
-    wood: {
-        top: new THREE.MeshStandardMaterial({
-            map: textures.table.wood,
-            color: "#ffffff",
-        }),
-        leg: new THREE.MeshPhongMaterial({
-            color: "#808080",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        }),
-    },
-    regular: {
-        top: new THREE.MeshPhongMaterial({
-            color: "#7f3300",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        }),
-        leg: new THREE.MeshPhongMaterial({
-            color: "#808080",
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        }),
-    },
-};
-
-export const box = {
-    wood: new THREE.MeshStandardMaterial({
-        map: textures.box.wood.baseColor,
-        aoMap: textures.box.wood.ambientOcclusion,
-        normalMap: textures.box.wood.normal,
-        roughnessMap: textures.box.wood.roughness,
+    guima: new THREE.MeshPhongMaterial({
+        map: textures.guima,
         color: "#ffffff",
     }),
-};
-
-export const floor = {
-    carpet: new THREE.MeshStandardMaterial({
-        color: "#5d7dc2",
-        map: textures.floor.carpet,
+    box: new THREE.MeshStandardMaterial({
+        ...textures.box,
+        color: "#ffffff",
     }),
-};
-
-export const cake = {
-    candle: {
-        wick: new THREE.MeshPhongMaterial({
-            color: "#2a2a2a", // Dark wick color
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 0, // Reduce shininess for the wick
+    newspaper: {
+        firstPage: new THREE.MeshLambertMaterial({
+            map: textures.newspaper.firstPage,
             side: THREE.DoubleSide,
         }),
-        flame: new THREE.MeshPhongMaterial({
-            color: "#ff6600", // Warm flame color
-            specular: "#ff6600", // Match the flame color for specular highlights
-            emissive: "#ff6600", // Match the flame color for emissive glow
-            shininess: 10, // Some shininess for the flame
-            transparent: true,
-            opacity: 0.8, // Make the flame slightly transparent
-        }),
-    },
-    base: new THREE.MeshPhongMaterial({
-        color: "#ffffff", // Light brown base color
-        specular: "#000000",
-        emissive: "#000000",
-        shininess: 20, // Adjust shininess for the base
-        map: textures.cake.outter,
-    }),
-    inner: new THREE.MeshPhongMaterial({
-        color: "#ffffff", // Light brown base color
-        specular: "#000000",
-        emissive: "#000000",
-        shininess: 20, // Adjust shininess for the base
-        map: textures.cake.inner,
-    }),
-};
-
-
-
-export const line = {
-    basic: new THREE.LineBasicMaterial({ 
-        color: "#5d7dc2" 
-    }),
-    dashed: new THREE.LineDashedMaterial({ 
-        color: 0x00ff00, 
-        dashSize: 0.1, 
-        gapSize: 0.05 
-    }),
-};
-
-export const nurb = {
-    pot: {
-        periodicTable: new THREE.MeshLambertMaterial({
-            map: textures.nurb.periodicTable,
-            side: THREE.DoubleSide,
-            transparent: true, 
-            opacity: 0.90 
-        }),
-        blue: new THREE.MeshStandardMaterial({
-            color: "#ffffff",
-            map: textures.pot.blue.baseColor,
-            aoMap: textures.pot.blue.ambientOcclusion,
-            normalMap: textures.pot.blue.normal,
-            roughnessMap: textures.pot.blue.roughness,
+        secondPage: new THREE.MeshLambertMaterial({
+            map: textures.newspaper.secondPage,
             side: THREE.DoubleSide,
         }),
     },
-    
-
-    newspaper: new THREE.MeshLambertMaterial({
-        map: textures.nurb.newspaper,
-        side: THREE.DoubleSide,
-        // transparent: true, 
-        opacity: 0.90 
-    })
-};
-
-export const window = {
-    metal: {
-        frame: new THREE.MeshPhongMaterial({
-            color: "#7f7f7f",
-            // specular: "#afafaf",
-            reflectivity: 90,
-        }),
-        glass: new THREE.MeshPhongMaterial({
+    cake: {
+        candle: {
+            wick: new THREE.MeshPhongMaterial({
+                side: THREE.DoubleSide,
+                color: "#2a2a2a",
+            }),
+            flame: new THREE.MeshPhongMaterial({
+                color: "#ff6600",
+                specular: "#ff6600",
+                emissive: "#ff6600",
+                shininess: 10,
+                transparent: true,
+                opacity: 0.5,
+            }),
+        },
+        base: new THREE.MeshPhongMaterial({
+            map: textures.cake.outside,
             color: "#ffffff",
-            specular: "#000000",
+        }),
+    },
+    door: new THREE.MeshPhongMaterial({
+        map: textures.door,
+        color: "#ffffff",
+    }),
+    window: {
+        landscape: new THREE.MeshPhongMaterial({
             map: textures.window.landscape,
+            color: "#ffffff",
         }),
-    }
-}
-
-export const flower = {
-    leaf: new THREE.MeshPhongMaterial({
+    },
+    flower: {
+        petal: new THREE.MeshPhongMaterial({
+            color: "#ffd700"
+        }),
+        center: {
+            front: new THREE.MeshPhongMaterial({
+                color: "#8b4513"
+            }),
+            back: new THREE.MeshPhongMaterial({
+                color: "#003300"
+            }),
+        },
+        leaf: new THREE.MeshPhongMaterial({
             map: textures.flower.leaf,
-            color: 0x003300, 
             reflectivity: 90,
             side: THREE.DoubleSide,
+            color: "#003300", 
         }),
-    stem: new THREE.MeshBasicMaterial({
-        color: "#003300",
-        wireframe: false,
-        map: textures.flower.leaf,
-    }),
-}
-
-export const basic = {
-    white: new THREE.MeshPhongMaterial({
-        color: "#ffffff",
-    })
-}
+        stem: new THREE.MeshBasicMaterial({
+            map: textures.flower.leaf,
+            color: "#003300",
+        }),
+    },
+};

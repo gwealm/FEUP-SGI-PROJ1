@@ -1,17 +1,30 @@
 import * as THREE from "three";
-import { basic as bookshelf } from "../../MyMaterials.js";
 import { trueClone } from "../../utils.js";
-import { MyRectangularFrameFactory } from "../painting/frame/MyRectangularFrameFactory.js";
 
 export class MyBookshelfFactory {
 
-    constructor() {
-        this.rectangularFrameFactory = new MyRectangularFrameFactory("wood");
+    /**
+     * Constructor for MyRectangularFrameFactory class.
+     * @param {import('../painting/frame/MyRectangularFrameFactory.js').MyRectangularFrameFactory} rectangularFrameFactory 
+     */
+    constructor(rectangularFrameFactory) {
+        this.rectangularFrameFactory = rectangularFrameFactory;
     }
     
-    #buildShelf(scaleX, scaleY, scaleZ) {
+    /** 
+     * Builds a shelf.
+     * @param {object} options The options to control the shelf construction.
+     * @param {THREE.Material} options.material The material to use for the shelf.
+     * @param {number} options.scaleX The x scale of the shelf.
+     * @param {number} options.scaleY The y scale of the shelf.
+     * @param {number} options.scaleZ The z scale of the shelf.
+     * @returns The 3D object representing the shelf.
+     */
+    #buildShelf(options) {
+        const { scaleX, scaleY, scaleZ } = options;
+
         const shelf = new THREE.BoxGeometry(scaleX, scaleY, scaleZ);
-        const shelfMesh = new THREE.Mesh(shelf, bookshelf.white);
+        const shelfMesh = new THREE.Mesh(shelf, options.material);
         return Object.assign(
             shelfMesh, {
                 __width: scaleX,
@@ -21,30 +34,41 @@ export class MyBookshelfFactory {
         );
     }
 
-    #buildShelfs(scaleX, scaleY, scaleZ) {
-        const shelfCount = 4;
+    /**
+     * Builds a stack of shelfs.
+     * @param {object} options The options to control the shelf stack construction.
+     * @param {THREE.Material} options.material The material to use for the shelf stack.
+     * @param {number} options.scaleX The x scale of the shelf stack.
+     * @param {number} options.scaleY The y scale of the shelf stack.
+     * @param {number} options.scaleZ The z scale of the shelf stack.
+     * @returns The 3D object representing the shelf stack.
+     */
+    #buildShelfs(options) {
+        const { scaleX, scaleY, scaleZ } = options;
+
+        const shelfCount = 2;
         const shelfScaleY = 0.05;        
         const shelfSpacing = 0.6;
 
         const shelfHeight = (shelfCount + 1) * shelfSpacing + shelfCount * shelfScaleY;
         const realScaleY = scaleY / shelfHeight;
-        console.log({ shelfHeight, scaleY, realScaleY, a: 1/shelfHeight})
+
         const realShelfScaleY = shelfScaleY * realScaleY;
         const realShelfSpacing = shelfSpacing * realScaleY;
-        console.log({ realShelfScaleY, realShelfSpacing})
 
         const shelfs = new THREE.Group();
 
-        const shelf = this.#buildShelf(scaleX, realShelfScaleY, scaleZ);
+        const shelf = this.#buildShelf({ material: options.material, scaleX, scaleY: realShelfScaleY, scaleZ });
         shelf.position.y = -0.5 * scaleY + shelf.__height / 2;
+
+        shelf.castShadow = true;
+        shelf.receiveShadow = true;
 
         for (let i = 1; i <= shelfCount; i++) {
             const clonedShelf = trueClone(shelf);
             clonedShelf.position.y += i * realShelfSpacing + (i - 1) * shelf.__height;
-            console.log({pos: clonedShelf.position.y, shelfHeight: clonedShelf.__height})
             shelfs.add(clonedShelf);
         }
-
 
         return Object.assign(
             shelfs, {
@@ -62,18 +86,57 @@ export class MyBookshelfFactory {
         )
     }
 
-    #buildShelfStructure(scaleX, scaleY, scaleZ) {
-        return this.rectangularFrameFactory.build(scaleX, scaleY, scaleZ);
+    /**
+     * Builds the shelf structure.
+     * @param {object} options The options to control the shelf structure construction.
+     * @param {THREE.Material} options.material The material to use for the shelf structure.
+     * @param {number} options.scaleX The x scale of the shelf structure.
+     * @param {number} options.scaleY The y scale of the shelf structure.
+     * @param {number} options.scaleZ The z scale of the shelf structure.
+     * @returns The 3D object representing the shelf structure.
+     */
+    #buildShelfStructure(options) {
+        return this.rectangularFrameFactory.build(options);
     }
     
-    build(scaleX = 1, scaleY = 1, scaleZ = 1) {
+    /** 
+     * Builds a bookshelf.
+     * @param {object} options The options to control the bookshelf construction.
+     * @param {object} options.materials The materials to use for the bookshelf.
+     * @param {THREE.Material} options.materials.frame The material to use for the bookshelf frame.
+     * @param {THREE.Material} options.materials.shelf The material to use for the bookshelf shelfs.
+     * @param {number=} options.scaleX The x scale of the bookshelf.
+     * @param {number=} options.scaleY The y scale of the bookshelf.
+     * @param {number=} options.scaleZ The z scale of the bookshelf.
+     * @returns The 3D object representing the bookshelf.
+     */
+    build(options) {
+        const {
+            scaleX = 1,
+            scaleY = 1,
+            scaleZ = 1,
+            materials,
+        } = options;
+
         const group = new THREE.Group();
 
-        const shelfStructure = this.#buildShelfStructure(scaleX, 3 * scaleY, 6 * scaleZ);
+        const shelfStructure = this.#buildShelfStructure({
+            scaleX,
+            scaleY: 3 * scaleY,
+            scaleZ: 6 * scaleZ,
+            material: materials.frame,
+        });
+
         shelfStructure.position.z -= shelfStructure.__depth / 2;
         group.add(shelfStructure);
 
-        const shelfs = this.#buildShelfs(shelfStructure.__innerWidth, shelfStructure.__innerHeight, shelfStructure.__depth);
+        const shelfs = this.#buildShelfs({
+            scaleX: shelfStructure.__innerWidth,
+            scaleY: shelfStructure.__innerHeight,
+            scaleZ: shelfStructure.__depth,
+            material: materials.shelf,
+        });
+
         group.add(shelfs);
 
         return Object.assign(

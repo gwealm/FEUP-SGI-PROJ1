@@ -1,6 +1,4 @@
-import { cake } from "../../MyMaterials.js";
 import * as THREE from "three";
-import { MyPointLightFactory } from "../../lights/MyPointLightFactory.js";
 
 /**
  * Class for creating a 3D candle model with wick and flame
@@ -8,45 +6,52 @@ import { MyPointLightFactory } from "../../lights/MyPointLightFactory.js";
 export class MyCandleFactory {
     /**
      * Constructor for MyCandleFactory class.
+     * @param {import('../../lights/MyPointLightFactory.js').MyPointLightFactory} pointLightFactory 
      */
-    constructor() {
-        this.pointLightFactory = new MyPointLightFactory();
+    constructor(pointLightFactory) {
+        this.pointLightFactory = pointLightFactory;
     }
 
     /**
      * Builds the wick of the candle.
-     * @private
-     * @param {number} scale - The overall scale of the candle.
-     * @returns {THREE.Mesh} - The 3D mesh representing the candle wick.
+     * @param {object} options Options to control candle wick construction.
+     * @param {THREE.Material} options.material The material to use for the candle wick.
+     * @param {number=} options.scale The overall scale of the candle wick.
+     * @returns The 3D mesh representing the candle wick.
      */
-    #buildWick(scale) {
+    #buildWick(options) {
+        const scale = options.scale ?? 1;
+
         const radius = 0.05 * scale;
         const height = 0.3 * scale;
 
         const cylinder = new THREE.CylinderGeometry(radius, radius, height);
-        let wickMesh = new THREE.Mesh(cylinder, cake.candle.wick);
+        let wickMesh = new THREE.Mesh(cylinder, options.material);
 
         return wickMesh;
     }
 
     /**
      * Builds the flame of the candle along with the point light source.
-     * @private
-     * @param {number} scale - The overall scale of the candle.
-     * @returns {THREE.Mesh} - The 3D mesh representing the candle flame.
+     * @param {object} options Options to control candle flame construction.
+     * @param {THREE.Material} options.material The material to use for the candle flame.
+     * @param {number=} options.scale The overall scale of the candle flame.
+     * @returns The 3D mesh representing the candle flame.
      */
-    #buildFlame(scale) {
+    #buildFlame(options) {
+        const scale = options.scale ?? 1;
+
         const radius = 0.025 * scale;
         const height = 0.2 * scale;
 
         const cone = new THREE.ConeGeometry(radius, height);
-        const coneMesh = new THREE.Mesh(cone, cake.candle.flame);
+        const coneMesh = new THREE.Mesh(cone, options.material);
 
         const light = this.pointLightFactory.build({
             //orange flame color
             color: "#ff8f3f",
             intensity: 0.25,
-            decay: 2,
+            decay: 1,
             castShadow: true,
         });
 
@@ -56,25 +61,37 @@ export class MyCandleFactory {
 
     /**
      * Builds a complete 3D candle model with wick and flame.
-     * @param {number} scale - The overall scale of the candle.
-     * @returns {THREE.Group} - The 3D group representing the candle.
+     * @param {object} options Options to control candle construction.
+     * @param {object} options.materials The materials to use for the candle.
+     * @param {THREE.Material} options.materials.wick The material to use for the candle wick.
+     * @param {THREE.Material} options.materials.flame The material to use for the candle flame.
+     * @param {number=} options.scale The overall scale of the candle.
+     * @returns The 3D group representing the candle.
      */
-    buildCandle(scale = 1) {
+    build(options) {
+        const scale = options.scale ?? 1;
+
         const candleGroup = new THREE.Group();
 
-        const wick = this.#buildWick(scale);
+        const wick = this.#buildWick({
+            material: options.materials.wick,
+            scale: options.scale,
+        });
+
         candleGroup.add(wick);
 
-        const flame = this.#buildFlame(scale);
+        const flame = this.#buildFlame({
+            material: options.materials.flame,
+            scale: options.scale,
+        });
+
         flame.position.set(0, 0.25 * scale, 0);
         // flame.rotateX(Math.PI);
         candleGroup.add(flame);
 
-        Object.assign(candleGroup, {
+        return Object.assign(candleGroup, {
             __height: 0.3 * scale,
             __radius: 0.025 * scale,
         });
-
-        return candleGroup;
     }
 }

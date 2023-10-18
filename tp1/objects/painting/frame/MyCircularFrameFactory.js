@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { wall } from "../../../MyMaterials.js";
 
 /**
  * Factory class for creating circular frames.
@@ -14,9 +13,8 @@ export class MyCircularFrameFactory {
 
     /**
      * Builds a circular shape with the specified scale.
-     * @private
      * @param {number} scale - The scale factor for the circular shape.
-     * @returns {THREE.Shape} - The circular shape.
+     * @returns The circular shape.
      */
     #buildCircle(scale) {
         const radius = 0.5 * scale;
@@ -31,12 +29,20 @@ export class MyCircularFrameFactory {
 
     /**
      * Builds a 3D circular frame with specified scales.
-     * @param {number} [scaleXY=1] - The scale factor for the circular frame in the XY plane.
-     * @param {number} [scaleZ=1] - The scale factor for the circular frame in the Z direction.
-     * @param {number} [bezelScale=1] - The scale factor for the bezel of the frame.
-     * @returns {THREE.Mesh} - The 3D mesh representing the circular frame.
+     * @param {object} options The options to control the frame construction.
+     * @param {object} options.material The material to use for the frame.
+     * @param {number=} options.scaleXY The scale factor for the circular frame in the XY plane.
+     * @param {number=} options.scaleZ The scale factor for the circular frame in the Z direction.
+     * @param {number=} options.bezelScale The scale factor for the bezel of the frame.
+     * @returns The 3D mesh representing the circular frame.
      */
-    build(scaleXY = 1, scaleZ = 1, bezelScale = 1) {
+    build(options) {
+        const {
+            scaleXY = 1,
+            scaleZ = 1,
+            bezelScale = 1,
+        } = options;
+
         const realBezelScale = 0.05 * bezelScale;
 
         const outerScale = scaleXY;
@@ -55,7 +61,11 @@ export class MyCircularFrameFactory {
             bevelThickness: 2 * realBezelScale,
         });
 
-        const mesh = new THREE.Mesh(frame, wall.velvet);
+        const mesh = new THREE.Mesh(frame, options.material);
+
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        
         return Object.assign(mesh, {
             __radius: outerFrame.__radius,
             __innerRadius: innerFrame.__radius,
