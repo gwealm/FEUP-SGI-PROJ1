@@ -39,10 +39,10 @@ This curated scene invites viewers to immerse themselves in its atmosphere, wher
 ## Screenshots
 
 ### Front/Side View
-![Side View](./resources/scene1.png)
+![Side View](./screenshots/scene1.png)
 
 ### Back View
-![Front View](./resources/scene2.png)
+![Front View](./screenshots/scene2.png)
 
 
 ## Attributions
