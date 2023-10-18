@@ -24,7 +24,7 @@ class MySceneData  {
         this.cameras = [];
         this.activeCameraId = null;
         
-        this.nodes = [];
+        this.nodes = {};
         this.rootId = null;
     
         this.descriptors = [];

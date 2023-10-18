@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { MyFileReader } from './parser/MyFileReader.js';
+import { MyParser } from './MyParser.js';
 /**
  *  This class contains the contents of out application
  */
@@ -32,7 +33,7 @@ class MyContents  {
 
     /**
      * Called when the scene xml file load is complete
-     * @param {MySceneData} data the entire scene data object
+     * @param {import('./parser/MySceneData.js').MySceneData} data the entire scene data object
      */
     onSceneLoaded(data) {
         console.info("scene data loaded " + data + ". visit MySceneData javascript class to check contents for each data item.")
@@ -43,6 +44,9 @@ class MyContents  {
         console.log("" + new Array(indent * 4).join(' ') + " - " + obj.type + " " + (obj.id !== undefined ? "'" + obj.id + "'" : ""))
     }
 
+    /**
+     * @param {import('./parser/MySceneData.js').MySceneData} data
+     */
     onAfterSceneLoadedAndBeforeRender(data) {
        
         // refer to descriptors in class MySceneData.js
@@ -68,22 +72,10 @@ class MyContents  {
         }
 
         console.log("nodes:")
-        for (var key in data.nodes) {
-            let node = data.nodes[key]
-            this.output(node, 1)
-            for (let i=0; i< node.children.length; i++) {
-                let child = node.children[i]
-                if (child.type === "primitive") {
-                    console.log("" + new Array(2 * 4).join(' ') + " - " + child.type + " with "  + child.representations.length + " " + child.subtype + " representation(s)")
-                    if (child.subtype === "nurbs") {
-                        console.log("" + new Array(3 * 4).join(' ') + " - " + child.representations[0].controlpoints.length + " control points")
-                    }
-                }
-                else {
-                    this.output(child, 2)
-                }
-            }
-        }
+        const parser = new MyParser(data.nodes);
+        this.app.scene.add(parser.visitNodes());
+
+
     }
 
     update() {
