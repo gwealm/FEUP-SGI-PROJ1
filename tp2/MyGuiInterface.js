@@ -29,6 +29,12 @@ class MyGuiInterface  {
      * Initialize the gui interface
      */
     init() {
+        // add a folder to the gui interface for the axis
+        const axisFolder = this.datgui.addFolder( 'Axis' );
+        axisFolder.add(this.contents, 'displayAxis', true).name("enabled");
+
+        const lightHelpersFolder = this.datgui.addFolder('Light Helpers')
+        lightHelpersFolder.add(this.contents, 'displayHelpers', true).name("enabled").onChange(() => this.contents.updateHelpers());
     }
 }
 

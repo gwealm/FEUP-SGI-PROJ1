@@ -1,6 +1,7 @@
 import * as THREE from "three";
 
 /** @typedef {{ worldMatrix: THREE.Matrix4, activeMaterials: THREE.Material[] }} PrimitiveContext */
+/** @typedef {{ geometry: THREE.BufferGeometry, offset: [number, number, number] }} PrimitiveDescriptor */
 
 const material = new THREE.MeshBasicMaterial({
     color: 0xffff00,
@@ -13,20 +14,18 @@ export class MyPrimitiveBuilder {
      * @param {PrimitiveContext} ctx
      */
     buildRepresentation(representation, ctx) {
-        console.log("MyPrimitiveBuilder#buildRepresentation", {ctx})
+        const { geometry, offset } = this.#buildGeometry(representation);
 
-        const geometry = this.#buildGeometry(representation);
-
-        console.log("MyPrimitiveBuilder#buildRepresentation", {geometry})
         const materials = geometry.groups.length === 0
             ? ctx.activeMaterials[0] // no groups, so there can only be one material (rectangles, for instance)
             : ctx.activeMaterials;
 
         const mesh = new THREE.Mesh(geometry, materials);
-        
-        mesh.receiveShadow = true;
 
+        mesh.position.set(...offset);
         mesh.applyMatrix4(ctx.worldMatrix);
+
+        mesh.receiveShadow = true;
 
         return mesh;
     }
@@ -51,6 +50,9 @@ export class MyPrimitiveBuilder {
         }
     }
 
+    /**
+     * @return {PrimitiveDescriptor}
+     */
     #buildCylinder(representation) {
         const {
             base,
@@ -63,18 +65,24 @@ export class MyPrimitiveBuilder {
             thetalength,
         } = representation;
 
-        return new THREE.CylinderGeometry(
-            top,
-            base,
-            height,
-            slices,
-            stacks,
-            !capsclose,
-            thetastart,
-            thetalength,
-        );
+        return {
+            geometry: new THREE.CylinderGeometry(
+                top,
+                base,
+                height,
+                slices,
+                stacks,
+                !capsclose,
+                thetastart,
+                thetalength,
+            ),
+            offset: [0, 0, 0],
+        };
     }
     
+    /**
+     * @return {PrimitiveDescriptor}
+     */
     #buildRectangle(representation) {
         const {
             xy1,
@@ -86,14 +94,18 @@ export class MyPrimitiveBuilder {
         const width = Math.abs(xy1[0] - xy2[0]);
         const height = Math.abs(xy1[1] - xy2[1]);
 
-        return new THREE.PlaneGeometry(
-            width,
-            height,
-            parts_x,
-            parts_y,
-        );
+        const offsetX = (xy1[0] + xy2[0]) / 2;
+        const offsetY = (xy1[1] + xy2[1]) / 2;
+
+        return {
+            geometry: new THREE.PlaneGeometry(width, height, parts_x, parts_y),
+            offset: [offsetX, offsetY, 0],
+        }
     }
     
+    /**
+     * @return {PrimitiveDescriptor}
+     */
     #buildTriangle(representation) {
         const {
             xyz1,
@@ -110,9 +122,17 @@ export class MyPrimitiveBuilder {
         ]);
         
         geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-        return geometry;
+
+        
+        return {
+            geometry,
+            offset: [0, 0, 0],
+        };
     }
     
+    /**
+     * @return {PrimitiveDescriptor}
+     */
     #buildSphere(representation) {
         const {
             radius,
@@ -124,17 +144,23 @@ export class MyPrimitiveBuilder {
             philength,
         } = representation;
 
-        return new THREE.SphereGeometry(
-            radius,
-            slices,
-            stacks,
-            phistart,
-            philength,
-            thetastart,
-            thetalength,
-        );
+        return {
+            geometry: new THREE.SphereGeometry(
+                radius,
+                slices,
+                stacks,
+                phistart,
+                philength,
+                thetastart,
+                thetalength,
+            ),
+            offset: [0, 0, 0]
+        };
     }
     
+    /**
+     * @return {PrimitiveDescriptor}
+     */
     #buildNURBS(representation) {
         const {
             degree_u,
@@ -143,9 +169,15 @@ export class MyPrimitiveBuilder {
             parts_v,
         } = representation;
 
-        return new THREE.PlaneGeometry(5, 5);
+        return {
+            geometry: new THREE.PlaneGeometry(5, 5),
+            offset: [0, 0, 0],
+        };
     }
 
+    /**
+     * @returns {PrimitiveDescriptor}
+     */
     #buildBox(representation) {
         const {
             xyz1,
@@ -159,7 +191,14 @@ export class MyPrimitiveBuilder {
         const height = Math.abs(xyz1[1] - xyz2[1]);
         const depth = Math.abs(xyz1[2] - xyz2[2]);
 
-        return new THREE.BoxGeometry(width, height, depth, parts_x, parts_y, parts_z);
+        const offsetX = (xyz1[0] + xyz2[0]) / 2;
+        const offsetY = (xyz1[1] + xyz2[1]) / 2;
+        const offsetZ = (xyz1[2] + xyz2[2]) / 2;
+
+        return {
+            geometry: new THREE.BoxGeometry(width, height, depth, parts_x, parts_y, parts_z),
+            offset: [offsetX, offsetY, offsetZ],
+        };
         
     }
 }

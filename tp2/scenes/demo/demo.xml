@@ -168,7 +168,7 @@
                     distance="1000"
                     decay="2.0"
                     castshadow="false"
-                    position="11.25 7.3 3.75"  
+                    position="11.25 7.5 3.75"  
                 /> 
 			              
                 <spotlight id="light4" enabled="true" 

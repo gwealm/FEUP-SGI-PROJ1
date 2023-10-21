@@ -59,12 +59,56 @@ export class MyLightBuilder {
 
         spotLight.visible = enabled;
 
+        /** @type {(THREE.Object3D & { update(): void })[]} */
+        const helpers = [];
+        helpers.push(new THREE.SpotLightHelper(spotLight));
+
         if (castshadow) {
             spotLight.castShadow = castshadow;
             spotLight.shadow.mapSize.width = shadowmapsize;
             spotLight.shadow.mapSize.height = shadowmapsize;
             spotLight.shadow.camera.far = shadowfar;
+
+            const cameraHelper = new THREE.CameraHelper(spotLight.shadow.camera);
+            helpers.push(cameraHelper);
         }
+
+        const onUpdateHelpers = (ev) => {
+            for (const helper of helpers) {
+                helper.visible = ev.displayHelpers;
+                helper.update();
+            }
+        };
+
+        const onAdd = (
+            /** @type {THREE.Event<"added", THREE.Object3D>} */ ev
+        ) => {
+            if (ev.target.parent) {
+                for (const helper of helpers) {
+                    helper.removeFromParent();
+                    ev.target.parent.add(helper);
+                }
+
+                ev.target.parent.addEventListener("added", onAdd);
+                ev.target.parent.addEventListener(
+                    "custom:updateHelpers",
+                    onUpdateHelpers
+                );
+            }
+
+            for (const helper of helpers) {
+                helper.update();
+            }
+
+            ev.target.removeEventListener("added", onAdd);
+            ev.target.removeEventListener(
+                "custom:updateHelpers",
+                onUpdateHelpers
+            );
+        };
+
+        spotLight.addEventListener("added", onAdd);
+        spotLight.addEventListener("custom:updateHelpers", onUpdateHelpers);
 
         return spotLight;
     }
@@ -85,7 +129,7 @@ export class MyLightBuilder {
 
         const pointLight = new THREE.PointLight(color, intensity, distance, decay);
 
-        pointLight.position.set(position.x, position.y, position.z);
+        pointLight.position.set(...position);
 
         pointLight.visible = enabled;
 
@@ -95,6 +139,38 @@ export class MyLightBuilder {
             pointLight.shadow.mapSize.height = shadowmapsize;
             pointLight.shadow.camera.far = shadowfar;
         }
+
+        const sphereSize = 0.5;
+        const helper = new THREE.PointLightHelper(
+            pointLight,
+            sphereSize
+        );
+        
+        
+        const onUpdateHelpers = (ev) => {
+            helper.visible = ev.displayHelpers;
+            helper.update();
+        }
+
+        const onAdd = (/** @type {THREE.Event<"added", THREE.Object3D>} */ ev) => {
+            console.log("added")
+            if (ev.target.parent) {
+                console.log(ev.target.parent)
+                helper.removeFromParent();
+                ev.target.parent.add(helper);
+
+                ev.target.parent.addEventListener("added", onAdd);
+                ev.target.parent.addEventListener("custom:updateHelpers", onUpdateHelpers);
+            }
+
+            helper.update();
+
+            ev.target.removeEventListener("added", onAdd);
+            ev.target.removeEventListener("custom:updateHelpers", onUpdateHelpers);
+        }
+
+        pointLight.addEventListener('added', onAdd);
+        pointLight.addEventListener('custom:updateHelpers', onUpdateHelpers);
 
         return pointLight;
     }
@@ -121,6 +197,10 @@ export class MyLightBuilder {
 
         directionalLight.position.set(position[0], position[1], position[2]);
 
+        /** @type {(THREE.Object3D & { update(): void })[]} */
+        const helpers = [];
+        helpers.push(new THREE.DirectionalLightHelper(directionalLight));
+
         if (castshadow) {
             directionalLight.castShadow = true;
             directionalLight.shadow.mapSize.width = shadowmapsize;
@@ -130,7 +210,50 @@ export class MyLightBuilder {
             directionalLight.shadow.camera.bottom = shadowbottom;
             directionalLight.shadow.camera.top = shadowtop;
             directionalLight.shadow.camera.far = shadowfar;
+
+            const cameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+            helpers.push(cameraHelper);
         }
+
+        const lightHelper = new THREE.DirectionalLightHelper(directionalLight);
+        helpers.push(lightHelper);
+
+       const onUpdateHelpers = (ev) => {
+            for (const helper of helpers) {
+                helper.visible = ev.displayHelpers;
+                helper.update();
+            }
+        };
+
+        const onAdd = (
+            /** @type {THREE.Event<"added", THREE.Object3D>} */ ev
+        ) => {
+            if (ev.target.parent) {
+                for (const helper of helpers) {
+                    helper.removeFromParent();
+                    ev.target.parent.add(helper);
+                }
+
+                ev.target.parent.addEventListener("added", onAdd);
+                ev.target.parent.addEventListener(
+                    "custom:updateHelpers",
+                    onUpdateHelpers
+                );
+            }
+
+            for (const helper of helpers) {
+                helper.update();
+            }
+
+            ev.target.removeEventListener("added", onAdd);
+            ev.target.removeEventListener(
+                "custom:updateHelpers",
+                onUpdateHelpers
+            );
+        };
+
+        directionalLight.addEventListener("added", onAdd);
+        directionalLight.addEventListener("custom:updateHelpers", onUpdateHelpers);
 
         return directionalLight;
     }

@@ -13,9 +13,15 @@ class MyContents  {
     */ 
     constructor(app) {
         this.app = app
+
+        // axis related attributes
         this.axis = null
+        this.displayAxis = true;
+
+        this.displayHelpers = true;
 
         this.reader = new MyFileReader(app, this, this.onSceneLoaded);
+		//this.reader.open("scenes/debug.xml");		
 		this.reader.open("scenes/demo/demo.xml");		
     }
 
@@ -29,6 +35,14 @@ class MyContents  {
             this.axis = new MyAxis(this)
             this.app.scene.add(this.axis)
         }
+    }
+
+    updateHelpers() {
+        this.app.scene?.dispatchEvent({
+            // @ts-ignore
+            type: "custom:updateHelpers",
+            displayHelpers: this.displayHelpers,
+        });
     }
 
     /**
@@ -79,16 +93,24 @@ class MyContents  {
             this.app.scene.add(object);
         }
 
-        const pointLight = new THREE.PointLight(0xffffff, 40);
-        pointLight.position.set(0, 0, 0);
-        this.app.scene.add(pointLight);
-
-        const ambientLight = new THREE.AmbientLight(0x333333, 0.5);
-        this.app.scene.add(ambientLight);
+        // const ambientLight = new THREE.AmbientLight(0x333333, 0.5);
+        // this.app.scene.add(ambientLight);
+    }
+    
+    /**
+     * updates the axis if required
+     * this method is called from the render method of the app
+     * updates are trigered by displayAxis property changes
+     */
+    updateAxisIfRequired() {
+        if (!this.displayAxis && this.axis != null)
+            this.app.scene?.remove(this.axis);
+        else if (this.displayAxis) this.app.scene?.add(this.axis);
     }
 
+
     update() {
-        
+        this.updateAxisIfRequired();
     }
 }
 

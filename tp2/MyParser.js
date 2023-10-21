@@ -1,15 +1,9 @@
 import * as THREE from "three";
 import { MyPrimitiveBuilder } from "./MyPrimitiveBuilder.js";
 import { MyLightBuilder } from "./MyLightBuilder.js";
+import { MyTransformations } from "./MyTransformations.js";
 
-/** @typedef {{ worldMatrix: THREE.Matrix4, activeMaterials: string[] }} ParsingContext */
-
-/** @typedef {{ type: "T", translate: [number, number, number] }} TranslationTransformation */
-/** @typedef {{ type: "R", rotation: [number, number, number] }} RotationTransformation */
-/** @typedef {{ type: "S", scale: [number, number, number] }} ScaleTransformation */
-/** @typedef { TranslationTransformation | RotationTransformation | ScaleTransformation } Transformation */
-
-const degreesToRadians = Math.PI / 180;
+/** @typedef {{ transformations: MyTransformations, activeMaterials: string[] }} ParsingContext */
 
 export class MyParser {
     constructor(data) {
@@ -50,7 +44,7 @@ export class MyParser {
         */
 
         this.#visitNode(this.nodeData["scene"], {
-            worldMatrix: new THREE.Matrix4(),
+            transformations: new MyTransformations(),
             activeMaterials: [],
         });
 
@@ -62,7 +56,10 @@ export class MyParser {
         
         for (const [id, textureSpec] of Object.entries(this.textureData)) {
             const { filepath } = textureSpec;
+
             const texture = loader.load(filepath);
+            texture.name = id;
+            
             this.textures.set(id, texture);
         }
     }
@@ -70,7 +67,7 @@ export class MyParser {
     #initMaterials() {
         /** @type {Record<string, THREE.MeshPhongMaterial>} */
         const materials = {};
-        console.log(this.materialData)
+        
 
         for (const [id, materialSpec] of Object.entries(this.materialData)) {
             const {
@@ -87,17 +84,22 @@ export class MyParser {
                 wireframe
             } = materialSpec;
 
+            const texture = this.textures.get(textureref)?.clone();
+            // FIXME: use texlength_s and texlength_t
+            // FIXME: use shading
+
+            console.log({wireframe})
             const material = new THREE.MeshPhongMaterial({
                 color,
                 emissive,
                 shininess,
                 specular,
+                map: texture,
+                side: twosided ? THREE.DoubleSide : THREE.FrontSide,
+                wireframe,
             });
 
             this.materials.set(id, material);
-
-            
-            console.log({id, materialSpec})
         }
 
         return materials;
@@ -111,11 +113,18 @@ export class MyParser {
             throw new Error("Object is not a node");
 
         const { children, custom, materialIds, transformations } = node;
-        // console.log("MyParser##visitNode", {materialIds})
+        // 
 
-        const newCtx = this.#applyTransformations(ctx, transformations);
-        if (materialIds.length > 0)
-            newCtx.activeMaterials = materialIds;
+        /** @type {ParsingContext} */
+        const newCtx = {
+            transformations: transformations.length === 0
+                ? ctx.transformations
+                : ctx.transformations.applyTransformations(transformations),
+
+            activeMaterials: materialIds.length === 0
+                ? ctx.activeMaterials
+                : materialIds,
+        }
             
         for (const child of children) {
             this.#visitChild(child, newCtx);
@@ -130,7 +139,13 @@ export class MyParser {
         
 		let lightIds = ["spotlight", "pointlight", "directionallight"]
         
-        if (lightIds.includes(child.type)) return this.#visitLight(child)
+        console.log(child)
+        if (lightIds.includes(child.type)){
+            console.log("included")
+            return this.#visitLight(child)
+        }
+
+        console.log("not included")
 
         const node = this.nodeData[child.id];
         if (!node) return null;
@@ -158,115 +173,17 @@ export class MyParser {
         if (primitive.type !== "primitive")
             throw new Error("Object is not a primitive");
 
+        /** @type {import("./MyPrimitiveBuilder.js").PrimitiveContext} */
         const primitiveContext = {
-            ...ctx,
+            worldMatrix: ctx.transformations.toMatrix4(),
             activeMaterials: ctx.activeMaterials.map(id => this.materials.get(id)),
         }
 
-        console.log("MyParser##visitPrimitive", {activeMaterials: ctx.activeMaterials})
+        
         
         for (const representation of primitive.representations) {
             const builtRepresentation = this.primitiveBuilder.buildRepresentation(representation, primitiveContext);
             this.visitedNodes.push(builtRepresentation);
         }
-    }
-    
-    /**
-     * @param {ParsingContext} ctx
-     * @param {Transformation[]} transformations
-     * @returns {ParsingContext}
-     */
-    #applyTransformations(ctx, transformations) {
-        const { worldMatrix } = ctx;
-
-        const newWorldMatrix = worldMatrix.clone();
-
-        for (const transformation of transformations) {
-            cfgTransformation(worldMatrix, transformation);
-        }
-
-        return {
-            ...ctx,
-            worldMatrix: newWorldMatrix,
-        };
-    }
-}
-
-/**
- * @param {THREE.Matrix4} newWorldMatrix
- * @param {Transformation} transformation
- */
-function cfgTransformation(newWorldMatrix, transformation) {
-    switch (transformation.type) {
-        case "T":
-            console.log("TRANSLATION", transformation.translate)
-            const translate = new THREE.Matrix4().makeTranslation(...transformation.translate);
-            newWorldMatrix.premultiply(translate);
-            
-            break;
-
-        case "R":
-            console.log("ROTATION", transformation.rotation)
-            /** @type {[number, number, number]} */
-            const rotationInRadians = [
-                transformation.rotation[0] * degreesToRadians,
-                transformation.rotation[1] * degreesToRadians,
-                transformation.rotation[2] * degreesToRadians,
-            ];
-
-            console.log("ROTATIONRAD", rotationInRadians)
-
-            const rotation = new THREE.Euler(...rotationInRadians, "XYZ");
-            const rotationMatrix = new THREE.Matrix4().makeRotationFromEuler(rotation);
-
-            newWorldMatrix.premultiply(rotationMatrix);
-            break;
-
-        case "S":
-            console.log("SCALE", transformation.scale)
-            const scale = new THREE.Matrix4().makeScale(...transformation.scale);
-            newWorldMatrix.premultiply(scale);
-            break;
-    }
-}
-
-/**
- * @param {THREE.Matrix4} newWorldMatrix
- * @param {Transformation} transformation
- */
-function threeTransformation(newWorldMatrix, transformation) {
-    switch (transformation.type) {
-        case "T":
-            const translate = new THREE.Vector3(...transformation.translate);
-            
-            // Position
-            newPosition.add(translate);
-
-            // Rotation is not affected by translation
-            // Scale is not affected by translation
-            
-            break;
-
-        case "R":
-            /** @type {[number, number, number]} */
-            const rotationInRadians = [
-                transformation.rotation[0] * degreesToRadians,
-                transformation.rotation[1] * degreesToRadians,
-                transformation.rotation[2] * degreesToRadians,
-            ];
-
-            const rotation = new THREE.Euler(...rotationInRadians, "XYZ");
-
-            newRotation.x += rotation.x;
-            newRotation.y += rotation.y;
-            newRotation.z += rotation.z;
-            break;
-
-        case "S":
-
-            const scale = new THREE.Vector3(...transformation.scale);
-            newScale.multiply(scale)
-
-            break;
     }
 }

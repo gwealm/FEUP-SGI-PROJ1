@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<yaf> 
+
+	<!-- Credits of the original file go to Group 1, class 1 of course LAIG school year 2013/2014, FEUP, University of Porto -->
+	
+    <globals background="0 0 0 1" ambient="0 0 0 1" /> 
+
+    <fog color="1.0 1.0 1.0 1.0" near="0.0" far="100.0" />
+
+    <textures>
+
+    </textures>
+
+    <materials>
+
+        <material id="tableApp" 
+            color="0.8 0.8 0.8 1.0" 
+            emissive="1 1 1 0.0" 
+			specular="0.8 0 0 0" 
+            shininess="10"
+            twosided="true"
+            wireframe="true" />
+            
+    </materials>
+
+    <cameras initial="cam1" > 
+        <perspective id="cam1" 
+            angle="60" 
+            near="0.1" 
+            far="1000" 
+            location="15 15 15" 
+            target="0 0.0 0" /> 
+
+        <orthogonal id="cam2" 
+            near="0.1" 
+            far="1000" 
+            location="0 15 15" 
+            target="0.0 15 0.0" 
+            left="-5" 
+            right="5" 
+            bottom="-5" 
+            top="-5" /> 
+    </cameras> 
+
+    <graph rootid="scene"> 
+		
+		<node id="scene">
+            <transforms>
+                <!-- <translate value3="0 -10 0" /> -->
+                <!-- <rotate value3="0 45 0" /> -->
+            </transforms>
+
+			<!-- <transforms>
+				<translate value3="7.5 0 10" />
+				<translate value3="0 1.5 0" />
+				<rotate value3="89.5 0.0 0.0" />
+				<scale value3="4.5 2.5 3" />
+				<translate value3="0 0.5 0" />
+            </transforms>  -->
+
+			<materialref id="tableApp" />
+
+            <children> 
+                <noderef id="table" /> 
+            </children> 
+        </node>
+
+        
+		<node id="rectangle1"> 
+
+            <transforms>
+				<translate value3="0 0 -0.5" />
+				<rotate value3="0 180.0 0.0" /> 
+            </transforms> 
+
+            <children>   
+                <primitive>          
+                    <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" />
+                </primitive> 
+            </children> 
+        </node>
+		
+		<node id="rectangle2"> 
+
+            <transforms>
+				<translate value3="0 0 0.5" />
+            </transforms> 
+
+            <children>             
+                <primitive>
+                    <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" /> 
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="rectangle3"> 
+
+            <transforms>
+				<translate value3="0 -0.5 0" />
+				<rotate value3="90 0.0 0.0" />
+            </transforms> 
+
+            <children>   
+                <primitive>          
+                    <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" /> 
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="rectangle4"> 
+
+            <transforms>
+				<translate value3="0 0.5 0" />
+				<rotate value3="-90 0.0 0.0" />
+            </transforms> 
+
+            <children>             
+                <primitive>
+                    <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" /> 
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="rectangle5"> 
+
+            <transforms>
+				<translate value3="-0.5 0 0" />
+				<rotate value3="0.0 -90.0 0.0" />
+            </transforms> 
+
+            <children>             
+                <primitive>
+                    <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" /> 
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="rectangle6"> 
+            <transforms>
+				<translate value3="0.5 0 0" />
+				<rotate value3="0.0 90.0 0.0" />
+            </transforms> 
+
+            <children>             
+                <primitive>
+                    <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" /> 
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="unitCube">
+            <children>            
+				<!-- Back -->
+                <noderef id="rectangle1" /> 
+				<!-- Front -->
+				<noderef id="rectangle2" /> 
+				<!-- Bottom -->
+				<noderef id="rectangle3" />
+				<!-- Top -->
+				<noderef id="rectangle4" />
+				<!-- Left -->				
+				<noderef id="rectangle5" />
+				 <!-- Right -->
+				<noderef id="rectangle6" />
+            </children> 
+        </node>
+        
+        
+		<node id="leg">
+			<transforms>
+				<scale value3="0.06 0.92 0.06" />
+            </transforms> 
+
+            <children>             
+                <noderef id="unitCube" />
+            </children> 
+        </node>
+		
+		<node id="leg1">
+			<transforms>
+				<translate value3="0.45 0 0.42" />
+            </transforms> 
+
+            <children>             
+                <noderef id="leg" />
+            </children> 
+        </node>
+		
+		<node id="leg2">
+			<transforms>
+				<translate value3="0.45 0 -0.42" />
+            </transforms> 
+
+            <children>             
+                <noderef id="leg" />
+            </children> 
+        </node>
+		
+		<node id="leg3">
+			<transforms>
+				<translate value3="-0.45 0 0.42" />
+            </transforms> 
+
+            <children>             
+                <noderef id="leg" />
+            </children> 
+        </node>
+		
+		<node id="leg4">
+			<transforms>
+				<translate value3="-0.45 0 -0.42" />
+            </transforms> 
+
+            <children>             
+                <noderef id="leg" />
+            </children> 
+        </node>
+        
+		<node id="tableTop">
+			<transforms>
+				<translate value3="0 0.48 0" />
+				<scale value3="1 0.08 1" />
+            </transforms> 
+
+            <children>             
+                <noderef id="unitCube" />
+            </children> 
+        </node>
+
+        <node id="table">
+			<transforms>
+				<translate value3="7.5 0 10" />
+				<translate value3="0 1.5 0" />
+				<rotate value3="89.5 0.0 0.0" />
+				<scale value3="4.5 2.5 3" />
+				<translate value3="0 0.5 0" />
+            </transforms> 
+
+            <children>             
+                <noderef id="tableTop" />
+				<noderef id="leg1" />
+				<noderef id="leg2" />
+				<noderef id="leg3" />
+				<noderef id="leg4" />
+            </children> 
+        </node>
+    </graph> 
+</yaf> 
