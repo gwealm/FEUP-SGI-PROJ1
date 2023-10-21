@@ -1,5 +1,7 @@
 import * as THREE from "three";
 
+/** @typedef {{ worldMatrix: THREE.Matrix4, activeMaterials: THREE.Material[] }} PrimitiveContext */
+
 const material = new THREE.MeshBasicMaterial({
     color: 0xffff00,
     wireframe: true,
@@ -7,27 +9,49 @@ const material = new THREE.MeshBasicMaterial({
 
 export class MyPrimitiveBuilder {
 
+    /**
+     * @param {PrimitiveContext} ctx
+     */
     buildRepresentation(representation, ctx) {
+        console.log("MyPrimitiveBuilder#buildRepresentation", {ctx})
+
+        const geometry = this.#buildGeometry(representation);
+
+        console.log("MyPrimitiveBuilder#buildRepresentation", {geometry})
+        const materials = geometry.groups.length === 0
+            ? ctx.activeMaterials[0] // no groups, so there can only be one material (rectangles, for instance)
+            : ctx.activeMaterials;
+
+        const mesh = new THREE.Mesh(geometry, materials);
+        
+        mesh.receiveShadow = true;
+
+        mesh.applyMatrix4(ctx.worldMatrix);
+
+        return mesh;
+    }
+
+    #buildGeometry(representation) {
         switch (representation.type) {
             case 'cylinder':
-                return this.#buildCylinder(representation, ctx)
+                return this.#buildCylinder(representation)
             case 'rectangle':
-                return this.#buildRectangle(representation, ctx)
+                return this.#buildRectangle(representation)
             case 'triangle':
-                return this.#buildTriangle(representation, ctx)
+                return this.#buildTriangle(representation)
             case 'sphere':
-                return this.#buildSphere(representation, ctx)
+                return this.#buildSphere(representation)
             case 'nurbs':
-                return this.#buildCylinder(representation, ctx)
+                return this.#buildCylinder(representation)
             case 'box':
-                return this.#buildBox(representation, ctx)
+                return this.#buildBox(representation)
         
             default:
                 throw new Error(`Representation of type ${representation.type} not supported.`);
         }
     }
 
-    #buildCylinder(representation, ctx) {
+    #buildCylinder(representation) {
         const {
             base,
             top,
@@ -39,7 +63,7 @@ export class MyPrimitiveBuilder {
             thetalength,
         } = representation;
 
-        const geometry = new THREE.CylinderGeometry(
+        return new THREE.CylinderGeometry(
             top,
             base,
             height,
@@ -49,11 +73,9 @@ export class MyPrimitiveBuilder {
             thetastart,
             thetalength,
         );
-
-        return new THREE.Mesh(geometry, material);
     }
-
-    #buildRectangle(representation, ctx) {
+    
+    #buildRectangle(representation) {
         const {
             xy1,
             xy2,
@@ -64,28 +86,34 @@ export class MyPrimitiveBuilder {
         const width = Math.abs(xy1[0] - xy2[0]);
         const height = Math.abs(xy1[1] - xy2[1]);
 
-        const geometry = new THREE.PlaneGeometry(
+        return new THREE.PlaneGeometry(
             width,
             height,
             parts_x,
             parts_y,
         );
-
-        return new THREE.Mesh(geometry, material);
     }
-
-    #buildTriangle(representation, ctx) {
+    
+    #buildTriangle(representation) {
         const {
             xyz1,
             xyz2,
             xyz3,
         } = representation;
         
-        const geometry = new THREE.Triangle(xyz1, xyz2, xyz3);
-        return new THREE.Mesh(geometry, material);
+        const geometry = new THREE.BufferGeometry();
+        
+        const vertices = new Float32Array([
+            ...xyz1,
+            ...xyz2,
+            ...xyz3,
+        ]);
+        
+        geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+        return geometry;
     }
-
-    #buildSphere(representation, ctx) {
+    
+    #buildSphere(representation) {
         const {
             radius,
             slices,
@@ -96,7 +124,7 @@ export class MyPrimitiveBuilder {
             philength,
         } = representation;
 
-        const geometry = new THREE.SphereGeometry(
+        return new THREE.SphereGeometry(
             radius,
             slices,
             stacks,
@@ -105,11 +133,9 @@ export class MyPrimitiveBuilder {
             thetastart,
             thetalength,
         );
-
-        return new THREE.Mesh(geometry, material);
     }
-
-    #buildNURBS(representation, ctx) {
+    
+    #buildNURBS(representation) {
         const {
             degree_u,
             degree_v,
@@ -117,12 +143,10 @@ export class MyPrimitiveBuilder {
             parts_v,
         } = representation;
 
-        const geometry = new THREE.PlaneGeometry(5, 5);
-        return new THREE.Mesh(geometry, material);
+        return new THREE.PlaneGeometry(5, 5);
     }
 
-    #buildBox(representation, ctx) {
-        console.log("CONTEXT", ctx);
+    #buildBox(representation) {
         const {
             xyz1,
             xyz2,
@@ -130,13 +154,12 @@ export class MyPrimitiveBuilder {
             parts_y,
             parts_z,
         } = representation;
-        new THREE.Vector3
 
         const width = Math.abs(xyz1[0] - xyz2[0]);
         const height = Math.abs(xyz1[1] - xyz2[1]);
         const depth = Math.abs(xyz1[2] - xyz2[2]);
 
-        const boxGeometry = new THREE.BoxGeometry(width, height, depth, parts_x, parts_y, parts_z);
-        return new THREE.Mesh(boxGeometry, material);
+        return new THREE.BoxGeometry(width, height, depth, parts_x, parts_y, parts_z);
+        
     }
 }

@@ -72,10 +72,19 @@ class MyContents  {
         }
 
         console.log("nodes:")
-        const parser = new MyParser(data.nodes);
-        this.app.scene.add(parser.visitNodes());
+        const parser = new MyParser(data);
 
+        const sceneNodes = parser.visitNodes();
+        for (const object of sceneNodes) {
+            this.app.scene.add(object);
+        }
 
+        const pointLight = new THREE.PointLight(0xffffff, 40);
+        pointLight.position.set(0, 0, 0);
+        this.app.scene.add(pointLight);
+
+        const ambientLight = new THREE.AmbientLight(0x333333, 0.5);
+        this.app.scene.add(ambientLight);
     }
 
     update() {

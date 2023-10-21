@@ -48,6 +48,9 @@ class MyApp  {
 
         // Create a renderer with Antialiasing
         this.renderer = new THREE.WebGLRenderer({antialias:true});
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // search for other alternatives
+
         this.renderer.setPixelRatio( window.devicePixelRatio );
         this.renderer.setClearColor("#000000");
 
