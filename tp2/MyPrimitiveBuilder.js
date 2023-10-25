@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { MyNurbsBuilder } from "./MyNurbsBuilder.js";
 
 /** @typedef {{ worldMatrix: THREE.Matrix4, activeMaterials: THREE.Material[] }} PrimitiveContext */
 /** @typedef {{ geometry: THREE.BufferGeometry, offset: [number, number, number] }} PrimitiveDescriptor */
@@ -10,13 +11,21 @@ const material = new THREE.MeshBasicMaterial({
 
 export class MyPrimitiveBuilder {
 
+    constructor() {
+        this.nurbsBuilder = new MyNurbsBuilder();
+    }
+
     /**
      * @param {PrimitiveContext} ctx
      */
     buildRepresentation(representation, ctx) {
         const { geometry, offset } = this.#buildGeometry(representation);
 
-        const materials = geometry.groups.length === 0
+        if (!geometry)
+            console.log(representation)
+        if (!('groups' in geometry))
+            console.log(geometry);
+        const materials = 'groups' in geometry && geometry.groups.length === 0
             ? ctx.activeMaterials[0] // no groups, so there can only be one material (rectangles, for instance)
             : ctx.activeMaterials;
 
@@ -41,7 +50,7 @@ export class MyPrimitiveBuilder {
             case 'sphere':
                 return this.#buildSphere(representation)
             case 'nurbs':
-                return this.#buildCylinder(representation)
+                return this.#buildNURBS(representation)
             case 'box':
                 return this.#buildBox(representation)
         
@@ -157,22 +166,101 @@ export class MyPrimitiveBuilder {
             offset: [0, 0, 0]
         };
     }
+
+    /*
+    const { scaleX, scaleY, scaleZ } = options;
+
+        let orderU = 3;
+        let orderV = 1;
+
+        const newspaperWidth = scaleX;
+        const newspaperHeight = scaleY * Math.sqrt(2);
+        const newspaperDepth = 0.2 * scaleZ;
+
+        const controlPoints = [
+            [
+                [-0.5 * newspaperWidth, -0.5 * newspaperHeight, 0],
+                [-0.5 * newspaperWidth, 0.5 * newspaperHeight, 0],
+            ],
+            [
+                [-0.1 * newspaperWidth, -0.5 * newspaperHeight, newspaperDepth],
+                [-0.1 * newspaperWidth, 0.5 * newspaperHeight, newspaperDepth],
+            ],
+            [
+                [0.1 * newspaperWidth, -0.5 * newspaperHeight, 0],
+                [0.1 * newspaperWidth, 0.5 * newspaperHeight, 0],
+            ],
+            [
+                [0.5 * newspaperWidth, -0.5 * newspaperHeight, 0],
+                [0.5 * newspaperWidth, 0.5 * newspaperHeight, 0],
+            ],
+        ];
+
+        if (scaleX < 0) {
+            controlPoints.reverse();
+        }
+
+        if (scaleY < 0) {
+            controlPoints.forEach((row) => {
+                row.reverse();
+            });
+        }
+
+        const surfaceData = this.nurbsBuilder.build(
+            controlPoints,
+            orderU,
+            orderV,
+            this.samplesU,
+            this.samplesV,
+        );
+
+        const mesh = new THREE.Mesh(surfaceData, options.material);
+    */
     
     /**
      * @return {PrimitiveDescriptor}
      */
     #buildNURBS(representation) {
+
         const {
             degree_u,
             degree_v,
             parts_u,
             parts_v,
+            distance,
+            controlpoints,
         } = representation;
 
+
+        const vectorControlPoints = controlpoints.map(
+            (point) => [point.xx, point.yy, point.zz]
+        );
+
+        const cPoints = [];
+        let k = 0;
+
+        for (let i = 0; i <= degree_u; i++) {
+            let subControlPoints = [];
+            for (let v = 0; v <= degree_v; v++) {
+                subControlPoints.push(vectorControlPoints[k]);
+                k++;
+            }
+            cPoints.push(subControlPoints);
+        }
+
+
+        const surfaceData = this.nurbsBuilder.build(
+            cPoints,
+            degree_u,
+            degree_v,
+            parts_u,
+            parts_v
+        );
+
         return {
-            geometry: new THREE.PlaneGeometry(5, 5),
+            geometry: surfaceData,
             offset: [0, 0, 0],
-        };
+        }
     }
 
     /**

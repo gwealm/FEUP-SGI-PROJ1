@@ -389,4 +389,3 @@ class MySceneData  {
     }
 }
 export { MySceneData };
-

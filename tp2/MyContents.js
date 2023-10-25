@@ -88,7 +88,7 @@ class MyContents  {
         console.log("nodes:")
         const parser = new MyParser(data);
 
-        const sceneNodes = parser.visitNodes();
+        const sceneNodes = parser.parse();
         for (const object of sceneNodes) {
             this.app.scene.add(object);
         }

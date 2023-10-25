@@ -2,29 +2,43 @@ import * as THREE from "three";
 import { MyPrimitiveBuilder } from "./MyPrimitiveBuilder.js";
 import { MyLightBuilder } from "./MyLightBuilder.js";
 import { MyTransformations } from "./MyTransformations.js";
+import { MyCameraBuilder } from "./MyCameraBuilder.js";
 
 /** @typedef {{ transformations: MyTransformations, activeMaterials: string[] }} ParsingContext */
 
 export class MyParser {
+    /**
+     * @param {import('./parser/MySceneData.js').MySceneData} data
+     */
     constructor(data) {
-        this.nodeData = data.nodes;
-        this.materialData = data.materials;
-        this.textureData = data.textures;
+        this.data = data;
 
         this.primitiveBuilder = new MyPrimitiveBuilder();
         this.lightBuilder = new MyLightBuilder();
+        this.cameraBuilder = new MyCameraBuilder();
         
         /** @type {Map<string, THREE.Texture>} */
         this.textures = new Map();
 
         /** @type {Map<string, THREE.MeshPhongMaterial>} */
         this.materials = new Map();
-        
+
+        /** @type {THREE.Camera[]} */
+        this.cameras = [];
+        this.activeCamera = data.activeCameraId;
+
+        /** @type {THREE.Light[]} */
+        this.lights = [];
+
         /** @type {THREE.Object3D[]} */
-        this.visitedNodes  = [];
+        this.objects = [];
+
+        console.log({data})
     }
     
-    visitNodes() {
+    parse() {
+        this.#initCameras();
+        
         this.#initTextures();
         this.#initMaterials();
 
@@ -43,52 +57,89 @@ export class MyParser {
             {name: "twosided", type: "boolean", required: false, default: false},
         */
 
-        this.#visitNode(this.nodeData["scene"], {
+        const rootNodeId = this.data.rootId;
+        const rootNode = this.data.nodes[rootNodeId];
+
+        this.#visit(rootNode, {
             transformations: new MyTransformations(),
             activeMaterials: [],
         });
 
-        return this.visitedNodes;
+        return this.objects;
+    }
+    
+    #initCameras() {
+        const cameras = this.data.cameras;
+        for (const [_, camera] of Object.entries(cameras)) {
+            
+            // const buildRepresenation = this.cameraBuilder.buildRepresentation(camera);
+            // this.cameras.set()
+
+        }
     }
 
     #initTextures() {
-        const loader = new THREE.TextureLoader();
-        
-        for (const [id, textureSpec] of Object.entries(this.textureData)) {
-            const { filepath } = textureSpec;
+        const textures = this.data.textures;
 
-            const texture = loader.load(filepath);
-            texture.name = id;
-            
+        const loader = new THREE.TextureLoader();
+        // const videoLoader = new THREE.VideoTexture()
+        
+        for (const [_, textureSpec] of Object.entries(textures)) {
+            const {
+                anisotropy,
+                custom,
+                filepath,
+                id,
+                isVideo,
+                magFilter,
+                minFilter,
+                mipmaps
+            } = textureSpec;
+
+            console.log(textureSpec)
+
+            const texture = loader.load(filepath, (tex) => {
+                tex.anisotropy = anisotropy;
+                tex.name = id;
+                tex.magFilter = magFilter;
+                tex.minFilter = minFilter;
+                tex.mipmaps = mipmaps;
+            });
+
             this.textures.set(id, texture);
         }
     }
 
     #initMaterials() {
-        /** @type {Record<string, THREE.MeshPhongMaterial>} */
-        const materials = {};
-        
+        const materials = this.data.materials;
 
-        for (const [id, materialSpec] of Object.entries(this.materialData)) {
+        for (const [_, materialSpec] of Object.entries(materials)) {
             const {
+                bump_ref,
+                bump_scale,
                 color,
                 custom,
                 emissive,
+                id,
                 shading,
                 shininess,
                 specular,
-                textureref,
                 texlength_s,
                 texlength_t,
+                textureref,
                 twosided,
                 wireframe
             } = materialSpec;
 
             const texture = this.textures.get(textureref)?.clone();
+            if (!!texture) {
+                // texture.mapping
+                
+            }
             // FIXME: use texlength_s and texlength_t
             // FIXME: use shading
 
-            console.log({wireframe})
+            console.log(materialSpec)
             const material = new THREE.MeshPhongMaterial({
                 color,
                 emissive,
@@ -99,21 +150,30 @@ export class MyParser {
                 wireframe,
             });
 
-            this.materials.set(id, material);
+            this.materials.set(materialSpec.id, material);
         }
 
         return materials;
     }
-
+    
     /**
      * @param {ParsingContext} ctx
      */
+    #visit(member, ctx) {
+        if (member.type === "primitive") return this.#visitPrimitive(member, ctx);
+        if (member.type === "node") return this.#visitNode(member, ctx);
+        
+        this.#visitLight(member, ctx)
+    }
+
+    /**
+     * @param {ParsingContext} ctx
+    */
     #visitNode(node, ctx) {
         if (node.type !== "node")
             throw new Error("Object is not a node");
 
         const { children, custom, materialIds, transformations } = node;
-        // 
 
         /** @type {ParsingContext} */
         const newCtx = {
@@ -127,43 +187,16 @@ export class MyParser {
         }
             
         for (const child of children) {
-            this.#visitChild(child, newCtx);
+            this.#visit(child, newCtx);
         }
     }
 
     /**
      * @param {ParsingContext} ctx
      */
-    #visitChild(child, ctx) {
-        if (child.type === "primitive") return this.#visitPrimitive(child, ctx);
-        
-		let lightIds = ["spotlight", "pointlight", "directionallight"]
-        
-        console.log(child)
-        if (lightIds.includes(child.type)){
-            console.log("included")
-            return this.#visitLight(child)
-        }
-
-        console.log("not included")
-
-        const node = this.nodeData[child.id];
-        if (!node) return null;
-
-        this.#visitNode(node, ctx);
-    }
-
-    #visitLight(light) {
-        console.log("LIGHT", light);
-
-		let lightIds = ["spotlight", "pointlight", "directionallight"]
-
-        if (lightIds.includes(light))
-            throw new Error("Object is not a light");
-    
-        
+    #visitLight(light, ctx) {
         const builtRepresentation = this.lightBuilder.buildRepresentation(light);
-        this.visitedNodes.push(builtRepresentation);
+        this.objects.push(builtRepresentation);
     }
 
     /**
@@ -178,12 +211,10 @@ export class MyParser {
             worldMatrix: ctx.transformations.toMatrix4(),
             activeMaterials: ctx.activeMaterials.map(id => this.materials.get(id)),
         }
-
-        
         
         for (const representation of primitive.representations) {
             const builtRepresentation = this.primitiveBuilder.buildRepresentation(representation, primitiveContext);
-            this.visitedNodes.push(builtRepresentation);
+            this.objects.push(builtRepresentation);
         }
     }
 }
