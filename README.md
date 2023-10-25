@@ -1,3 +1,5 @@
+# SGI 2023/2024 - TP1
+
 ## Group: T04G01
 
 | Name              | Number    | E-Mail            |
@@ -5,14 +7,11 @@
 | André Costa Lima  | 202008169 | up202008169@up.pt |
 | Guilherme Almeida | 202006137 | up202006137@up.pt |
 
-----
+---
 
-## Projects
-
-### [TP1 - ThreeJS Basics](tp1)
+## Project information
 
 **All the topics** from the evaluation document **where implemented**.
-
 #### Features
 
 - Efficient texture parallel loading
@@ -33,12 +32,23 @@ Behind the table, we can see a pot containing a sunflower, adding a touch of nat
 
 This curated scene invites viewers to immerse themselves in its atmosphere, where every element contributes to a unique blend of familiarity and thematic resonance.
 
------
+## Issues/Problems
 
-### [TP2 - ...](tp2)
-- (items briefly describing main strong points)
+- Some objects' positions are sort of hardcoded or not accurate.
 
-----
+## Screenshots
 
-### [TP3 - ...](tp3)
-- (items briefly describing main strong points)
+### Front/Side View
+![Side View](./screenshots/scene1.png)
+
+### Back View
+![Front View](./screenshots/scene2.png)
+
+
+## Attributions
+
+- Quilted Velvet Texture: <a href="https://www.freepik.com/free-vector/springy-white-background_838161.htm#query=quilted%20velvet%20texture&position=0&from_view=search&track=ais">Image by Layerace</a> on Freepik
+
+- Landscape Texture: https://www.wallpaperflare.com/rocky-mountain-at-night-wallpaper-landscape-mountains-nature-wallpaper-254065 https://wallhere.com/en/wallpaper/1103588
+
+- Table texture: <a href="https://www.freepik.com/free-photo/wooden-textured-background_2768392.htm#query=wood%20table%20texture&position=3&from_view=keyword&track=ais">Image by rawpixel.com</a> on Freepik
