@@ -1,0 +1,1847 @@
+<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<yaf>
+    <globals background="0 0 0 1" ambient="0.05 0.05 0.05 1" />
+
+    <fog color="0 0 0 1" near="350.0" far="900.0" />
+
+    <skybox
+       size="500 500 500"          
+       center="0 0 0"
+       emissive="0.1 0.1 0.1 1"  intensity="1"
+        up="scenes/t04g01/textures/skysq.jpg"
+        down="scenes/t04g01/textures/skysq.jpg"
+        front="scenes/t04g01/textures/skysq.jpg"
+        back="scenes/t04g01/textures/skysq.jpg"
+        left="scenes/t04g01/textures/skysq.jpg"
+        right="scenes/t04g01/textures/skysq.jpg"
+    />
+
+    <cameras initial="across the court">
+        <perspective id="across the court"
+            angle="60"
+            near="0.1"
+            far="1000"
+            location="32 11 14"
+            target="-18 6 0" />
+
+        <perspective id="from the hoop"
+            angle="90"
+            near="0.1"
+            far="1000"
+            location="-24 8 0"
+            target="0 0 0" />
+
+        <orthogonal id="cinematic"
+            near="0.1"
+            far="1000"
+            location="48 48 -24"
+            target="-10 5 7.5"
+            left="-64"
+            right="64"
+            bottom="-36"
+            top="36" />
+    </cameras>
+
+    <!-- bloco de texturas. Este bloco tem de existir mas pode estar vazio, se nao forem usadas
+    texturas -->
+    <textures>
+        <texture id="basketballTex" filepath="scenes/t04g01/textures/basketball.jpg" />
+        <texture id="backBoardTex" filepath="scenes/t04g01/textures/backboard.png" />
+        <texture id="courtFloorTex" filepath="scenes/t04g01/textures/courtFloor.jpg" />
+        <texture id="courtFloorSpecTex" filepath="scenes/t04g01/textures/courtFloor.spec.jpg" />
+        <texture id="floorTex" filepath="scenes/t04g01/textures/floor.jpg" />
+        <texture id="nikeLogoTex" filepath="scenes/t04g01/textures/nike.png" />
+        <texture id="advertisementTex" filepath="scenes/t04g01/textures/videos/nike.mp4" isVideo="true" minFilter="LinearFilter" magFilter="NearestFilter" />
+        <texture id="sunsFlagTex" filepath="scenes/t04g01/textures/sunsFlag.256.png"
+            mipmap1="scenes/t04g01/textures/sunsFlag.128.png"
+            mipmap2="scenes/t04g01/textures/sunsFlag.64.png"
+            mipmap3="scenes/t04g01/textures/sunsFlag.32.png"
+            minFilter="LinearMipmapLinearFilter"
+            magFilter="LinearFilter"
+        />
+    </textures>
+
+    <materials>
+        <material id="basketBall"
+            color="1 0.4 0.1 1"
+            emissive="0.0 0.0 0.0 0.0"
+            specular="0 0 0 0"
+            shininess="0"
+            bumpref="basketballTex"
+            bumpscale="0.01"
+            twosided="false" />
+
+
+        <material id="polygonApp" 
+            emissive="0.0 0.0 0.0 1" 
+            color="1 1 1 1"  
+            specular="0 0 0 0" 
+            shininess="0" 
+            shading = "flat" 
+            twosided="true"/>
+
+        <material id="coneApp"
+            color="0.80 0.25 0.00 1"
+            emissive="0 0 0 0"
+            specular="0.6 0.1 0 1"
+            shininess="30"
+            twosided="true"
+        />
+
+        <material id="wheelApp"
+            color="0.498 0.498 0.498 1"
+            emissive="0.0 0.0 0.0 0.0"
+            specular="0 0 0 0"
+            shininess="0"
+            twosided="false" />
+
+        <material id="backBoard"
+            color="0.8 0.8 0.8 1.0"
+            emissive="0.0 0.0 0.0 0.0"
+            specular="0 0 0 0"
+            shininess="10"
+            textureref="backBoardTex"
+            texlength_s="5"
+            texlength_t="3.3"
+            twosided="false" />
+
+        <material id="greyWall"
+            emissive="0.0 0.0 0.0 1"
+            color="0.8 0.8 0.8 1.0"
+            specular="0 0 0 0"
+            shininess="0"
+            texlength_s="15"
+            texlength_t="8"
+            twosided="false" />
+
+        <material id="lampSupport"
+            emissive="0.0 0.0 0.0 1"
+            color="0 0.4 0 1"
+            specular="0 0 0 0"
+            shininess="0"
+            texlength_s="15"
+            texlength_t="8"
+            twosided="true" />
+
+
+        <material id="lamp"
+            emissive="0.0 0.0 0.0 1"
+            color="0.98 0.9 0 0.8"
+            specular="0 0 0 0"
+            shininess="1"
+            texlength_s="15"
+            texlength_t="8"
+            twosided="true" />
+
+        <material id="floorMat"
+            emissive="0.0 0.0 0.0 1"
+            color="0.8 0.8 0.8 1.0"
+            specular="0 0 0 0"
+            shininess="0"
+            textureref="floorTex"
+            texlength_s="18"
+            texlength_t="9"
+            twosided="false" />
+
+        <material id="floorApp"
+            emissive="0.0 0.0 0.0 1"
+            color="0.8 0.8 0.8 1.0"
+            specular="0.5 0.5 0.5 1"
+            shininess="20"
+            textureref="courtFloorTex"
+            texlength_s="20"
+            texlength_t="12"
+            shading="smooth"
+            specularref="courtFloorSpecTex"
+            twosided="false" />
+
+        <material id="hoopRingApp"
+            emissive="0 0 0 1"
+            color="1 0.4 0.1 1"
+            specular="1 1 1 1"
+            shininess="30"
+            twosided="true"
+        />
+
+        <material id="hoopWireApp"
+            emissive="0.0 0.0 0.0 1"
+            color="1 1 1 1"
+            specular="0 0 0 0"
+            shininess="0"
+            wireframe="true"
+            twosided="true"
+        />
+
+        <material id="mat.hoop.pole"
+            emissive="0 0 0 1"
+            color="0.01 0.01 0.01 1"
+            specular="0.6 0.6 0.6 1"
+            shininess="30"
+            twosided="false"
+        />
+
+        <material id="advertisement" 
+            emissive="0 0 0 1" 
+            color="1 1 1 1.0" 
+            specular="0 0 0 0" 
+            shininess="0" 
+            textureref="advertisementTex" 
+            texlength_s="16" 
+            texlength_t="9"
+        />
+
+        <material id="nikeLogo" 
+            emissive="0 0 0 1" 
+            color="1 1 1 1.0" 
+            specular="0 0 0 0" 
+            shininess="0" 
+            textureref="nikeLogoTex" 
+            texlength_s="16" 
+            texlength_t="9"
+        />
+
+        <material id="sunsFlagMat" 
+            emissive="0.0 0.0 0.0 0.01" 
+            color="0.8 0.8 0.8 1.0" 
+            specular="0 0 0 0" 
+            shininess="0" 
+            textureref="sunsFlagTex" 
+            texlength_s="15" 
+            texlength_t="8"
+            twosided = "true" 
+        />
+    </materials>
+
+    <graph rootid="scene">
+        <node id="scene">
+            <children>
+                <noderef id="goals" />
+                <noderef id="billboard" />
+                <noderef id="arena" />
+                <noderef id="park" />
+                <noderef id="cart" />
+                <noderef id="cones" />
+                <noderef id="sunsFlag" />
+                <noderef id="fieldLights" />
+
+                <pointlight id="ballcart" enabled="true"
+                    color="1.0 1.0 1.0 1"
+                    intensity="4"
+                    decay="1.75"
+                    distance="10"
+                    castshadow="true"
+                    position="4 4 16"
+                />
+
+                <pointlight id="billboard light" enabled="true"
+                    color="1.0 1.0 1.0 1"
+                    intensity="5"
+                    decay="1.75"
+                    distance="10"
+                    castshadow="false"
+                    position="0 10 -20"
+                />
+
+                <pointlight id="see everything" enabled="false"
+                    color="1.0 1.0 1.0 1"
+                    intensity="2"
+                    decay="0"
+                    castshadow="false"
+                    position="-20 10 4"
+                />
+
+                <directionallight id="moonlight"
+                    color="1 1 1 1"
+                    position="5 40 5"
+                    intensity="0.2"
+                    castshadow="true"
+                    shadowleft="-40"
+                    shadowright="40"
+                    shadowbottom="-40"
+                    shadowtop="40"
+                    shadowfar="60"
+                    enabled="true"
+                />
+
+            </children>
+        </node>
+
+        <node id="fieldLights">
+            <children>
+                <noderef id="fieldLights.back" />
+                <noderef id="fieldLights.front" />
+            </children>
+        </node>
+
+        <node id="fieldLights.back">
+            <transforms>
+                <rotate value3="0 3.1416 0" />
+            </transforms>
+            <children>
+                <noderef id="fieldLights.front" />
+            </children>
+        </node>
+
+        <node id="fieldLights.front">
+            <transforms>
+                <translate value3="0 0 -20" />
+                <rotate value3="0 -1.5708 0" />
+            </transforms>
+            <children>
+                <noderef id="fieldLights.front.1" />
+                <noderef id="fieldLights.front.2" />
+            </children>
+        </node>
+
+        <node id="fieldLights.front.1">
+            <transforms>
+                <translate value3="0 0 -25" />
+                <rotate value3="0 -0.7854 0" />
+            </transforms>
+            <children>
+                <noderef id="fieldLight" />
+            </children>
+        </node>
+
+        <node id="fieldLights.front.2">
+            <transforms>
+                <translate value3="0 0 25" />
+                <rotate value3="0 0.7854 0" />
+            </transforms>
+            <children>
+                <noderef id="fieldLight" />
+            </children>
+        </node>
+
+        <node id="fieldLight" >
+            <children>
+                <noderef id="fieldLight.bulb" />
+                <noderef id="fieldLight.support" />
+            </children>
+        </node>
+
+        <node id="fieldLight.bulb">
+            <transforms>
+                <translate value3="2.3 15 0" />
+                <rotate value3="0 0 0.6545" />
+                <translate value3="0 -0.7 0" />
+            </transforms>
+
+            <children>
+                <noderef id="fieldLight.bulb.glass" />
+                <noderef id="fieldLight.bulb.casing" />
+            </children>
+        </node>
+
+        <node id="fieldLight.bulb.casing" castshadows="true" receiveshadows="true">
+            <transforms>
+                <translate value3="0 0.35 0" />
+            </transforms>
+
+            <materialref id="lampSupport" />
+
+            <children>
+                <primitive>
+                    <cylinder base="0.8" top="0.1" height="0.7" slices="8" stacks="1" />
+                </primitive>
+
+                <spotlight
+                    id="inside field lamp"
+                    color="1 1 1 1"
+                    position="0 0.1 0"
+                    target="0 0 0"
+                    angle="0.6545"
+                    intensity="3"
+                    decay="0"
+                    penumbra="1"
+                    distance="40"
+                    castshadow="true"
+                    shadowfar="40"
+                />
+
+                <spotlight
+                    id="outside field lamp" 
+                    color="1 1 1 1" 
+                    angle="0.9599" 
+                    position="0 -1 0" 
+                    intensity="3"
+                    penumbra="0"
+                    decay="0"
+                    target="0 0 0"
+                    distance="1"
+                    castshadow="false"
+                />
+            </children>
+        </node>
+
+        <node id="fieldLight.bulb.glass" castshadows="false" receiveshadows="false">
+            <transforms>
+                <rotate value3="1.5708 0 0.7854" />
+                <scale value3="0.4 0.4 1" />
+            </transforms>
+
+            <materialref id="polygonApp" />
+
+            <children>
+                <primitive>
+                    <polygon radius="2.0" stacks="1" slices="8" color_c="1 1 0.5 0.8" color_p="1 0.5 0 0.8" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="fieldLight.support">
+
+            <materialref id="mat.hoop.pole" />
+
+            <children>
+                <noderef id="fieldLight.support.vertical" />
+                <noderef id="fieldLight.support.horizontal" />
+            </children>
+        </node>
+
+        <node id="fieldLight.support.vertical">
+            <children>
+                <primitive>
+                    <box xyz1="-0.1 0 -0.1" xyz2="0.1 14.9 0.1" />
+                </primitive>
+            </children>
+        </node>
+        
+        <node id="fieldLight.support.horizontal">
+            <children>
+                <primitive>
+                    <box xyz1="-0.1 14.9 -0.1" xyz2="2.4 15.1 0.1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="sunsFlag" receiveshadows="true" castshadows="true">
+            <transforms>
+                <translate value3="7 -2 18" />
+                <rotate value3="0 3.1416 0" />
+            </transforms>
+            <children>
+                <noderef id="sunsFlag.upper" />
+                <noderef id="sunsFlag.support" />
+            </children>
+        </node>
+
+        <node id="sunsFlag.upper">
+            <transforms>
+                <translate value3="0 6 0" />
+                <scale value3="0.2 0.25 0.25" />
+            </transforms>
+
+            <materialref id="sunsFlagMat" />
+            
+            <children>
+                <primitive>
+                    <triangle xyz3= "0 8 0" xyz1="0 0 0" xyz2="15 4 0"/>
+                </primitive>
+            </children>
+        </node>
+
+        <node id="sunsFlag.support">
+            <transforms>
+                <translate value3="0 5 0" />
+                <rotate value3="0 0 0" />
+            </transforms>
+            
+            <materialref id="greyWall" />
+
+            <children>
+                <primitive>
+                    <cylinder base="0.05" top="0.05" height="6" slices="16" stacks="16" capsclose="true"/>
+                </primitive>
+            </children>
+        </node>
+
+        <!-- Utility nodes -->
+        <node id="unitCube">
+            <children>
+                <primitive>
+                    <box xyz1="-0.5 -0.5 -0.5" xyz2="0.5 0.5 0.5" />
+                </primitive>
+            </children>
+        </node>
+
+        <!-- Goals -->
+        <node id="goals" receiveshadows="true" castshadows="true">
+            <children>
+                <noderef id="goals.right" />
+                <noderef id="goals.left" />
+            </children>
+        </node>
+
+        <node id="goals.right">
+            <transforms>
+                <rotate value3="0 3.1416 0" />
+            </transforms>
+            <children>
+                <noderef id="goals.left" />
+            </children>
+        </node>
+
+        <node id="goals.left">
+            <transforms>
+                <translate value3="-28 0 0" />
+            </transforms>
+            <children>
+                <noderef id="goal" />
+            </children>
+        </node>
+
+        <node id="goal">
+            <transforms>
+                <translate value3="2.75 7 0" />
+            </transforms>
+
+            <children>
+                <noderef id="goal.basket" />
+                <noderef id="goal.pole" />
+            </children>
+        </node>
+
+        <node id="goal.basket">
+            <transforms>
+                <translate value3="0.21 0.5 0" />
+            </transforms>
+
+            <children>
+                <noderef id="goal.basket.backboard" />
+                <noderef id="goal.basket.hoop" />
+
+                <pointlight id="basket light" color="1 1 1 1" position="3 2 0" castshadow="false" intensity="3" />
+            </children>
+        </node>
+
+        <node id="goal.basket.backboard">
+            <transforms>
+                <rotate value3="0 1.5708 0" />
+            </transforms>
+
+            <materialref id="backBoard" />
+
+            <children>
+                <noderef id="goal.basket.backboard.back" />
+                <noderef id="goal.basket.backboard.front" />
+            </children>
+        </node>
+
+        <node id="goal.basket.backboard.front">
+            <children>
+                <primitive>
+                    <rectangle xy1="-2.5 -0.5" xy2="2.5 2.8" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="goal.basket.backboard.back">
+            <transforms>
+                <translate value3="0 0 -0.01" /> <!-- Avoid z-fighting -->
+            </transforms>
+
+            <materialref id="greyWall" />
+
+            <children>
+                <primitive>
+                    <box xyz1="-2.5 -0.5 -0.2" xyz2="2.5 2.8 0" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="goal.basket.hoop">
+            <transforms>
+                <scale value3="1.5 1.5 1.5" />
+                <translate value3="0.5 0 0" />
+            </transforms>
+
+            <children>
+                <noderef id="goal.basket.hoop.ring" />
+                <noderef id="goal.basket.hoop.net" />
+            </children>
+        </node>
+
+        <node id="goal.basket.hoop.ring">
+
+            <materialref id="hoopRingApp" />
+
+            <transforms>
+                <translate value3="0 0.0125 0" />
+            </transforms>
+            
+            <children>
+                <lodref id="goal.basket.hoop.ring[]" />
+            </children>
+        </node>
+
+        <lod id="goal.basket.hoop.ring[]"> 
+            <noderef id="goal.basket.hoop.ring[1]" mindist="0"/>
+            <noderef id="goal.basket.hoop.ring[2]" mindist="2.5" />
+            <noderef id="goal.basket.hoop.ring[3]" mindist="5" />
+        </lod>
+
+        <node id="goal.basket.hoop.ring[1]">
+            <children>
+                <primitive>
+                    <cylinder base="0.5" top="0.5" height="0.025" slices="64" stacks="1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="goal.basket.hoop.ring[2]">
+            <children>
+                <primitive>
+                    <cylinder base="0.5" top="0.5" height="0.025" slices="16" stacks="1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="goal.basket.hoop.ring[3]">
+            <children>
+                <primitive>
+                    <cylinder base="0.5" top="0.5" height="0.025" slices="8" stacks="1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="goal.pole">
+            <transforms>
+                <translate value3="-2.75 -7 0" />
+            </transforms>
+
+            <materialref id="mat.hoop.pole" />
+
+            <children>
+                <noderef id="goal.pole.vertical" />
+                <noderef id="goal.pole.horizontal" />
+                <noderef id="goal.pole.diagonal" />
+            </children>
+        </node>
+
+        <node id="goal.pole.vertical">
+            <children>
+                <primitive>
+                    <box xyz1="-0.25 0 -0.25" xyz2="0.25 7.5 0.25" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="goal.pole.horizontal">
+            <transforms>
+                <translate value3="-0.25 7.5 0" />
+            </transforms>
+
+            <children>
+                <primitive>
+                    <box xyz1="0 0 -0.25" xyz2="3 0.5 0.25" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="goal.pole.diagonal">
+            <transforms>
+                <translate value3="0 5.5 0" />
+                <rotate value3="0 0 -0.7854" />
+            </transforms>
+
+            <children>
+                <primitive>
+                    <box xyz1="-0.125 0 -0.125" xyz2="0.125 3 0.125" />
+                </primitive>
+            </children>
+        </node>
+
+        <!-- Billboard (Ad) -->
+        <node id="billboard" receiveshadows="false" castshadows="false">
+            <transforms>
+                <translate value3="0 0 -23" />
+                <rotate value3="0 -1.5708 0" />
+            </transforms>
+            
+            <materialref id="greyWall" />
+
+            <children>
+                <noderef id="billboard.support" />
+                <noderef id="billboard.screen" />
+            </children>
+        </node>
+
+        <node id="billboard.support">
+            <children>
+                <noderef id="billboard.support.left" />
+                <noderef id="billboard.support.right" />
+            </children>
+        </node>
+
+        <node id="billboard.support.right">
+            <transforms>
+                <rotate value3="0 3.1416 0" />
+            </transforms>
+            
+            <children>
+                <noderef id="billboard.support.left" />
+            </children>
+        </node>
+
+        <node id="billboard.support.left">
+            <transforms>
+                <translate value3="0 2.5 5" />
+            </transforms>
+
+            <children>
+                <primitive>
+                    <cylinder base="0.35" top="0.35" height="5" slices="64" stacks="1" capsclose="true"/>
+                </primitive>
+            </children>
+        </node>
+
+        <node id="billboard.screen">
+            <transforms>
+                <translate value3="0.5 5 0" />
+            </transforms>
+
+            <materialref id="mat.hoop.pole" />
+
+            <children>
+                <noderef id="billboard.screen.back" />
+                <lodref id="billboard.screen.front[]" />
+            </children>
+        </node>
+
+        <node id="billboard.screen.back">
+            <children>
+                <primitive>                   
+                    <box xyz1="-1 0 -8" xyz2="0 9 8"/>
+                </primitive>
+            </children>
+        </node>
+
+        <lod id="billboard.screen.front[]">
+            <noderef id="billboard.screen.front[1]" mindist="0" />
+            <noderef id="billboard.screen.front[2]" mindist="100" />
+        </lod>
+
+        <node id="billboard.screen.front[1]">
+            <materialref id="advertisement" />
+
+            <children>
+                <noderef id="billboard.screen.front" />
+            </children>
+        </node>
+
+        <node id="billboard.screen.front[2]">
+            <materialref id="nikeLogo" />
+
+            <children>
+                <noderef id="billboard.screen.front" />
+            </children>
+        </node>
+
+        <node id="billboard.screen.front">
+            <transforms>
+                <translate value3="0.01 0 0" /> <!-- Avoid z-fighting -->
+                <rotate value3="0 1.5708 0" />
+            </transforms>
+
+            <children>
+                <primitive>                   
+                    <rectangle xy1="-8 0" xy2="8 9"/>
+                </primitive>
+            </children>
+        </node>
+
+        <!-- Arena (4 walls and floors) -->
+        <node id="arena" receiveshadows="false" castshadows="false">
+            <transforms>
+                <scale value3="4 2.5 4" />
+            </transforms>
+            <children>
+                <noderef id="arena.walls" />
+                <noderef id="arena.floor" />
+            </children>
+        </node>
+
+        <node id="arena.walls">
+            <materialref id="hoopWireApp" />
+            <children>
+                <noderef id="arena.walls.right" />
+                <noderef id="arena.walls.left" />
+                <noderef id="arena.walls.back" />
+                <noderef id="arena.walls.front" />
+            </children>
+        </node>
+
+        <node id="arena.walls.right">
+            <transforms>
+                <rotate value3="0 3.1416 0" />
+            </transforms>
+            <children>
+                <noderef id="arena.walls.left" />
+            </children>
+        </node>
+
+        <node id="arena.walls.left">
+            <transforms>
+                <translate value3="-10 0 0" />
+                <rotate value3="0 1.5708 0" />
+            </transforms>
+            <children>
+                <lodref id="arena.walls.x[]" />
+            </children>
+        </node>
+
+        <lod id="arena.walls.x[]">
+            <noderef id="arena.walls.x[1]" mindist="0" />
+            <noderef id="arena.walls.x[2]" mindist="60" />
+            <noderef id="arena.walls.x[3]" mindist="100" />
+            <noderef id="arena.walls.x[4]" mindist="140" />
+        </lod>
+
+        <node id="arena.walls.x[1]">
+            <children>   
+                <primitive>
+                    <rectangle xy1="-6 0" xy2="6 6" parts_x="240" parts_y="72" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="arena.walls.x[2]"> 
+            <children>   
+                <primitive>
+                    <rectangle xy1="-6 0" xy2="6 6" parts_x="120" parts_y="36" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="arena.walls.x[3]"> 
+            <children>   
+                <primitive>
+                    <rectangle xy1="-6 0" xy2="6 6" parts_x="60" parts_y="18" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="arena.walls.x[4]"> 
+            <children>   
+                <primitive>
+                    <rectangle xy1="-6 0" xy2="6 6" parts_x="30" parts_y="9" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="arena.walls.back">
+            <transforms>
+                <rotate value3="0 3.1416 0" />
+            </transforms>
+            <children>
+                <noderef id="arena.walls.front" />
+            </children>
+        </node>
+
+        <node id="arena.walls.front">
+            <transforms>
+                <translate value3="0 0 -6" />
+            </transforms>
+            <children>
+                <lodref id="arena.walls.z[]" />
+            </children>
+        </node>
+
+        <lod id="arena.walls.z[]">
+            <noderef id="arena.walls.z[1]" mindist="0" />
+            <noderef id="arena.walls.z[2]" mindist="60" />
+            <noderef id="arena.walls.z[3]" mindist="100" />
+            <noderef id="arena.walls.z[4]" mindist="140" />
+        </lod>
+
+        <node id="arena.walls.z[1]">
+            <children>   
+                <primitive>
+                    <rectangle xy1="-10 0" xy2="10 6" parts_x="400" parts_y="72" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="arena.walls.z[2]"> 
+            <children>   
+                <primitive>
+                    <rectangle xy1="-10 0" xy2="10 6" parts_x="200" parts_y="36" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="arena.walls.z[3]"> 
+            <children>   
+                <primitive>
+                    <rectangle xy1="-10 0" xy2="10 6" parts_x="100" parts_y="18" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="arena.walls.z[4]"> 
+            <children>   
+                <primitive>
+                    <rectangle xy1="-10 0" xy2="10 6" parts_x="50" parts_y="9" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="arena.floor">
+            <materialref id="greyWall" />
+
+            <children>
+                <noderef id="arena.floor.base" />
+                <noderef id="arena.floor.court" />
+            </children>
+        </node>
+        
+        <node id="arena.floor.court">
+            <transforms>
+                <translate value3="0 0.01 0" /> <!-- Avoid z-fighting -->
+                <scale value3="0.7 1 0.7" />
+            </transforms>
+
+            <materialref id="floorApp" />
+            
+            <children>
+                <noderef id="arena.floor.base" />
+            </children>
+        </node>
+        
+        <node id="arena.floor.base">
+            <transforms>
+                <rotate value3="-1.5708 0 0" />
+            </transforms>
+            <children>
+                <primitive>
+                    <rectangle xy1="-10 -6" xy2="10 6" />
+                </primitive>
+            </children>
+        </node>
+
+        <!-- Ball Cart -->
+        <node id="cart" receiveshadows="true" castshadows="true">
+            
+            <transforms>
+                <translate value3="0 0 19" />
+                <rotate value3="0 -0.2618 0" />
+                <scale value3="2 2 2" />
+                <translate value3="0 0.125 0" />
+            </transforms>
+
+
+            <children>
+                <noderef id="cart.box" />
+                <noderef id="cart.wheels" />
+                <noderef id="cart.balls" />
+            </children>
+        </node>
+
+        <node id="cart.box">
+            <materialref id="hoopWireApp" />
+
+            <children>
+                <noderef id="cart.box.right" />
+                <noderef id="cart.box.left" />
+                <noderef id="cart.box.front" />
+                <noderef id="cart.box.back" />
+                <noderef id="cart.box.bottom" />
+            </children>
+        </node>
+
+        <node id="cart.box.right">
+            <transforms>
+                <rotate value3="0 3.1416 0" />
+            </transforms>
+            <children>
+                <noderef id="cart.box.left" />
+            </children>
+        </node>
+
+        <node id="cart.box.left">
+            <transforms>
+                <translate value3="-1 0 0" />
+                <rotate value3="0 1.5708 0" />
+            </transforms>
+            <children>
+                <lodref id="cart.box.short[]" />
+            </children>
+        </node>
+
+        <lod id="cart.box.short[]">
+            <noderef id="cart.box.short[1]" mindist="0" />
+            <noderef id="cart.box.short[2]" mindist="25" />
+            <noderef id="cart.box.short[3]" mindist="40" />
+        </lod>
+
+        <node id="cart.box.short[1]">
+            <children>
+                <primitive>
+                    <rectangle xy1="-0.5 0" xy2="0.5 1" parts_x="20" parts_y="20" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.box.short[2]">
+            <children>
+                <primitive>
+                    <rectangle xy1="-0.5 0" xy2="0.5 1" parts_x="10" parts_y="10" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.box.short[3]">
+            <children>
+                <primitive>
+                    <rectangle xy1="-0.5 0" xy2="0.5 1" parts_x="5" parts_y="5" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.box.back">
+            <transforms>
+                <rotate value3="0 3.1416 0" />
+            </transforms>
+            <children>
+                <noderef id="cart.box.front" />
+            </children>
+        </node>
+
+        <node id="cart.box.front">
+            <transforms>
+                <translate value3="0 0 -0.5" />
+            </transforms>
+            <children>
+                <lodref id="cart.box.long[]" />
+            </children>
+        </node>
+
+        <node id="cart.box.bottom">
+            <transforms>
+                <rotate value3="-1.5708 0 0" />
+                <translate value3="0 -0.5 0" />
+            </transforms>
+            <children>
+                <lodref id="cart.box.long[]" />
+            </children>
+        </node>
+
+        <lod id="cart.box.long[]">
+            <noderef id="cart.box.long[1]" mindist="0" />
+            <noderef id="cart.box.long[2]" mindist="25" />
+            <noderef id="cart.box.long[3]" mindist="40" />
+        </lod>
+
+        <node id="cart.box.long[1]">
+            <children>
+                <primitive>
+                    <rectangle xy1="-1 0" xy2="1 1" parts_x="40" parts_y="20" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.box.long[2]">
+            <children>
+                <primitive>
+                    <rectangle xy1="-1 0" xy2="1 1" parts_x="20" parts_y="10" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.box.long[3]">
+            <children>
+                <primitive>
+                    <rectangle xy1="-1 0" xy2="1 1" parts_x="10" parts_y="5" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.wheels">
+            <materialref id="mat.hoop.pole" />
+            <children>
+                <noderef id="cart.wheels.left" />
+                <noderef id="cart.wheels.right" />
+            </children>
+        </node>
+
+        <node id="cart.wheels.right">
+            <transforms>
+                <rotate value3="0 3.1416 0" />
+            </transforms>
+            <children>
+                <noderef id="cart.wheels.left" />
+            </children>
+        </node>
+
+        <node id="cart.wheels.left">
+            <transforms>
+                <translate value3="-1 0 0" />
+            </transforms>
+            <children>
+                <noderef id="cart.wheels.left.back" />
+                <noderef id="cart.wheels.left.front" />
+            </children>
+        </node>
+        
+        <node id="cart.wheels.left.back">
+            <transforms>
+                <rotate value3="0 3.1416 0" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.wheels.left.front" />
+            </children>
+        </node>
+        
+        <node id="cart.wheels.left.front">
+            <transforms>
+                <translate value3="0 0 -0.5" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.wheels.base" />
+            </children>
+        </node>
+
+        <node id="cart.wheels.base">
+            <transforms>
+                <translate value3="0 -0.0625 0" />
+                <rotate value3="1.5708 0 0" />
+            </transforms>
+
+            <children>
+                <lodref id="cart.wheels.base[]" />
+            </children>
+        </node>
+
+        <lod id="cart.wheels.base[]">
+            <noderef id="cart.wheels.base[1]" mindist="0" />
+            <noderef id="cart.wheels.base[2]" mindist="5" />
+            <noderef id="cart.wheels.base[3]" mindist="15" />
+        </lod>
+
+        <node id="cart.wheels.base[1]">
+            <children>
+                <primitive>
+                    <cylinder base="0.0625" top="0.0625" height="0.0625" slices="16" stacks="1"
+                        capsclose="true" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.wheels.base[2]">
+            <children>
+                <primitive>
+                    <cylinder base="0.0625" top="0.0625" height="0.0625" slices="8" stacks="1"
+                        capsclose="true" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.wheels.base[3]">
+            <children>
+                <primitive>
+                    <cylinder base="0.0625" top="0.0625" height="0.0625" slices="4" stacks="1"
+                        capsclose="true" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.balls">
+            <materialref id="basketBall" />
+            <children>
+                <lodref id="cart.balls[]" />
+            </children>
+        </node>
+
+        <lod id="cart.balls[]">
+            <noderef id="cart.balls[1]" mindist="0" />
+            <noderef id="cart.balls[2]" mindist="100" />
+        </lod>
+        
+        <node id="cart.balls[1]">
+            <children>
+                <noderef id="cart.balls.1" />
+                <noderef id="cart.balls.2" />
+                <noderef id="cart.balls.3" />
+                <noderef id="cart.balls.4" />
+                <noderef id="cart.balls.5" />
+                <noderef id="cart.balls.6" />
+                <noderef id="cart.balls.7" />
+                <noderef id="cart.balls.8" />
+                <noderef id="cart.balls.9" />
+                <noderef id="cart.balls.10" />
+            </children>
+        </node>
+
+        <node id="cart.balls.1">
+            <transforms>
+                <translate value3="-0.1 0 -0.24" />
+            </transforms>
+            <children>
+                <noderef id="cart.balls.base" />
+            </children>
+        </node>
+
+        <node id="cart.balls.2">
+            <transforms>
+                <translate value3="-0.2 0.4 0" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.balls.base" />
+            </children>
+        </node>
+
+        <node id="cart.balls.3">
+            <transforms>
+                <translate value3="-0.74 0 0.24" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.balls.base" />
+            </children>
+        </node>
+
+        <node id="cart.balls.4">
+            <transforms>
+                <translate value3="-0.65 0 -0.24" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.balls.base" />
+            </children>
+        </node>
+
+        <node id="cart.balls.5">
+            <transforms>
+                <translate value3="0.73 0 -0.23" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.balls.base" />
+            </children>
+        </node>
+
+        <node id="cart.balls.6">
+            <transforms>
+                <translate value3="0.65 0 0.23" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.balls.base" />
+            </children>
+        </node>
+
+        <node id="cart.balls.7">
+            <transforms>
+                <translate value3="0.325 0.25 -0.1" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.balls.base" />
+            </children>
+        </node>
+
+        <node id="cart.balls.8">
+            <transforms>
+                <translate value3="-0.5 0.2 0" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.balls.base" />
+            </children>
+        </node>
+
+        <node id="cart.balls.9">
+            <transforms>
+                <translate value3="0 0.0 0.2" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.balls.base" />
+            </children>
+        </node>
+
+        <node id="cart.balls.10">
+            <transforms>
+                <translate value3="0.7 0.3 0.2" />
+            </transforms>
+
+            <children>
+                <noderef id="cart.balls.base" />
+            </children>
+        </node>
+
+        <node id="cart.balls.base">
+            <transforms>
+                <translate value3="0 0.25 0" />
+            </transforms>
+
+            <children>
+                <lodref id="cart.balls.base[]" />
+            </children>
+        </node>
+
+        <lod id="cart.balls.base[]">
+            <noderef id="cart.balls.base[1]" mindist="0" />
+            <noderef id="cart.balls.base[2]" mindist="5" />
+            <noderef id="cart.balls.base[3]" mindist="30" />
+        </lod>
+
+        <node id="cart.balls.base[1]">
+            <children>
+                <primitive>
+                    <sphere radius="0.25" slices="16" stacks="16" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.balls.base[2]">
+            <children>
+                <primitive>
+                    <sphere radius="0.25" slices="8" stacks="8" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.balls.base[3]">
+            <children>
+                <primitive>
+                    <sphere radius="0.25" slices="4" stacks="4" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cart.balls[2]">
+            <children>
+                <primitive>
+                    <box xyz1="-0.9 0 -0.4" xyz2="0.9 0.75 0.4" />
+                </primitive>
+            </children>
+        </node>
+
+        <!-- Cones -->
+        <node id="cones" receiveshadows="true" castshadows="true">
+            <transforms>
+                <translate value3="-10 0.01 0" />
+            </transforms>
+
+            <children>
+                <noderef id="cones.1" />
+                <noderef id="cones.2" />
+                <noderef id="cones.3" />
+                <noderef id="cones.4" />
+                <noderef id="cones.5" />
+            </children>
+        </node>
+       
+        <node id="cones.1">
+            <transforms>
+                <translate value3="0 0 -10" />
+            </transforms>
+
+            <children>
+                <noderef id="cones.base" />
+            </children>
+        </node>
+
+        <node id="cones.2">
+            <children>
+                <noderef id="cones.base" />
+            </children>
+        </node>
+
+        <node id="cones.3">
+            <transforms>
+                <translate value3="0 0 10" />
+            </transforms>
+
+            <children>
+                <noderef id="cones.base" />
+            </children>
+        </node>
+
+        <node id="cones.4">
+            <transforms>
+                <translate value3="-12.5 0 -10" />
+            </transforms>
+
+            <children>
+                <noderef id="cones.base" />
+            </children>
+        </node>
+
+        <node id="cones.5">
+            <transforms>
+                <translate value3="-12.5 0 10" />
+            </transforms>
+
+            <children>
+                <noderef id="cones.base" />
+            </children>
+        </node>
+
+        <node id="cones.base">
+            <materialref id="coneApp" />
+            <transforms>
+                <translate value3="0 0.075 0" />
+            </transforms>
+            <children>
+                <lodref id="cones.base[]" />
+            </children>
+        </node>
+
+        <lod id="cones.base[]">
+            <noderef id="cones.base[1]" mindist="10" />
+            <noderef id="cones.base[2]" mindist="20" />
+            <noderef id="cones.base[3]" mindist="30" />
+        </lod>
+
+        <node id="cones.base[1]">
+            <children>
+                <primitive>
+                    <cylinder base="0.4" top="0.15" height="0.15" capsclose="false" slices="24"
+                        stacks="1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cones.base[2]">
+            <children>
+                <primitive>
+                    <cylinder base="0.4" top="0.15" height="0.15" capsclose="false" slices="12"
+                        stacks="1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="cones.base[3]">
+            <children>
+                <primitive>
+                    <cylinder base="0.4" top="0.15" height="0.15" capsclose="false" slices="6"
+                        stacks="1" />
+                </primitive>
+            </children>
+        </node>
+        
+        <!-- Outside of the court -->
+        <node id="park" receiveshadows="true">
+            <transforms>
+                <translate value3="0 -0.01 0" /> <!-- Avoid z-fighting -->
+                <rotate value3="-1.5708 0 0" />
+            </transforms>
+
+            <materialref id="floorMat" />
+
+            <children>
+                <primitive>
+                    <rectangle xy1="-110 -90" xy2="110 90" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="goal.basket.hoop.net">
+
+            <materialref id="hoopWireApp" />
+
+            <transforms>
+                <translate value3="0 -0.4 0" />
+                <scale value3="1.0183 1 1.0183" />
+                <translate value3="-0.009 0 0" />
+            </transforms>
+
+            <children>
+                <primitive>
+                    <nurbs degree_u="127" degree_v="2" parts_u="16" parts_v="6">
+                        <controlpoint xx="0.5" yy="0.4" zz="0.0" />
+                        <controlpoint xx="0.3" yy="0.25" zz="0.0" />
+                        <controlpoint xx="0.25" yy="-0.4" zz="0.0" />
+                        <controlpoint xx="0.4994" yy="0.4" zz="0.0247" />
+                        <controlpoint xx="0.2996" yy="0.25" zz="0.0148" />
+                        <controlpoint xx="0.2497" yy="-0.4" zz="0.0124" />
+                        <controlpoint xx="0.4976" yy="0.4" zz="0.0494" />
+                        <controlpoint xx="0.2985" yy="0.25" zz="0.0296" />
+                        <controlpoint xx="0.2488" yy="-0.4" zz="0.0247" />
+                        <controlpoint xx="0.4945" yy="0.4" zz="0.0739" />
+                        <controlpoint xx="0.2967" yy="0.25" zz="0.0444" />
+                        <controlpoint xx="0.2473" yy="-0.4" zz="0.037" />
+                        <controlpoint xx="0.4902" yy="0.4" zz="0.0983" />
+                        <controlpoint xx="0.2941" yy="0.25" zz="0.059" />
+                        <controlpoint xx="0.2451" yy="-0.4" zz="0.0492" />
+                        <controlpoint xx="0.4848" yy="0.4" zz="0.1224" />
+                        <controlpoint xx="0.2909" yy="0.25" zz="0.0735" />
+                        <controlpoint xx="0.2424" yy="-0.4" zz="0.0612" />
+                        <controlpoint xx="0.4781" yy="0.4" zz="0.1463" />
+                        <controlpoint xx="0.2869" yy="0.25" zz="0.0878" />
+                        <controlpoint xx="0.2391" yy="-0.4" zz="0.0731" />
+                        <controlpoint xx="0.4703" yy="0.4" zz="0.1697" />
+                        <controlpoint xx="0.2822" yy="0.25" zz="0.1018" />
+                        <controlpoint xx="0.2352" yy="-0.4" zz="0.0849" />
+                        <controlpoint xx="0.4613" yy="0.4" zz="0.1928" />
+                        <controlpoint xx="0.2768" yy="0.25" zz="0.1157" />
+                        <controlpoint xx="0.2307" yy="-0.4" zz="0.0964" />
+                        <controlpoint xx="0.4512" yy="0.4" zz="0.2153" />
+                        <controlpoint xx="0.2707" yy="0.25" zz="0.1292" />
+                        <controlpoint xx="0.2256" yy="-0.4" zz="0.1077" />
+                        <controlpoint xx="0.44" yy="0.4" zz="0.2374" />
+                        <controlpoint xx="0.264" yy="0.25" zz="0.1424" />
+                        <controlpoint xx="0.22" yy="-0.4" zz="0.1187" />
+                        <controlpoint xx="0.4278" yy="0.4" zz="0.2589" />
+                        <controlpoint xx="0.2567" yy="0.25" zz="0.1553" />
+                        <controlpoint xx="0.2139" yy="-0.4" zz="0.1294" />
+                        <controlpoint xx="0.4144" yy="0.4" zz="0.2797" />
+                        <controlpoint xx="0.2487" yy="0.25" zz="0.1678" />
+                        <controlpoint xx="0.2072" yy="-0.4" zz="0.1399" />
+                        <controlpoint xx="0.4001" yy="0.4" zz="0.2999" />
+                        <controlpoint xx="0.2401" yy="0.25" zz="0.1799" />
+                        <controlpoint xx="0.2001" yy="-0.4" zz="0.1499" />
+                        <controlpoint xx="0.3848" yy="0.4" zz="0.3193" />
+                        <controlpoint xx="0.2309" yy="0.25" zz="0.1916" />
+                        <controlpoint xx="0.1924" yy="-0.4" zz="0.1596" />
+                        <controlpoint xx="0.3685" yy="0.4" zz="0.3379" />
+                        <controlpoint xx="0.2211" yy="0.25" zz="0.2028" />
+                        <controlpoint xx="0.1843" yy="-0.4" zz="0.169" />
+                        <controlpoint xx="0.3514" yy="0.4" zz="0.3557" />
+                        <controlpoint xx="0.2108" yy="0.25" zz="0.2134" />
+                        <controlpoint xx="0.1757" yy="-0.4" zz="0.1779" />
+                        <controlpoint xx="0.3333" yy="0.4" zz="0.3727" />
+                        <controlpoint xx="0.2" yy="0.25" zz="0.2236" />
+                        <controlpoint xx="0.1667" yy="-0.4" zz="0.1863" />
+                        <controlpoint xx="0.3145" yy="0.4" zz="0.3887" />
+                        <controlpoint xx="0.1887" yy="0.25" zz="0.2332" />
+                        <controlpoint xx="0.1572" yy="-0.4" zz="0.1944" />
+                        <controlpoint xx="0.2949" yy="0.4" zz="0.4038" />
+                        <controlpoint xx="0.1769" yy="0.25" zz="0.2423" />
+                        <controlpoint xx="0.1474" yy="-0.4" zz="0.2019" />
+                        <controlpoint xx="0.2746" yy="0.4" zz="0.4179" />
+                        <controlpoint xx="0.1647" yy="0.25" zz="0.2507" />
+                        <controlpoint xx="0.1373" yy="-0.4" zz="0.2089" />
+                        <controlpoint xx="0.2536" yy="0.4" zz="0.4309" />
+                        <controlpoint xx="0.1521" yy="0.25" zz="0.2586" />
+                        <controlpoint xx="0.1268" yy="-0.4" zz="0.2155" />
+                        <controlpoint xx="0.2319" yy="0.4" zz="0.4429" />
+                        <controlpoint xx="0.1392" yy="0.25" zz="0.2658" />
+                        <controlpoint xx="0.116" yy="-0.4" zz="0.2215" />
+                        <controlpoint xx="0.2098" yy="0.4" zz="0.4539" />
+                        <controlpoint xx="0.1259" yy="0.25" zz="0.2723" />
+                        <controlpoint xx="0.1049" yy="-0.4" zz="0.2269" />
+                        <controlpoint xx="0.187" yy="0.4" zz="0.4637" />
+                        <controlpoint xx="0.1122" yy="0.25" zz="0.2782" />
+                        <controlpoint xx="0.0935" yy="-0.4" zz="0.2318" />
+                        <controlpoint xx="0.1639" yy="0.4" zz="0.4724" />
+                        <controlpoint xx="0.0983" yy="0.25" zz="0.2834" />
+                        <controlpoint xx="0.0819" yy="-0.4" zz="0.2362" />
+                        <controlpoint xx="0.1403" yy="0.4" zz="0.4799" />
+                        <controlpoint xx="0.0842" yy="0.25" zz="0.2879" />
+                        <controlpoint xx="0.0702" yy="-0.4" zz="0.24" />
+                        <controlpoint xx="0.1164" yy="0.4" zz="0.4863" />
+                        <controlpoint xx="0.0699" yy="0.25" zz="0.2918" />
+                        <controlpoint xx="0.0582" yy="-0.4" zz="0.2431" />
+                        <controlpoint xx="0.0922" yy="0.4" zz="0.4914" />
+                        <controlpoint xx="0.0553" yy="0.25" zz="0.2949" />
+                        <controlpoint xx="0.0461" yy="-0.4" zz="0.2457" />
+                        <controlpoint xx="0.0678" yy="0.4" zz="0.4954" />
+                        <controlpoint xx="0.0407" yy="0.25" zz="0.2972" />
+                        <controlpoint xx="0.0339" yy="-0.4" zz="0.2477" />
+                        <controlpoint xx="0.0432" yy="0.4" zz="0.4981" />
+                        <controlpoint xx="0.0259" yy="0.25" zz="0.2989" />
+                        <controlpoint xx="0.0216" yy="-0.4" zz="0.2491" />
+                        <controlpoint xx="0.0185" yy="0.4" zz="0.4997" />
+                        <controlpoint xx="0.0111" yy="0.25" zz="0.2998" />
+                        <controlpoint xx="0.0093" yy="-0.4" zz="0.2498" />
+                        <controlpoint xx="-0.0062" yy="0.4" zz="0.5" />
+                        <controlpoint xx="-0.0037" yy="0.25" zz="0.3" />
+                        <controlpoint xx="-0.0031" yy="-0.4" zz="0.25" />
+                        <controlpoint xx="-0.0309" yy="0.4" zz="0.499" />
+                        <controlpoint xx="-0.0185" yy="0.25" zz="0.2994" />
+                        <controlpoint xx="-0.0155" yy="-0.4" zz="0.2495" />
+                        <controlpoint xx="-0.0555" yy="0.4" zz="0.4969" />
+                        <controlpoint xx="-0.0333" yy="0.25" zz="0.2981" />
+                        <controlpoint xx="-0.0278" yy="-0.4" zz="0.2485" />
+                        <controlpoint xx="-0.08" yy="0.4" zz="0.4936" />
+                        <controlpoint xx="-0.048" yy="0.25" zz="0.2961" />
+                        <controlpoint xx="-0.04" yy="-0.4" zz="0.2468" />
+                        <controlpoint xx="-0.1044" yy="0.4" zz="0.489" />
+                        <controlpoint xx="-0.0626" yy="0.25" zz="0.2934" />
+                        <controlpoint xx="-0.0522" yy="-0.4" zz="0.2445" />
+                        <controlpoint xx="-0.1284" yy="0.4" zz="0.4832" />
+                        <controlpoint xx="-0.077" yy="0.25" zz="0.2899" />
+                        <controlpoint xx="-0.0642" yy="-0.4" zz="0.2416" />
+                        <controlpoint xx="-0.1522" yy="0.4" zz="0.4763" />
+                        <controlpoint xx="-0.0913" yy="0.25" zz="0.2858" />
+                        <controlpoint xx="-0.0761" yy="-0.4" zz="0.2381" />
+                        <controlpoint xx="-0.1755" yy="0.4" zz="0.4682" />
+                        <controlpoint xx="-0.1053" yy="0.25" zz="0.2809" />
+                        <controlpoint xx="-0.0878" yy="-0.4" zz="0.2341" />
+                        <controlpoint xx="-0.1985" yy="0.4" zz="0.4589" />
+                        <controlpoint xx="-0.1191" yy="0.25" zz="0.2754" />
+                        <controlpoint xx="-0.0992" yy="-0.4" zz="0.2295" />
+                        <controlpoint xx="-0.2209" yy="0.4" zz="0.4486" />
+                        <controlpoint xx="-0.1325" yy="0.25" zz="0.2691" />
+                        <controlpoint xx="-0.1105" yy="-0.4" zz="0.2243" />
+                        <controlpoint xx="-0.2428" yy="0.4" zz="0.4371" />
+                        <controlpoint xx="-0.1457" yy="0.25" zz="0.2622" />
+                        <controlpoint xx="-0.1214" yy="-0.4" zz="0.2185" />
+                        <controlpoint xx="-0.2641" yy="0.4" zz="0.4245" />
+                        <controlpoint xx="-0.1585" yy="0.25" zz="0.2547" />
+                        <controlpoint xx="-0.1321" yy="-0.4" zz="0.2123" />
+                        <controlpoint xx="-0.2848" yy="0.4" zz="0.411" />
+                        <controlpoint xx="-0.1709" yy="0.25" zz="0.2466" />
+                        <controlpoint xx="-0.1424" yy="-0.4" zz="0.2055" />
+                        <controlpoint xx="-0.3048" yy="0.4" zz="0.3964" />
+                        <controlpoint xx="-0.1829" yy="0.25" zz="0.2378" />
+                        <controlpoint xx="-0.1524" yy="-0.4" zz="0.1982" />
+                        <controlpoint xx="-0.324" yy="0.4" zz="0.3808" />
+                        <controlpoint xx="-0.1944" yy="0.25" zz="0.2285" />
+                        <controlpoint xx="-0.162" yy="-0.4" zz="0.1904" />
+                        <controlpoint xx="-0.3425" yy="0.4" zz="0.3643" />
+                        <controlpoint xx="-0.2055" yy="0.25" zz="0.2186" />
+                        <controlpoint xx="-0.1712" yy="-0.4" zz="0.1822" />
+                        <controlpoint xx="-0.3601" yy="0.4" zz="0.3469" />
+                        <controlpoint xx="-0.216" yy="0.25" zz="0.2082" />
+                        <controlpoint xx="-0.18" yy="-0.4" zz="0.1735" />
+                        <controlpoint xx="-0.3768" yy="0.4" zz="0.3287" />
+                        <controlpoint xx="-0.2261" yy="0.25" zz="0.1972" />
+                        <controlpoint xx="-0.1884" yy="-0.4" zz="0.1644" />
+                        <controlpoint xx="-0.3926" yy="0.4" zz="0.3097" />
+                        <controlpoint xx="-0.2355" yy="0.25" zz="0.1858" />
+                        <controlpoint xx="-0.1963" yy="-0.4" zz="0.1548" />
+                        <controlpoint xx="-0.4074" yy="0.4" zz="0.2899" />
+                        <controlpoint xx="-0.2444" yy="0.25" zz="0.1739" />
+                        <controlpoint xx="-0.2037" yy="-0.4" zz="0.1449" />
+                        <controlpoint xx="-0.4212" yy="0.4" zz="0.2694" />
+                        <controlpoint xx="-0.2527" yy="0.25" zz="0.1616" />
+                        <controlpoint xx="-0.2106" yy="-0.4" zz="0.1347" />
+                        <controlpoint xx="-0.434" yy="0.4" zz="0.2482" />
+                        <controlpoint xx="-0.2604" yy="0.25" zz="0.1489" />
+                        <controlpoint xx="-0.217" yy="-0.4" zz="0.1241" />
+                        <controlpoint xx="-0.4458" yy="0.4" zz="0.2264" />
+                        <controlpoint xx="-0.2675" yy="0.25" zz="0.1359" />
+                        <controlpoint xx="-0.2229" yy="-0.4" zz="0.1132" />
+                        <controlpoint xx="-0.4564" yy="0.4" zz="0.2041" />
+                        <controlpoint xx="-0.2739" yy="0.25" zz="0.1225" />
+                        <controlpoint xx="-0.2282" yy="-0.4" zz="0.1021" />
+                        <controlpoint xx="-0.466" yy="0.4" zz="0.1813" />
+                        <controlpoint xx="-0.2796" yy="0.25" zz="0.1088" />
+                        <controlpoint xx="-0.233" yy="-0.4" zz="0.0906" />
+                        <controlpoint xx="-0.4744" yy="0.4" zz="0.158" />
+                        <controlpoint xx="-0.2846" yy="0.25" zz="0.0948" />
+                        <controlpoint xx="-0.2372" yy="-0.4" zz="0.079" />
+                        <controlpoint xx="-0.4816" yy="0.4" zz="0.1344" />
+                        <controlpoint xx="-0.289" yy="0.25" zz="0.0806" />
+                        <controlpoint xx="-0.2408" yy="-0.4" zz="0.0672" />
+                        <controlpoint xx="-0.4877" yy="0.4" zz="0.1104" />
+                        <controlpoint xx="-0.2926" yy="0.25" zz="0.0662" />
+                        <controlpoint xx="-0.2438" yy="-0.4" zz="0.0552" />
+                        <controlpoint xx="-0.4925" yy="0.4" zz="0.0861" />
+                        <controlpoint xx="-0.2955" yy="0.25" zz="0.0517" />
+                        <controlpoint xx="-0.2463" yy="-0.4" zz="0.0431" />
+                        <controlpoint xx="-0.4962" yy="0.4" zz="0.0617" />
+                        <controlpoint xx="-0.2977" yy="0.25" zz="0.037" />
+                        <controlpoint xx="-0.2481" yy="-0.4" zz="0.0308" />
+                        <controlpoint xx="-0.4986" yy="0.4" zz="0.0371" />
+                        <controlpoint xx="-0.2992" yy="0.25" zz="0.0222" />
+                        <controlpoint xx="-0.2493" yy="-0.4" zz="0.0185" />
+                        <controlpoint xx="-0.4998" yy="0.4" zz="0.0124" />
+                        <controlpoint xx="-0.2999" yy="0.25" zz="0.0074" />
+                        <controlpoint xx="-0.2499" yy="-0.4" zz="0.0062" />
+                        <controlpoint xx="-0.4998" yy="0.4" zz="-0.0124" />
+                        <controlpoint xx="-0.2999" yy="0.25" zz="-0.0074" />
+                        <controlpoint xx="-0.2499" yy="-0.4" zz="-0.0062" />
+                        <controlpoint xx="-0.4986" yy="0.4" zz="-0.0371" />
+                        <controlpoint xx="-0.2992" yy="0.25" zz="-0.0222" />
+                        <controlpoint xx="-0.2493" yy="-0.4" zz="-0.0185" />
+                        <controlpoint xx="-0.4962" yy="0.4" zz="-0.0617" />
+                        <controlpoint xx="-0.2977" yy="0.25" zz="-0.037" />
+                        <controlpoint xx="-0.2481" yy="-0.4" zz="-0.0308" />
+                        <controlpoint xx="-0.4925" yy="0.4" zz="-0.0861" />
+                        <controlpoint xx="-0.2955" yy="0.25" zz="-0.0517" />
+                        <controlpoint xx="-0.2463" yy="-0.4" zz="-0.0431" />
+                        <controlpoint xx="-0.4877" yy="0.4" zz="-0.1104" />
+                        <controlpoint xx="-0.2926" yy="0.25" zz="-0.0662" />
+                        <controlpoint xx="-0.2438" yy="-0.4" zz="-0.0552" />
+                        <controlpoint xx="-0.4816" yy="0.4" zz="-0.1344" />
+                        <controlpoint xx="-0.289" yy="0.25" zz="-0.0806" />
+                        <controlpoint xx="-0.2408" yy="-0.4" zz="-0.0672" />
+                        <controlpoint xx="-0.4744" yy="0.4" zz="-0.158" />
+                        <controlpoint xx="-0.2846" yy="0.25" zz="-0.0948" />
+                        <controlpoint xx="-0.2372" yy="-0.4" zz="-0.079" />
+                        <controlpoint xx="-0.466" yy="0.4" zz="-0.1813" />
+                        <controlpoint xx="-0.2796" yy="0.25" zz="-0.1088" />
+                        <controlpoint xx="-0.233" yy="-0.4" zz="-0.0906" />
+                        <controlpoint xx="-0.4564" yy="0.4" zz="-0.2041" />
+                        <controlpoint xx="-0.2739" yy="0.25" zz="-0.1225" />
+                        <controlpoint xx="-0.2282" yy="-0.4" zz="-0.1021" />
+                        <controlpoint xx="-0.4458" yy="0.4" zz="-0.2264" />
+                        <controlpoint xx="-0.2675" yy="0.25" zz="-0.1359" />
+                        <controlpoint xx="-0.2229" yy="-0.4" zz="-0.1132" />
+                        <controlpoint xx="-0.434" yy="0.4" zz="-0.2482" />
+                        <controlpoint xx="-0.2604" yy="0.25" zz="-0.1489" />
+                        <controlpoint xx="-0.217" yy="-0.4" zz="-0.1241" />
+                        <controlpoint xx="-0.4212" yy="0.4" zz="-0.2694" />
+                        <controlpoint xx="-0.2527" yy="0.25" zz="-0.1616" />
+                        <controlpoint xx="-0.2106" yy="-0.4" zz="-0.1347" />
+                        <controlpoint xx="-0.4074" yy="0.4" zz="-0.2899" />
+                        <controlpoint xx="-0.2444" yy="0.25" zz="-0.1739" />
+                        <controlpoint xx="-0.2037" yy="-0.4" zz="-0.1449" />
+                        <controlpoint xx="-0.3926" yy="0.4" zz="-0.3097" />
+                        <controlpoint xx="-0.2355" yy="0.25" zz="-0.1858" />
+                        <controlpoint xx="-0.1963" yy="-0.4" zz="-0.1548" />
+                        <controlpoint xx="-0.3768" yy="0.4" zz="-0.3287" />
+                        <controlpoint xx="-0.2261" yy="0.25" zz="-0.1972" />
+                        <controlpoint xx="-0.1884" yy="-0.4" zz="-0.1644" />
+                        <controlpoint xx="-0.3601" yy="0.4" zz="-0.3469" />
+                        <controlpoint xx="-0.216" yy="0.25" zz="-0.2082" />
+                        <controlpoint xx="-0.18" yy="-0.4" zz="-0.1735" />
+                        <controlpoint xx="-0.3425" yy="0.4" zz="-0.3643" />
+                        <controlpoint xx="-0.2055" yy="0.25" zz="-0.2186" />
+                        <controlpoint xx="-0.1712" yy="-0.4" zz="-0.1822" />
+                        <controlpoint xx="-0.324" yy="0.4" zz="-0.3808" />
+                        <controlpoint xx="-0.1944" yy="0.25" zz="-0.2285" />
+                        <controlpoint xx="-0.162" yy="-0.4" zz="-0.1904" />
+                        <controlpoint xx="-0.3048" yy="0.4" zz="-0.3964" />
+                        <controlpoint xx="-0.1829" yy="0.25" zz="-0.2378" />
+                        <controlpoint xx="-0.1524" yy="-0.4" zz="-0.1982" />
+                        <controlpoint xx="-0.2848" yy="0.4" zz="-0.411" />
+                        <controlpoint xx="-0.1709" yy="0.25" zz="-0.2466" />
+                        <controlpoint xx="-0.1424" yy="-0.4" zz="-0.2055" />
+                        <controlpoint xx="-0.2641" yy="0.4" zz="-0.4245" />
+                        <controlpoint xx="-0.1585" yy="0.25" zz="-0.2547" />
+                        <controlpoint xx="-0.1321" yy="-0.4" zz="-0.2123" />
+                        <controlpoint xx="-0.2428" yy="0.4" zz="-0.4371" />
+                        <controlpoint xx="-0.1457" yy="0.25" zz="-0.2622" />
+                        <controlpoint xx="-0.1214" yy="-0.4" zz="-0.2185" />
+                        <controlpoint xx="-0.2209" yy="0.4" zz="-0.4486" />
+                        <controlpoint xx="-0.1325" yy="0.25" zz="-0.2691" />
+                        <controlpoint xx="-0.1105" yy="-0.4" zz="-0.2243" />
+                        <controlpoint xx="-0.1985" yy="0.4" zz="-0.4589" />
+                        <controlpoint xx="-0.1191" yy="0.25" zz="-0.2754" />
+                        <controlpoint xx="-0.0992" yy="-0.4" zz="-0.2295" />
+                        <controlpoint xx="-0.1755" yy="0.4" zz="-0.4682" />
+                        <controlpoint xx="-0.1053" yy="0.25" zz="-0.2809" />
+                        <controlpoint xx="-0.0878" yy="-0.4" zz="-0.2341" />
+                        <controlpoint xx="-0.1522" yy="0.4" zz="-0.4763" />
+                        <controlpoint xx="-0.0913" yy="0.25" zz="-0.2858" />
+                        <controlpoint xx="-0.0761" yy="-0.4" zz="-0.2381" />
+                        <controlpoint xx="-0.1284" yy="0.4" zz="-0.4832" />
+                        <controlpoint xx="-0.077" yy="0.25" zz="-0.2899" />
+                        <controlpoint xx="-0.0642" yy="-0.4" zz="-0.2416" />
+                        <controlpoint xx="-0.1044" yy="0.4" zz="-0.489" />
+                        <controlpoint xx="-0.0626" yy="0.25" zz="-0.2934" />
+                        <controlpoint xx="-0.0522" yy="-0.4" zz="-0.2445" />
+                        <controlpoint xx="-0.08" yy="0.4" zz="-0.4936" />
+                        <controlpoint xx="-0.048" yy="0.25" zz="-0.2961" />
+                        <controlpoint xx="-0.04" yy="-0.4" zz="-0.2468" />
+                        <controlpoint xx="-0.0555" yy="0.4" zz="-0.4969" />
+                        <controlpoint xx="-0.0333" yy="0.25" zz="-0.2981" />
+                        <controlpoint xx="-0.0278" yy="-0.4" zz="-0.2485" />
+                        <controlpoint xx="-0.0309" yy="0.4" zz="-0.499" />
+                        <controlpoint xx="-0.0185" yy="0.25" zz="-0.2994" />
+                        <controlpoint xx="-0.0155" yy="-0.4" zz="-0.2495" />
+                        <controlpoint xx="-0.0062" yy="0.4" zz="-0.5" />
+                        <controlpoint xx="-0.0037" yy="0.25" zz="-0.3" />
+                        <controlpoint xx="-0.0031" yy="-0.4" zz="-0.25" />
+                        <controlpoint xx="0.0185" yy="0.4" zz="-0.4997" />
+                        <controlpoint xx="0.0111" yy="0.25" zz="-0.2998" />
+                        <controlpoint xx="0.0093" yy="-0.4" zz="-0.2498" />
+                        <controlpoint xx="0.0432" yy="0.4" zz="-0.4981" />
+                        <controlpoint xx="0.0259" yy="0.25" zz="-0.2989" />
+                        <controlpoint xx="0.0216" yy="-0.4" zz="-0.2491" />
+                        <controlpoint xx="0.0678" yy="0.4" zz="-0.4954" />
+                        <controlpoint xx="0.0407" yy="0.25" zz="-0.2972" />
+                        <controlpoint xx="0.0339" yy="-0.4" zz="-0.2477" />
+                        <controlpoint xx="0.0922" yy="0.4" zz="-0.4914" />
+                        <controlpoint xx="0.0553" yy="0.25" zz="-0.2949" />
+                        <controlpoint xx="0.0461" yy="-0.4" zz="-0.2457" />
+                        <controlpoint xx="0.1164" yy="0.4" zz="-0.4863" />
+                        <controlpoint xx="0.0699" yy="0.25" zz="-0.2918" />
+                        <controlpoint xx="0.0582" yy="-0.4" zz="-0.2431" />
+                        <controlpoint xx="0.1403" yy="0.4" zz="-0.4799" />
+                        <controlpoint xx="0.0842" yy="0.25" zz="-0.2879" />
+                        <controlpoint xx="0.0702" yy="-0.4" zz="-0.24" />
+                        <controlpoint xx="0.1639" yy="0.4" zz="-0.4724" />
+                        <controlpoint xx="0.0983" yy="0.25" zz="-0.2834" />
+                        <controlpoint xx="0.0819" yy="-0.4" zz="-0.2362" />
+                        <controlpoint xx="0.187" yy="0.4" zz="-0.4637" />
+                        <controlpoint xx="0.1122" yy="0.25" zz="-0.2782" />
+                        <controlpoint xx="0.0935" yy="-0.4" zz="-0.2318" />
+                        <controlpoint xx="0.2098" yy="0.4" zz="-0.4539" />
+                        <controlpoint xx="0.1259" yy="0.25" zz="-0.2723" />
+                        <controlpoint xx="0.1049" yy="-0.4" zz="-0.2269" />
+                        <controlpoint xx="0.2319" yy="0.4" zz="-0.4429" />
+                        <controlpoint xx="0.1392" yy="0.25" zz="-0.2658" />
+                        <controlpoint xx="0.116" yy="-0.4" zz="-0.2215" />
+                        <controlpoint xx="0.2536" yy="0.4" zz="-0.4309" />
+                        <controlpoint xx="0.1521" yy="0.25" zz="-0.2586" />
+                        <controlpoint xx="0.1268" yy="-0.4" zz="-0.2155" />
+                        <controlpoint xx="0.2746" yy="0.4" zz="-0.4179" />
+                        <controlpoint xx="0.1647" yy="0.25" zz="-0.2507" />
+                        <controlpoint xx="0.1373" yy="-0.4" zz="-0.2089" />
+                        <controlpoint xx="0.2949" yy="0.4" zz="-0.4038" />
+                        <controlpoint xx="0.1769" yy="0.25" zz="-0.2423" />
+                        <controlpoint xx="0.1474" yy="-0.4" zz="-0.2019" />
+                        <controlpoint xx="0.3145" yy="0.4" zz="-0.3887" />
+                        <controlpoint xx="0.1887" yy="0.25" zz="-0.2332" />
+                        <controlpoint xx="0.1572" yy="-0.4" zz="-0.1944" />
+                        <controlpoint xx="0.3333" yy="0.4" zz="-0.3727" />
+                        <controlpoint xx="0.2" yy="0.25" zz="-0.2236" />
+                        <controlpoint xx="0.1667" yy="-0.4" zz="-0.1863" />
+                        <controlpoint xx="0.3514" yy="0.4" zz="-0.3557" />
+                        <controlpoint xx="0.2108" yy="0.25" zz="-0.2134" />
+                        <controlpoint xx="0.1757" yy="-0.4" zz="-0.1779" />
+                        <controlpoint xx="0.3685" yy="0.4" zz="-0.3379" />
+                        <controlpoint xx="0.2211" yy="0.25" zz="-0.2028" />
+                        <controlpoint xx="0.1843" yy="-0.4" zz="-0.169" />
+                        <controlpoint xx="0.3848" yy="0.4" zz="-0.3193" />
+                        <controlpoint xx="0.2309" yy="0.25" zz="-0.1916" />
+                        <controlpoint xx="0.1924" yy="-0.4" zz="-0.1596" />
+                        <controlpoint xx="0.4001" yy="0.4" zz="-0.2999" />
+                        <controlpoint xx="0.2401" yy="0.25" zz="-0.1799" />
+                        <controlpoint xx="0.2001" yy="-0.4" zz="-0.1499" />
+                        <controlpoint xx="0.4144" yy="0.4" zz="-0.2797" />
+                        <controlpoint xx="0.2487" yy="0.25" zz="-0.1678" />
+                        <controlpoint xx="0.2072" yy="-0.4" zz="-0.1399" />
+                        <controlpoint xx="0.4278" yy="0.4" zz="-0.2589" />
+                        <controlpoint xx="0.2567" yy="0.25" zz="-0.1553" />
+                        <controlpoint xx="0.2139" yy="-0.4" zz="-0.1294" />
+                        <controlpoint xx="0.44" yy="0.4" zz="-0.2374" />
+                        <controlpoint xx="0.264" yy="0.25" zz="-0.1424" />
+                        <controlpoint xx="0.22" yy="-0.4" zz="-0.1187" />
+                        <controlpoint xx="0.4512" yy="0.4" zz="-0.2153" />
+                        <controlpoint xx="0.2707" yy="0.25" zz="-0.1292" />
+                        <controlpoint xx="0.2256" yy="-0.4" zz="-0.1077" />
+                        <controlpoint xx="0.4613" yy="0.4" zz="-0.1928" />
+                        <controlpoint xx="0.2768" yy="0.25" zz="-0.1157" />
+                        <controlpoint xx="0.2307" yy="-0.4" zz="-0.0964" />
+                        <controlpoint xx="0.4703" yy="0.4" zz="-0.1697" />
+                        <controlpoint xx="0.2822" yy="0.25" zz="-0.1018" />
+                        <controlpoint xx="0.2352" yy="-0.4" zz="-0.0849" />
+                        <controlpoint xx="0.4781" yy="0.4" zz="-0.1463" />
+                        <controlpoint xx="0.2869" yy="0.25" zz="-0.0878" />
+                        <controlpoint xx="0.2391" yy="-0.4" zz="-0.0731" />
+                        <controlpoint xx="0.4848" yy="0.4" zz="-0.1224" />
+                        <controlpoint xx="0.2909" yy="0.25" zz="-0.0735" />
+                        <controlpoint xx="0.2424" yy="-0.4" zz="-0.0612" />
+                        <controlpoint xx="0.4902" yy="0.4" zz="-0.0983" />
+                        <controlpoint xx="0.2941" yy="0.25" zz="-0.059" />
+                        <controlpoint xx="0.2451" yy="-0.4" zz="-0.0492" />
+                        <controlpoint xx="0.4945" yy="0.4" zz="-0.0739" />
+                        <controlpoint xx="0.2967" yy="0.25" zz="-0.0444" />
+                        <controlpoint xx="0.2473" yy="-0.4" zz="-0.037" />
+                        <controlpoint xx="0.4976" yy="0.4" zz="-0.0494" />
+                        <controlpoint xx="0.2985" yy="0.25" zz="-0.0296" />
+                        <controlpoint xx="0.2488" yy="-0.4" zz="-0.0247" />
+                        <controlpoint xx="0.4994" yy="0.4" zz="-0.0247" />
+                        <controlpoint xx="0.2996" yy="0.25" zz="-0.0148" />
+                        <controlpoint xx="0.2497" yy="-0.4" zz="-0.0124" />
+                        <controlpoint xx="0.5" yy="0.4" zz="-0.0" />
+                        <controlpoint xx="0.3" yy="0.25" zz="-0.0" />
+                        <controlpoint xx="0.25" yy="-0.4" zz="-0.0" />
+                    </nurbs>
+                </primitive>
+            </children>
+        </node>
+    </graph>
+</yaf>
